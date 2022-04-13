@@ -7,54 +7,53 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* Èç¹ûÒªÔÚ³ÌÐòÖÐÊ¹ÓÃ´Ë´úÂë,ÇëÔÚ³ÌÐòÖÐ×¢Ã÷Ê¹ÓÃÁËSTCµÄ×ÊÁÏ¼°³ÌÐò            */
+/* å¦‚æžœè¦åœ¨ç¨‹åºä¸­ä½¿ç”¨æ­¤ä»£ç ,è¯·åœ¨ç¨‹åºä¸­æ³¨æ˜Žä½¿ç”¨äº†STCçš„èµ„æ–™åŠç¨‹åº            */
 /*---------------------------------------------------------------------*/
 
-#ifndef	__COMPARE_H
-#define	__COMPARE_H
+#ifndef __COMPARE_H
+#define __COMPARE_H
 
-#include	"config.h"
+#include "config.h"
 
 //========================================================================
-//                              ¶¨ÒåÉùÃ÷
+//                              å®šä¹‰å£°æ˜Ž
 //========================================================================
 
 //                       7      6     5    4    3    2     1      0        Reset Value
-//sfr CMPCR1 = 0xE6;   CMPEN  CMPIF  PIE  NIE  PIS  NIS  CMPOE  CMPRES      00000000B
-#define	CMPEN		0x80	//1: ÔÊÐí±È½ÏÆ÷, 0: ½ûÖ¹,¹Ø±Õ±È½ÏÆ÷µçÔ´
-#define	CMPIF		0x40	//±È½ÏÆ÷ÖÐ¶Ï±êÖ¾, °üÀ¨ÉÏÉýÑØ»òÏÂ½µÑØÖÐ¶Ï, Èí¼þÇå0
-#define	PIE			0x20	//1: ±È½Ï½á¹ûÓÉ0±ä1, ²úÉúÉÏÉýÑØÖÐ¶Ï
-#define	NIE			0x10	//1: ±È½Ï½á¹ûÓÉ1±ä0, ²úÉúÏÂ½µÑØÖÐ¶Ï
-#define	PIS			0x08	//ÊäÈëÕý¼«ÐÔÑ¡Ôñ, 0: Ñ¡ÔñÄÚ²¿P5.5×öÕýÊäÈë,           1: ÓÉADCIS[2:0]ËùÑ¡ÔñµÄADCÊäÈë¶Ë×öÕýÊäÈë.
-#define	NIS			0x04	//ÊäÈë¸º¼«ÐÔÑ¡Ôñ, 0: Ñ¡ÔñÄÚ²¿BandGapµçÑ¹BGv×ö¸ºÊäÈë, 1: Ñ¡ÔñÍâ²¿P5.4×öÊäÈë.
-#define	CMPOE		0x02	//1: ÔÊÐí±È½Ï½á¹ûÊä³öµ½P1.2, 0: ½ûÖ¹.
-#define	CMPRES	0x01	//±È½Ï½á¹û, 1: CMP+µçÆ½¸ßÓÚCMP-,  0: CMP+µçÆ½µÍÓÚCMP-,  Ö»¶Á
+// sfr CMPCR1 = 0xE6;   CMPEN  CMPIF  PIE  NIE  PIS  NIS  CMPOE  CMPRES      00000000B
+#define CMPEN  0x80  // 1: å…è®¸æ¯”è¾ƒå™¨, 0: ç¦æ­¢,å…³é—­æ¯”è¾ƒå™¨ç”µæº
+#define CMPIF  0x40  //æ¯”è¾ƒå™¨ä¸­æ–­æ ‡å¿—, åŒ…æ‹¬ä¸Šå‡æ²¿æˆ–ä¸‹é™æ²¿ä¸­æ–­, è½¯ä»¶æ¸…0
+#define PIE    0x20  // 1: æ¯”è¾ƒç»“æžœç”±0å˜1, äº§ç”Ÿä¸Šå‡æ²¿ä¸­æ–­
+#define NIE    0x10  // 1: æ¯”è¾ƒç»“æžœç”±1å˜0, äº§ç”Ÿä¸‹é™æ²¿ä¸­æ–­
+#define PIS    0x08  //è¾“å…¥æ­£æžæ€§é€‰æ‹©, 0: é€‰æ‹©å†…éƒ¨P5.5åšæ­£è¾“å…¥,           1: ç”±ADCIS[2:0]æ‰€é€‰æ‹©çš„ADCè¾“å…¥ç«¯åšæ­£è¾“å…¥.
+#define NIS    0x04  //è¾“å…¥è´Ÿæžæ€§é€‰æ‹©, 0: é€‰æ‹©å†…éƒ¨BandGapç”µåŽ‹BGvåšè´Ÿè¾“å…¥, 1: é€‰æ‹©å¤–éƒ¨P5.4åšè¾“å…¥.
+#define CMPOE  0x02  // 1: å…è®¸æ¯”è¾ƒç»“æžœè¾“å‡ºåˆ°P1.2, 0: ç¦æ­¢.
+#define CMPRES 0x01  //æ¯”è¾ƒç»“æžœ, 1: CMP+ç”µå¹³é«˜äºŽCMP-,  0: CMP+ç”µå¹³ä½ŽäºŽCMP-,  åªè¯»
 
-#define	CMP_P_P37	0x00	//ÊäÈëÕý¼«ÐÔÑ¡Ôñ, 0: Ñ¡ÔñÄÚ²¿P3.7×öÕýÊäÈë
-#define	CMP_P_ADC	0x08	//ÊäÈëÕý¼«ÐÔÑ¡Ôñ, 1: ÓÉADC_CHS[3:0]ËùÑ¡ÔñµÄADCÊäÈë¶Ë×öÕýÊäÈë.
-#define	CMP_N_GAP	0x00	//ÊäÈë¸º¼«ÐÔÑ¡Ôñ, 0: Ñ¡ÔñÄÚ²¿BandGapµçÑ¹BGv×ö¸ºÊäÈë.
-#define	CMP_N_P36	0x04	//ÊäÈë¸º¼«ÐÔÑ¡Ôñ, 1: Ñ¡ÔñÍâ²¿P3.6×öÊäÈë.
+#define CMP_P_P37 0x00  //è¾“å…¥æ­£æžæ€§é€‰æ‹©, 0: é€‰æ‹©å†…éƒ¨P3.7åšæ­£è¾“å…¥
+#define CMP_P_ADC 0x08  //è¾“å…¥æ­£æžæ€§é€‰æ‹©, 1: ç”±ADC_CHS[3:0]æ‰€é€‰æ‹©çš„ADCè¾“å…¥ç«¯åšæ­£è¾“å…¥.
+#define CMP_N_GAP 0x00  //è¾“å…¥è´Ÿæžæ€§é€‰æ‹©, 0: é€‰æ‹©å†…éƒ¨BandGapç”µåŽ‹BGvåšè´Ÿè¾“å…¥.
+#define CMP_N_P36 0x04  //è¾“å…¥è´Ÿæžæ€§é€‰æ‹©, 1: é€‰æ‹©å¤–éƒ¨P3.6åšè¾“å…¥.
 
-#define	CMPO_P34()	P_SW2 &= ~0x08	//½á¹ûÊä³öµ½P3.4.
-#define	CMPO_P41()	P_SW2 |=  0x08	//½á¹ûÊä³öµ½P4.1.
+#define CMPO_P34() P_SW2 &= ~0x08  //ç»“æžœè¾“å‡ºåˆ°P3.4.
+#define CMPO_P41() P_SW2 |= 0x08   //ç»“æžœè¾“å‡ºåˆ°P4.1.
 
 //                       7        6       5  4  3  2  1  0    Reset Value
-//sfr CMPCR2 = 0xE7;   INVCMPO  DISFLT       LCDTY[5:0]       00001001B
-#define	INVCMPO	0x80	//1: ±È½ÏÆ÷Êä³öÈ¡·´,  0: ²»È¡·´
-#define	DISFLT	0x40	//1: ¹Ø±Õ0.1uFÂË²¨,   0: ÔÊÐí
-#define	LCDTY		0x00	//0~63, ±È½Ï½á¹û±ä»¯ÑÓÊ±ÖÜÆÚÊý
+// sfr CMPCR2 = 0xE7;   INVCMPO  DISFLT       LCDTY[5:0]       00001001B
+#define INVCMPO 0x80  // 1: æ¯”è¾ƒå™¨è¾“å‡ºå–å,  0: ä¸å–å
+#define DISFLT  0x40  // 1: å…³é—­0.1uFæ»¤æ³¢,   0: å…è®¸
+#define LCDTY   0x00  // 0~63, æ¯”è¾ƒç»“æžœå˜åŒ–å»¶æ—¶å‘¨æœŸæ•°
 
-typedef struct
-{ 
-	u8	CMP_EN;					//±È½ÏÆ÷ÔÊÐí»ò½ûÖ¹, 			ENABLE,DISABLE
-	u8	CMP_P_Select;		//±È½ÏÆ÷ÊäÈëÕý¼«Ñ¡Ôñ, CMP_P_P37: Ñ¡ÔñP3.7×öÕýÊäÈë, CMP_P_ADC: ÓÉADCÄ£ÄâÊäÈë¶Ë×öÕýÊäÈë.
-	u8	CMP_N_Select;		//±È½ÏÆ÷ÊäÈë¸º¼«Ñ¡Ôñ, CMP_N_GAP: Ñ¡ÔñÄÚ²¿BandGap¾­¹ýOPºóµÄµçÑ¹×ö¸ºÊäÈë, CMP_N_P36: Ñ¡ÔñP3.6×ö¸ºÊäÈë.
-	u8	CMP_Outpt_En;		//ÔÊÐí±È½Ï½á¹ûÊä³ö,   ENABLE,DISABLE
-	u8	CMP_InvCMPO;		//±È½ÏÆ÷Êä³öÈ¡·´, ENABLE,DISABLE
-	u8	CMP_100nsFilter;	//ÄÚ²¿0.1uFÂË²¨,  ENABLE,DISABLE
-	u8	CMP_OutDelayDuty;	//0~63, ±È½Ï½á¹û±ä»¯ÑÓÊ±ÖÜÆÚÊý
-} CMP_InitDefine; 
+typedef struct {
+    u8 CMP_EN;            //æ¯”è¾ƒå™¨å…è®¸æˆ–ç¦æ­¢, ENABLE,DISABLE
+    u8 CMP_P_Select;      //æ¯”è¾ƒå™¨è¾“å…¥æ­£æžé€‰æ‹©, CMP_P_P37: é€‰æ‹©P3.7åšæ­£è¾“å…¥, CMP_P_ADC: ç”±ADCæ¨¡æ‹Ÿè¾“å…¥ç«¯åšæ­£è¾“å…¥.
+    u8 CMP_N_Select;      //æ¯”è¾ƒå™¨è¾“å…¥è´Ÿæžé€‰æ‹©, CMP_N_GAP: é€‰æ‹©å†…éƒ¨BandGapç»è¿‡OPåŽçš„ç”µåŽ‹åšè´Ÿè¾“å…¥, CMP_N_P36: é€‰æ‹©P3.6åšè´Ÿè¾“å…¥.
+    u8 CMP_Outpt_En;      //å…è®¸æ¯”è¾ƒç»“æžœè¾“å‡º,   ENABLE,DISABLE
+    u8 CMP_InvCMPO;       //æ¯”è¾ƒå™¨è¾“å‡ºå–å, ENABLE,DISABLE
+    u8 CMP_100nsFilter;   //å†…éƒ¨0.1uFæ»¤æ³¢,  ENABLE,DISABLE
+    u8 CMP_OutDelayDuty;  // 0~63, æ¯”è¾ƒç»“æžœå˜åŒ–å»¶æ—¶å‘¨æœŸæ•°
+} CMP_InitDefine;
 
-void	CMP_Inilize(CMP_InitDefine *CMPx);
+void CMP_Inilize(CMP_InitDefine *CMPx);
 
 #endif

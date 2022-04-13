@@ -7,25 +7,25 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* Èç¹ûÒªÔÚ³ÌÐòÖÐÊ¹ÓÃ´Ë´úÂë,ÇëÔÚ³ÌÐòÖÐ×¢Ã÷Ê¹ÓÃÁËSTCµÄ×ÊÁÏ¼°³ÌÐò            */
+/* å¦‚æžœè¦åœ¨ç¨‹åºä¸­ä½¿ç”¨æ­¤ä»£ç ,è¯·åœ¨ç¨‹åºä¸­æ³¨æ˜Žä½¿ç”¨äº†STCçš„èµ„æ–™åŠç¨‹åº            */
 /*---------------------------------------------------------------------*/
 
-#include	"APP.h"
-#include	"STC8G_H_GPIO.h"
-#include	"STC8G_H_SPI.h"
-#include	"STC8G_H_UART.h"
-#include	"STC8G_H_NVIC.h"
+#include "APP.h"
+#include "STC8G_H_GPIO.h"
+#include "STC8G_H_NVIC.h"
+#include "STC8G_H_SPI.h"
+#include "STC8G_H_UART.h"
 
-/*************	¹¦ÄÜËµÃ÷	**************
+/*************	åŠŸèƒ½è¯´æ˜Ž	**************
 
-±¾Àý³Ì»ùÓÚSTC8H8K64UÎªÖ÷¿ØÐ¾Æ¬µÄÊµÑéÏä8½øÐÐ±àÐ´²âÊÔ£¬STC8G¡¢STC8HÏµÁÐÐ¾Æ¬¿ÉÍ¨ÓÃ²Î¿¼.
+æœ¬ä¾‹ç¨‹åŸºäºŽSTC8H8K64Uä¸ºä¸»æŽ§èŠ¯ç‰‡çš„å®žéªŒç®±8è¿›è¡Œç¼–å†™æµ‹è¯•ï¼ŒSTC8Gã€STC8Hç³»åˆ—èŠ¯ç‰‡å¯é€šç”¨å‚è€ƒ.
 
-Í¨¹ý´®¿Ú·¢ËÍÊý¾Ý¸øMCU1£¬MCU1½«½ÓÊÕµ½µÄÊý¾ÝÓÉSPI·¢ËÍ¸øMCU2£¬MCU2ÔÙÍ¨¹ý´®¿Ú·¢ËÍ³öÈ¥.
+é€šè¿‡ä¸²å£å‘é€æ•°æ®ç»™MCU1ï¼ŒMCU1å°†æŽ¥æ”¶åˆ°çš„æ•°æ®ç”±SPIå‘é€ç»™MCU2ï¼ŒMCU2å†é€šè¿‡ä¸²å£å‘é€å‡ºåŽ».
 
-ÉèÖÃ·½·¨ 2£º
-Á½¸öÉè±¸³õÊ¼»¯Ê±¶¼ÉèÖÃ SSIG Îª 0£¬MSTR ÉèÖÃÎª0£¬´ËÊ±Á½¸öÉè±¸¶¼ÊÇ²»ºöÂÔ SS µÄ´Ó»úÄ£Ê½¡£
-µ±ÆäÖÐÒ»¸öÉè±¸ÐèÒªÆô¶¯´«ÊäÊ±£¬ÏÈ¼ì²â SS ¹Ü½ÅµÄµçÆ½£¬Èç¹ûÊ±ºò¸ßµçÆ½£¬
-¾Í½«×Ô¼ºÉèÖÃ³ÉºöÂÔ SS µÄÖ÷Ä£Ê½£¬×Ô¼ºµÄ SS ½ÅÊä³öµÍµçÆ½£¬À­µÍ¶Ô·½µÄ SS ½Å£¬¼´¿É½øÐÐÊý¾Ý´«Êä¡£
+è®¾ç½®æ–¹æ³• 2ï¼š
+ä¸¤ä¸ªè®¾å¤‡åˆå§‹åŒ–æ—¶éƒ½è®¾ç½® SSIG ä¸º 0ï¼ŒMSTR è®¾ç½®ä¸º0ï¼Œæ­¤æ—¶ä¸¤ä¸ªè®¾å¤‡éƒ½æ˜¯ä¸å¿½ç•¥ SS çš„ä»Žæœºæ¨¡å¼ã€‚
+å½“å…¶ä¸­ä¸€ä¸ªè®¾å¤‡éœ€è¦å¯åŠ¨ä¼ è¾“æ—¶ï¼Œå…ˆæ£€æµ‹ SS ç®¡è„šçš„ç”µå¹³ï¼Œå¦‚æžœæ—¶å€™é«˜ç”µå¹³ï¼Œ
+å°±å°†è‡ªå·±è®¾ç½®æˆå¿½ç•¥ SS çš„ä¸»æ¨¡å¼ï¼Œè‡ªå·±çš„ SS è„šè¾“å‡ºä½Žç”µå¹³ï¼Œæ‹‰ä½Žå¯¹æ–¹çš„ SS è„šï¼Œå³å¯è¿›è¡Œæ•°æ®ä¼ è¾“ã€‚
 
          MCU1                          MCU2
   |-----------------|           |-----------------|
@@ -36,112 +36,98 @@
   |-----------------|           |-----------------|
 
 
-ÏÂÔØÊ±, Ñ¡ÔñÊ±ÖÓ 22.1184MHz (¿ÉÒÔÔÚÅäÖÃÎÄ¼þ"config.h"ÖÐÐÞ¸Ä).
+ä¸‹è½½æ—¶, é€‰æ‹©æ—¶é’Ÿ 22.1184MHz (å¯ä»¥åœ¨é…ç½®æ–‡ä»¶"config.h"ä¸­ä¿®æ”¹).
 
 ******************************************/
 
 //========================================================================
-//                               ±¾µØ³£Á¿ÉùÃ÷	
+//                               æœ¬åœ°å¸¸é‡å£°æ˜Ž
 //========================================================================
 
-
 //========================================================================
-//                               ±¾µØ±äÁ¿ÉùÃ÷
-//========================================================================
-
-
-//========================================================================
-//                               ±¾µØº¯ÊýÉùÃ÷
+//                               æœ¬åœ°å˜é‡å£°æ˜Ž
 //========================================================================
 
+//========================================================================
+//                               æœ¬åœ°å‡½æ•°å£°æ˜Ž
+//========================================================================
 
 //========================================================================
-//                            Íâ²¿º¯ÊýºÍ±äÁ¿ÉùÃ÷
+//                            å¤–éƒ¨å‡½æ•°å’Œå˜é‡å£°æ˜Ž
 //========================================================================
 
-
 //========================================================================
-// º¯Êý: SPI_PS_init
-// ÃèÊö: ÓÃ»§³õÊ¼»¯³ÌÐò.
-// ²ÎÊý: None.
-// ·µ»Ø: None.
-// °æ±¾: V1.0, 2020-09-27
+// å‡½æ•°: SPI_PS_init
+// æè¿°: ç”¨æˆ·åˆå§‹åŒ–ç¨‹åº.
+// å‚æ•°: None.
+// è¿”å›ž: None.
+// ç‰ˆæœ¬: V1.0, 2020-09-27
 //========================================================================
 void SPI_PS_init(void)
 {
-	SPI_InitTypeDef		SPI_InitStructure;
-	COMx_InitDefine		COMx_InitStructure;					//½á¹¹¶¨Òå
+    SPI_InitTypeDef SPI_InitStructure;
+    COMx_InitDefine COMx_InitStructure;  //ç»“æž„å®šä¹‰
 
-	COMx_InitStructure.UART_Mode      = UART_8bit_BRTx;	//Ä£Ê½, UART_ShiftRight,UART_8bit_BRTx,UART_9bit,UART_9bit_BRTx
-	COMx_InitStructure.UART_BRT_Use   = BRT_Timer1;			//Ê¹ÓÃ²¨ÌØÂÊ, BRT_Timer1, BRT_Timer2 (×¢Òâ: ´®¿Ú2¹Ì¶¨Ê¹ÓÃBRT_Timer2)
-	COMx_InitStructure.UART_BaudRate  = 115200ul;			//²¨ÌØÂÊ, Ò»°ã 110 ~ 115200
-	COMx_InitStructure.UART_RxEnable  = ENABLE;				//½ÓÊÕÔÊÐí,   ENABLE»òDISABLE
-	COMx_InitStructure.BaudRateDouble = DISABLE;			//²¨ÌØÂÊ¼Ó±¶, ENABLE»òDISABLE
-	UART_Configuration(UART1, &COMx_InitStructure);		//³õÊ¼»¯´®¿Ú1 UART1,UART2,UART3,UART4
-	NVIC_UART1_Init(ENABLE,Priority_1);		//ÖÐ¶ÏÊ¹ÄÜ, ENABLE/DISABLE; ÓÅÏÈ¼¶(µÍµ½¸ß) Priority_0,Priority_1,Priority_2,Priority_3
+    COMx_InitStructure.UART_Mode      = UART_8bit_BRTx;  //æ¨¡å¼, UART_ShiftRight,UART_8bit_BRTx,UART_9bit,UART_9bit_BRTx
+    COMx_InitStructure.UART_BRT_Use   = BRT_Timer1;      //ä½¿ç”¨æ³¢ç‰¹çŽ‡, BRT_Timer1, BRT_Timer2 (æ³¨æ„: ä¸²å£2å›ºå®šä½¿ç”¨BRT_Timer2)
+    COMx_InitStructure.UART_BaudRate  = 115200ul;        //æ³¢ç‰¹çŽ‡, ä¸€èˆ¬ 110 ~ 115200
+    COMx_InitStructure.UART_RxEnable  = ENABLE;          //æŽ¥æ”¶å…è®¸,   ENABLEæˆ–DISABLE
+    COMx_InitStructure.BaudRateDouble = DISABLE;         //æ³¢ç‰¹çŽ‡åŠ å€, ENABLEæˆ–DISABLE
+    UART_Configuration(UART1, &COMx_InitStructure);      //åˆå§‹åŒ–ä¸²å£1 UART1,UART2,UART3,UART4
+    NVIC_UART1_Init(ENABLE, Priority_1);                 //ä¸­æ–­ä½¿èƒ½, ENABLE/DISABLE; ä¼˜å…ˆçº§(ä½Žåˆ°é«˜) Priority_0,Priority_1,Priority_2,Priority_3
 
-	SPI_InitStructure.SPI_Enable    = ENABLE;						//SPIÆô¶¯    ENABLE, DISABLE
-	SPI_InitStructure.SPI_SSIG      = ENABLE;						//Æ¬Ñ¡Î»     ENABLE, DISABLE
-	SPI_InitStructure.SPI_FirstBit  = SPI_MSB;					//ÒÆÎ»·½Ïò   SPI_MSB, SPI_LSB
-	SPI_InitStructure.SPI_Mode      = SPI_Mode_Slave;		//Ö÷´ÓÑ¡Ôñ   SPI_Mode_Master, SPI_Mode_Slave
-	SPI_InitStructure.SPI_CPOL      = SPI_CPOL_Low;			//Ê±ÖÓÏàÎ»   SPI_CPOL_High,   SPI_CPOL_Low
-	SPI_InitStructure.SPI_CPHA      = SPI_CPHA_2Edge;		//Êý¾Ý±ßÑØ   SPI_CPHA_1Edge,  SPI_CPHA_2Edge
-	SPI_InitStructure.SPI_Speed     = SPI_Speed_4;			//SPIËÙ¶È    SPI_Speed_4, SPI_Speed_16, SPI_Speed_64, SPI_Speed_128
-	SPI_Init(&SPI_InitStructure);
-	NVIC_SPI_Init(ENABLE,Priority_3);		//ÖÐ¶ÏÊ¹ÄÜ, ENABLE/DISABLE; ÓÅÏÈ¼¶(µÍµ½¸ß) Priority_0,Priority_1,Priority_2,Priority_3
+    SPI_InitStructure.SPI_Enable   = ENABLE;          // SPIå¯åŠ¨    ENABLE, DISABLE
+    SPI_InitStructure.SPI_SSIG     = ENABLE;          //ç‰‡é€‰ä½     ENABLE, DISABLE
+    SPI_InitStructure.SPI_FirstBit = SPI_MSB;         //ç§»ä½æ–¹å‘   SPI_MSB, SPI_LSB
+    SPI_InitStructure.SPI_Mode     = SPI_Mode_Slave;  //ä¸»ä»Žé€‰æ‹©   SPI_Mode_Master, SPI_Mode_Slave
+    SPI_InitStructure.SPI_CPOL     = SPI_CPOL_Low;    //æ—¶é’Ÿç›¸ä½   SPI_CPOL_High,   SPI_CPOL_Low
+    SPI_InitStructure.SPI_CPHA     = SPI_CPHA_2Edge;  //æ•°æ®è¾¹æ²¿   SPI_CPHA_1Edge,  SPI_CPHA_2Edge
+    SPI_InitStructure.SPI_Speed    = SPI_Speed_4;     // SPIé€Ÿåº¦    SPI_Speed_4, SPI_Speed_16, SPI_Speed_64, SPI_Speed_128
+    SPI_Init(&SPI_InitStructure);
+    NVIC_SPI_Init(ENABLE, Priority_3);  //ä¸­æ–­ä½¿èƒ½, ENABLE/DISABLE; ä¼˜å…ˆçº§(ä½Žåˆ°é«˜) Priority_0,Priority_1,Priority_2,Priority_3
 
-	P2_MODE_IO_PU(GPIO_Pin_All);		//P2 ÉèÖÃÎª×¼Ë«Ïò¿Ú
+    P2_MODE_IO_PU(GPIO_Pin_All);  // P2 è®¾ç½®ä¸ºå‡†åŒå‘å£
 
-	SPI_SS_2 = 1;
+    SPI_SS_2 = 1;
 }
 
 //========================================================================
-// º¯Êý: Sample_SPI_PS
-// ÃèÊö: ÓÃ»§Ó¦ÓÃ³ÌÐò.
-// ²ÎÊý: None.
-// ·µ»Ø: None.
-// °æ±¾: V1.0, 2020-09-27
+// å‡½æ•°: Sample_SPI_PS
+// æè¿°: ç”¨æˆ·åº”ç”¨ç¨‹åº.
+// å‚æ•°: None.
+// è¿”å›ž: None.
+// ç‰ˆæœ¬: V1.0, 2020-09-27
 //========================================================================
 void Sample_SPI_PS(void)
 {
-	u8 i;
-	
-	if(COM1.RX_TimeOut > 0)
-	{
-		if(--COM1.RX_TimeOut == 0)
-		{
-			if(COM1.RX_Cnt > 0)
-			{
-				COM1.B_RX_OK = 1;
-			}
-		}
-	}
-	if((COM1.B_RX_OK) && (SPI_SS_2))
-	{
-		SPI_SS_2 = 0;     //À­µÍ´Ó»ú SS ¹Ü½Å
-		SPI_SetMode(SPI_Mode_Master);
-		for(i=0;i<COM1.RX_Cnt;i++)
-		{
-			SPI_WriteByte(RX1_Buffer[i]); //·¢ËÍ´®¿ÚÊý¾Ý
-		}
-		SPI_SS_2 = 1;    //À­¸ß´Ó»úµÄ SS ¹Ü½Å
-		SPI_SetMode(SPI_Mode_Slave);
-		COM1.RX_Cnt = 0;	//COM1.B_RX_OK = 0;
-		COM1.B_RX_OK = 0;
-	}
-	
-	if(SPI_RxTimerOut > 0)
-	{
-		if(--SPI_RxTimerOut == 0)
-		{
-			if(SPI_RxCnt > 0)
-			{
-				for(i=0; i<SPI_RxCnt; i++)	TX1_write2buff(SPI_RxBuffer[i]);
-			}
-			SPI_RxCnt = 0;
-		}
-	}
+    u8 i;
+
+    if (COM1.RX_TimeOut > 0) {
+        if (--COM1.RX_TimeOut == 0) {
+            if (COM1.RX_Cnt > 0) {
+                COM1.B_RX_OK = 1;
+            }
+        }
+    }
+    if ((COM1.B_RX_OK) && (SPI_SS_2)) {
+        SPI_SS_2 = 0;  //æ‹‰ä½Žä»Žæœº SS ç®¡è„š
+        SPI_SetMode(SPI_Mode_Master);
+        for (i = 0; i < COM1.RX_Cnt; i++) {
+            SPI_WriteByte(RX1_Buffer[i]);  //å‘é€ä¸²å£æ•°æ®
+        }
+        SPI_SS_2 = 1;  //æ‹‰é«˜ä»Žæœºçš„ SS ç®¡è„š
+        SPI_SetMode(SPI_Mode_Slave);
+        COM1.RX_Cnt  = 0;  // COM1.B_RX_OK = 0;
+        COM1.B_RX_OK = 0;
+    }
+
+    if (SPI_RxTimerOut > 0) {
+        if (--SPI_RxTimerOut == 0) {
+            if (SPI_RxCnt > 0) {
+                for (i = 0; i < SPI_RxCnt; i++)
+                    TX1_write2buff(SPI_RxBuffer[i]);
+            }
+            SPI_RxCnt = 0;
+        }
+    }
 }
-
-
-

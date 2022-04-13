@@ -7,79 +7,83 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* Èç¹ûÒªÔÚ³ÌĞòÖĞÊ¹ÓÃ´Ë´úÂë,ÇëÔÚ³ÌĞòÖĞ×¢Ã÷Ê¹ÓÃÁËSTCµÄ×ÊÁÏ¼°³ÌĞò            */
+/* å¦‚æœè¦åœ¨ç¨‹åºä¸­ä½¿ç”¨æ­¤ä»£ç ,è¯·åœ¨ç¨‹åºä¸­æ³¨æ˜ä½¿ç”¨äº†STCçš„èµ„æ–™åŠç¨‹åº            */
 /*---------------------------------------------------------------------*/
 
-#include	"STC8G_H_Timer.h"
+#include "STC8G_H_Timer.h"
 
 //========================================================================
-// º¯Êı: u8	Timer_Inilize(u8 TIM, TIM_InitTypeDef *TIMx)
-// ÃèÊö: ¶¨Ê±Æ÷³õÊ¼»¯³ÌĞò.
-// ²ÎÊı: TIMx: ½á¹¹²ÎÊı,Çë²Î¿¼timer.hÀïµÄ¶¨Òå.
-// ·µ»Ø: ³É¹¦·µ»Ø SUCCESS, ´íÎó·µ»Ø FAIL.
-// °æ±¾: V1.0, 2012-10-22
+// å‡½æ•°: u8	Timer_Inilize(u8 TIM, TIM_InitTypeDef *TIMx)
+// æè¿°: å®šæ—¶å™¨åˆå§‹åŒ–ç¨‹åº.
+// å‚æ•°: TIMx: ç»“æ„å‚æ•°,è¯·å‚è€ƒtimer.hé‡Œçš„å®šä¹‰.
+// è¿”å›: æˆåŠŸè¿”å› SUCCESS, é”™è¯¯è¿”å› FAIL.
+// ç‰ˆæœ¬: V1.0, 2012-10-22
 //========================================================================
-u8	Timer_Inilize(u8 TIM, TIM_InitTypeDef *TIMx)
+u8 Timer_Inilize(u8 TIM, TIM_InitTypeDef *TIMx)
 {
-	if(TIM == Timer0)
-	{
-		Timer0_Stop();		//Í£Ö¹¼ÆÊı
-		if(TIMx->TIM_Mode >= TIM_16BitAutoReloadNoMask)	return FAIL;	//´íÎó
-		TMOD = (TMOD & ~0x03) | TIMx->TIM_Mode;	//¹¤×÷Ä£Ê½,0: 16Î»×Ô¶¯ÖØ×°, 1: 16Î»¶¨Ê±/¼ÆÊı, 2: 8Î»×Ô¶¯ÖØ×°, 3: ²»¿ÉÆÁ±Î16Î»×Ô¶¯ÖØ×°
-		if(TIMx->TIM_ClkSource >  TIM_CLOCK_Ext)	return FAIL;
-		Timer0_CLK_Select(TIMx->TIM_ClkSource);	//¶ÔÍâ¼ÆÊı»ò·ÖÆµ, ¶¨Ê±12T/1T
-		Timer0_CLK_Output(TIMx->TIM_ClkOut);		//Êä³öÊ±ÖÓÊ¹ÄÜ
-		T0_Load(TIMx->TIM_Value);
-		Timer0_Run(TIMx->TIM_Run);
-		return	SUCCESS;		//³É¹¦
-	}
+    if (TIM == Timer0) {
+        Timer0_Stop();  //åœæ­¢è®¡æ•°
+        if (TIMx->TIM_Mode >= TIM_16BitAutoReloadNoMask)
+            return FAIL;                         //é”™è¯¯
+        TMOD = (TMOD & ~0x03) | TIMx->TIM_Mode;  //å·¥ä½œæ¨¡å¼,0: 16ä½è‡ªåŠ¨é‡è£…, 1: 16ä½å®šæ—¶/è®¡æ•°, 2: 8ä½è‡ªåŠ¨é‡è£…, 3: ä¸å¯å±è”½16ä½è‡ªåŠ¨é‡è£…
+        if (TIMx->TIM_ClkSource > TIM_CLOCK_Ext)
+            return FAIL;
+        Timer0_CLK_Select(TIMx->TIM_ClkSource);  //å¯¹å¤–è®¡æ•°æˆ–åˆ†é¢‘, å®šæ—¶12T/1T
+        Timer0_CLK_Output(TIMx->TIM_ClkOut);     //è¾“å‡ºæ—¶é’Ÿä½¿èƒ½
+        T0_Load(TIMx->TIM_Value);
+        Timer0_Run(TIMx->TIM_Run);
+        return SUCCESS;  //æˆåŠŸ
+    }
 
-	if(TIM == Timer1)
-	{
-		Timer1_Stop();		//Í£Ö¹¼ÆÊı
-		if(TIMx->TIM_Mode >= TIM_16BitAutoReloadNoMask)	return FAIL;	//´íÎó
-		TMOD = (TMOD & ~0x30) | (TIMx->TIM_Mode << 4);	//¹¤×÷Ä£Ê½,0: 16Î»×Ô¶¯ÖØ×°, 1: 16Î»¶¨Ê±/¼ÆÊı, 2: 8Î»×Ô¶¯ÖØ×°, 3: Í£Ö¹¹¤×÷
-		if(TIMx->TIM_ClkSource >  TIM_CLOCK_Ext)	return FAIL;
-		Timer1_CLK_Select(TIMx->TIM_ClkSource);	//¶ÔÍâ¼ÆÊı»ò·ÖÆµ, ¶¨Ê±12T/1T
-		Timer1_CLK_Output(TIMx->TIM_ClkOut);		//Êä³öÊ±ÖÓÊ¹ÄÜ
-		T1_Load(TIMx->TIM_Value);
-		Timer1_Run(TIMx->TIM_Run);
-		return	SUCCESS;		//³É¹¦
-	}
+    if (TIM == Timer1) {
+        Timer1_Stop();  //åœæ­¢è®¡æ•°
+        if (TIMx->TIM_Mode >= TIM_16BitAutoReloadNoMask)
+            return FAIL;                                //é”™è¯¯
+        TMOD = (TMOD & ~0x30) | (TIMx->TIM_Mode << 4);  //å·¥ä½œæ¨¡å¼,0: 16ä½è‡ªåŠ¨é‡è£…, 1: 16ä½å®šæ—¶/è®¡æ•°, 2: 8ä½è‡ªåŠ¨é‡è£…, 3: åœæ­¢å·¥ä½œ
+        if (TIMx->TIM_ClkSource > TIM_CLOCK_Ext)
+            return FAIL;
+        Timer1_CLK_Select(TIMx->TIM_ClkSource);  //å¯¹å¤–è®¡æ•°æˆ–åˆ†é¢‘, å®šæ—¶12T/1T
+        Timer1_CLK_Output(TIMx->TIM_ClkOut);     //è¾“å‡ºæ—¶é’Ÿä½¿èƒ½
+        T1_Load(TIMx->TIM_Value);
+        Timer1_Run(TIMx->TIM_Run);
+        return SUCCESS;  //æˆåŠŸ
+    }
 
-	if(TIM == Timer2)		//Timer2,¹Ì¶¨Îª16Î»×Ô¶¯ÖØ×°, ÖĞ¶ÏÎŞÓÅÏÈ¼¶
-	{
-		Timer2_Stop();	//Í£Ö¹¼ÆÊı
-		Timer2_CLK_Select(TIMx->TIM_ClkSource);	//¶ÔÍâ¼ÆÊı»ò·ÖÆµ, ¶¨Ê±12T/1T
-		Timer2_CLK_Output(TIMx->TIM_ClkOut);		//Êä³öÊ±ÖÓÊ¹ÄÜ
+    if (TIM == Timer2)  // Timer2,å›ºå®šä¸º16ä½è‡ªåŠ¨é‡è£…, ä¸­æ–­æ— ä¼˜å…ˆçº§
+    {
+        Timer2_Stop();                           //åœæ­¢è®¡æ•°
+        Timer2_CLK_Select(TIMx->TIM_ClkSource);  //å¯¹å¤–è®¡æ•°æˆ–åˆ†é¢‘, å®šæ—¶12T/1T
+        Timer2_CLK_Output(TIMx->TIM_ClkOut);     //è¾“å‡ºæ—¶é’Ÿä½¿èƒ½
 
-		T2_Load(TIMx->TIM_Value);
-		Timer2_Run(TIMx->TIM_Run);
-		return	SUCCESS;		//³É¹¦
-	}
+        T2_Load(TIMx->TIM_Value);
+        Timer2_Run(TIMx->TIM_Run);
+        return SUCCESS;  //æˆåŠŸ
+    }
 
-	if(TIM == Timer3)		//Timer3,¹Ì¶¨Îª16Î»×Ô¶¯ÖØ×°, ÖĞ¶ÏÎŞÓÅÏÈ¼¶
-	{
-		Timer3_Stop();	//Í£Ö¹¼ÆÊı
-		if(TIMx->TIM_ClkSource >  TIM_CLOCK_Ext)	return FAIL;
-		Timer3_CLK_Select(TIMx->TIM_ClkSource);	//¶ÔÍâ¼ÆÊı»ò·ÖÆµ, ¶¨Ê±12T/1T
-		Timer3_CLK_Output(TIMx->TIM_ClkOut);		//Êä³öÊ±ÖÓÊ¹ÄÜ
+    if (TIM == Timer3)  // Timer3,å›ºå®šä¸º16ä½è‡ªåŠ¨é‡è£…, ä¸­æ–­æ— ä¼˜å…ˆçº§
+    {
+        Timer3_Stop();  //åœæ­¢è®¡æ•°
+        if (TIMx->TIM_ClkSource > TIM_CLOCK_Ext)
+            return FAIL;
+        Timer3_CLK_Select(TIMx->TIM_ClkSource);  //å¯¹å¤–è®¡æ•°æˆ–åˆ†é¢‘, å®šæ—¶12T/1T
+        Timer3_CLK_Output(TIMx->TIM_ClkOut);     //è¾“å‡ºæ—¶é’Ÿä½¿èƒ½
 
-		T3_Load(TIMx->TIM_Value);
-		Timer3_Run(TIMx->TIM_Run);
-		return	SUCCESS;		//³É¹¦
-	}
+        T3_Load(TIMx->TIM_Value);
+        Timer3_Run(TIMx->TIM_Run);
+        return SUCCESS;  //æˆåŠŸ
+    }
 
-	if(TIM == Timer4)		//Timer3,¹Ì¶¨Îª16Î»×Ô¶¯ÖØ×°, ÖĞ¶ÏÎŞÓÅÏÈ¼¶
-	{
-		Timer4_Stop();	//Í£Ö¹¼ÆÊı
-		if(TIMx->TIM_ClkSource >  TIM_CLOCK_Ext)	return FAIL;
-		Timer4_CLK_Select(TIMx->TIM_ClkSource);	//¶ÔÍâ¼ÆÊı»ò·ÖÆµ, ¶¨Ê±12T/1T
-		Timer4_CLK_Output(TIMx->TIM_ClkOut);		//Êä³öÊ±ÖÓÊ¹ÄÜ
+    if (TIM == Timer4)  // Timer3,å›ºå®šä¸º16ä½è‡ªåŠ¨é‡è£…, ä¸­æ–­æ— ä¼˜å…ˆçº§
+    {
+        Timer4_Stop();  //åœæ­¢è®¡æ•°
+        if (TIMx->TIM_ClkSource > TIM_CLOCK_Ext)
+            return FAIL;
+        Timer4_CLK_Select(TIMx->TIM_ClkSource);  //å¯¹å¤–è®¡æ•°æˆ–åˆ†é¢‘, å®šæ—¶12T/1T
+        Timer4_CLK_Output(TIMx->TIM_ClkOut);     //è¾“å‡ºæ—¶é’Ÿä½¿èƒ½
 
-		T4_Load(TIMx->TIM_Value);
-		Timer4_Run(TIMx->TIM_Run);
-		return	SUCCESS;		//³É¹¦
-	}
-	return FAIL;	//´íÎó
+        T4_Load(TIMx->TIM_Value);
+        Timer4_Run(TIMx->TIM_Run);
+        return SUCCESS;  //æˆåŠŸ
+    }
+    return FAIL;  //é”™è¯¯
 }

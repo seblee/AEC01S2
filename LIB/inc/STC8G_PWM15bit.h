@@ -7,123 +7,121 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* Èç¹ûÒªÔÚ³ÌĞòÖĞÊ¹ÓÃ´Ë´úÂë,ÇëÔÚ³ÌĞòÖĞ×¢Ã÷Ê¹ÓÃÁËSTCµÄ×ÊÁÏ¼°³ÌĞò            */
+/* å¦‚æœè¦åœ¨ç¨‹åºä¸­ä½¿ç”¨æ­¤ä»£ç ,è¯·åœ¨ç¨‹åºä¸­æ³¨æ˜ä½¿ç”¨äº†STCçš„èµ„æ–™åŠç¨‹åº            */
 /*---------------------------------------------------------------------*/
 
-#ifndef	__PWM15BIT_H
-#define	__PWM15BIT_H
+#ifndef __PWM15BIT_H
+#define __PWM15BIT_H
 
-#include	"config.h"
-
-//========================================================================
-//                              PWMÉèÖÃ
-//========================================================================
-
-#define PWM15_PWM0_Set(n)					(n==1?(PWMSET |= 0x01):(PWMSET &= ~0x01))				//Ê¹ÄÜ/¹Ø±Õ PWM0£¨°üÀ¨ PWM00~PWM07£©
-#define PWM15_PWM1_Set(n)					(n==1?(PWMSET |= 0x02):(PWMSET &= ~0x02))				//Ê¹ÄÜ/¹Ø±Õ PWM1£¨°üÀ¨ PWM10~PWM17£©
-#define PWM15_PWM2_Set(n)					(n==1?(PWMSET |= 0x04):(PWMSET &= ~0x04))				//Ê¹ÄÜ/¹Ø±Õ PWM2£¨°üÀ¨ PWM20~PWM27£©
-#define PWM15_PWM3_Set(n)					(n==1?(PWMSET |= 0x08):(PWMSET &= ~0x08))				//Ê¹ÄÜ/¹Ø±Õ PWM3£¨°üÀ¨ PWM30~PWM37£©
-#define PWM15_PWM4_Set(n)					(n==1?(PWMSET |= 0x10):(PWMSET &= ~0x10))				//Ê¹ÄÜ/¹Ø±Õ PWM4£¨°üÀ¨ PWM40~PWM47£©
-#define PWM15_PWM5_Set(n)					(n==1?(PWMSET |= 0x20):(PWMSET &= ~0x20))				//Ê¹ÄÜ/¹Ø±Õ PWM5£¨°üÀ¨ PWM50~PWM54£©
-
-#define PWM0_Clock_Sel(n)					(n==1?(PWM0CKS |= 0x10):(PWM0CKS &= ~0x10))			//PWMnÊ±ÖÓÔ´Ñ¡Ôñ
-#define PWM1_Clock_Sel(n)					(n==1?(PWM1CKS |= 0x10):(PWM1CKS &= ~0x10))			//PWMnÊ±ÖÓÔ´Ñ¡Ôñ
-#define PWM2_Clock_Sel(n)					(n==1?(PWM2CKS |= 0x10):(PWM2CKS &= ~0x10))			//PWMnÊ±ÖÓÔ´Ñ¡Ôñ
-#define PWM3_Clock_Sel(n)					(n==1?(PWM3CKS |= 0x10):(PWM3CKS &= ~0x10))			//PWMnÊ±ÖÓÔ´Ñ¡Ôñ
-#define PWM4_Clock_Sel(n)					(n==1?(PWM4CKS |= 0x10):(PWM4CKS &= ~0x10))			//PWMnÊ±ÖÓÔ´Ñ¡Ôñ
-#define PWM5_Clock_Sel(n)					(n==1?(PWM5CKS |= 0x10):(PWM5CKS &= ~0x10))			//PWMnÊ±ÖÓÔ´Ñ¡Ôñ
-
-#define PWM15_Counter0_Set(n)			(n==1?(PWMCFG01 |= 0x01):(PWMCFG01 &= ~0x01))		//PWM0¼ÆÊıÆ÷Ê¹ÄÜÉèÖÃ
-#define PWM15_Counter1_Set(n)			(n==1?(PWMCFG01 |= 0x10):(PWMCFG01 &= ~0x10))		//PWM1¼ÆÊıÆ÷Ê¹ÄÜÉèÖÃ
-#define PWM15_Counter2_Set(n)			(n==1?(PWMCFG23 |= 0x01):(PWMCFG23 &= ~0x01))		//PWM2¼ÆÊıÆ÷Ê¹ÄÜÉèÖÃ
-#define PWM15_Counter3_Set(n)			(n==1?(PWMCFG23 |= 0x10):(PWMCFG23 &= ~0x10))		//PWM3¼ÆÊıÆ÷Ê¹ÄÜÉèÖÃ
-#define PWM15_Counter4_Set(n)			(n==1?(PWMCFG45 |= 0x01):(PWMCFG45 &= ~0x01))		//PWM4¼ÆÊıÆ÷Ê¹ÄÜÉèÖÃ
-#define PWM15_Counter5_Set(n)			(n==1?(PWMCFG45 |= 0x10):(PWMCFG45 &= ~0x10))		//PWM5¼ÆÊıÆ÷Ê¹ÄÜÉèÖÃ
-
-#define PWM15_Counter0Int_Set(n)	(n==1?(PWMCFG01 |= 0x04):(PWMCFG01 &= ~0x04))		//PWM0¼ÆÊıÆ÷¹éÁãÖĞ¶ÏÊ¹ÄÜÉèÖÃ
-#define PWM15_Counter1Int_Set(n)	(n==1?(PWMCFG01 |= 0x40):(PWMCFG01 &= ~0x40))		//PWM1¼ÆÊıÆ÷¹éÁãÖĞ¶ÏÊ¹ÄÜÉèÖÃ
-#define PWM15_Counter2Int_Set(n)	(n==1?(PWMCFG23 |= 0x04):(PWMCFG23 &= ~0x04))		//PWM2¼ÆÊıÆ÷¹éÁãÖĞ¶ÏÊ¹ÄÜÉèÖÃ
-#define PWM15_Counter3Int_Set(n)	(n==1?(PWMCFG23 |= 0x40):(PWMCFG23 &= ~0x40))		//PWM3¼ÆÊıÆ÷¹éÁãÖĞ¶ÏÊ¹ÄÜÉèÖÃ
-#define PWM15_Counter4Int_Set(n)	(n==1?(PWMCFG45 |= 0x04):(PWMCFG45 &= ~0x04))		//PWM4¼ÆÊıÆ÷¹éÁãÖĞ¶ÏÊ¹ÄÜÉèÖÃ
-#define PWM15_Counter5Int_Set(n)	(n==1?(PWMCFG45 |= 0x40):(PWMCFG45 &= ~0x40))		//PWM5¼ÆÊıÆ÷¹éÁãÖĞ¶ÏÊ¹ÄÜÉèÖÃ
+#include "config.h"
 
 //========================================================================
-//                              ¶¨ÒåÉùÃ÷
+//                              PWMè®¾ç½®
 //========================================================================
 
-#define	PWM0				0
-#define	PWM1				1
-#define	PWM2				2
-#define	PWM3				3
-#define	PWM4				4
-#define	PWM5				5
+#define PWM15_PWM0_Set(n) (n == 1 ? (PWMSET |= 0x01) : (PWMSET &= ~0x01))  //ä½¿èƒ½/å…³é—­ PWM0ï¼ˆåŒ…æ‹¬ PWM00~PWM07ï¼‰
+#define PWM15_PWM1_Set(n) (n == 1 ? (PWMSET |= 0x02) : (PWMSET &= ~0x02))  //ä½¿èƒ½/å…³é—­ PWM1ï¼ˆåŒ…æ‹¬ PWM10~PWM17ï¼‰
+#define PWM15_PWM2_Set(n) (n == 1 ? (PWMSET |= 0x04) : (PWMSET &= ~0x04))  //ä½¿èƒ½/å…³é—­ PWM2ï¼ˆåŒ…æ‹¬ PWM20~PWM27ï¼‰
+#define PWM15_PWM3_Set(n) (n == 1 ? (PWMSET |= 0x08) : (PWMSET &= ~0x08))  //ä½¿èƒ½/å…³é—­ PWM3ï¼ˆåŒ…æ‹¬ PWM30~PWM37ï¼‰
+#define PWM15_PWM4_Set(n) (n == 1 ? (PWMSET |= 0x10) : (PWMSET &= ~0x10))  //ä½¿èƒ½/å…³é—­ PWM4ï¼ˆåŒ…æ‹¬ PWM40~PWM47ï¼‰
+#define PWM15_PWM5_Set(n) (n == 1 ? (PWMSET |= 0x20) : (PWMSET &= ~0x20))  //ä½¿èƒ½/å…³é—­ PWM5ï¼ˆåŒ…æ‹¬ PWM50~PWM54ï¼‰
 
-#define	PWM00				0
-#define	PWM01				1
-#define	PWM02				2
-#define	PWM03				3
-#define	PWM04				4
-#define	PWM05				5
-#define	PWM06				6
-#define	PWM07				7
-#define	PWM10				8
-#define	PWM11				9
-#define	PWM12				10
-#define	PWM13				11
-#define	PWM14				12
-#define	PWM15				13
-#define	PWM16				14
-#define	PWM17				15
-#define	PWM20				16
-#define	PWM21				17
-#define	PWM22				18
-#define	PWM23				19
-#define	PWM24				20
-#define	PWM25				21
-#define	PWM26				22
-#define	PWM27				23
-#define	PWM30				24
-#define	PWM31				25
-#define	PWM32				26
-#define	PWM33				27
-#define	PWM34				28
-#define	PWM35				29
-#define	PWM36				30
-#define	PWM37				31
-#define	PWM40				32
-#define	PWM41				33
-#define	PWM42				34
-#define	PWM43				35
-#define	PWM44				36
-#define	PWM45				37
-#define	PWM46				38
-#define	PWM47				39
-#define	PWM50				40
-#define	PWM51				41
-#define	PWM52				42
-#define	PWM53				43
-#define	PWM54				44
-#define	PWM55				45
-#define	PWM56				46
-#define	PWM57				47
+#define PWM0_Clock_Sel(n) (n == 1 ? (PWM0CKS |= 0x10) : (PWM0CKS &= ~0x10))  // PWMnæ—¶é’Ÿæºé€‰æ‹©
+#define PWM1_Clock_Sel(n) (n == 1 ? (PWM1CKS |= 0x10) : (PWM1CKS &= ~0x10))  // PWMnæ—¶é’Ÿæºé€‰æ‹©
+#define PWM2_Clock_Sel(n) (n == 1 ? (PWM2CKS |= 0x10) : (PWM2CKS &= ~0x10))  // PWMnæ—¶é’Ÿæºé€‰æ‹©
+#define PWM3_Clock_Sel(n) (n == 1 ? (PWM3CKS |= 0x10) : (PWM3CKS &= ~0x10))  // PWMnæ—¶é’Ÿæºé€‰æ‹©
+#define PWM4_Clock_Sel(n) (n == 1 ? (PWM4CKS |= 0x10) : (PWM4CKS &= ~0x10))  // PWMnæ—¶é’Ÿæºé€‰æ‹©
+#define PWM5_Clock_Sel(n) (n == 1 ? (PWM5CKS |= 0x10) : (PWM5CKS &= ~0x10))  // PWMnæ—¶é’Ÿæºé€‰æ‹©
 
-#define	PWMn_CLK_SYS			0
-#define	PWMn_CLK_TM2			1
+#define PWM15_Counter0_Set(n) (n == 1 ? (PWMCFG01 |= 0x01) : (PWMCFG01 &= ~0x01))  // PWM0è®¡æ•°å™¨ä½¿èƒ½è®¾ç½®
+#define PWM15_Counter1_Set(n) (n == 1 ? (PWMCFG01 |= 0x10) : (PWMCFG01 &= ~0x10))  // PWM1è®¡æ•°å™¨ä½¿èƒ½è®¾ç½®
+#define PWM15_Counter2_Set(n) (n == 1 ? (PWMCFG23 |= 0x01) : (PWMCFG23 &= ~0x01))  // PWM2è®¡æ•°å™¨ä½¿èƒ½è®¾ç½®
+#define PWM15_Counter3_Set(n) (n == 1 ? (PWMCFG23 |= 0x10) : (PWMCFG23 &= ~0x10))  // PWM3è®¡æ•°å™¨ä½¿èƒ½è®¾ç½®
+#define PWM15_Counter4_Set(n) (n == 1 ? (PWMCFG45 |= 0x01) : (PWMCFG45 &= ~0x01))  // PWM4è®¡æ•°å™¨ä½¿èƒ½è®¾ç½®
+#define PWM15_Counter5_Set(n) (n == 1 ? (PWMCFG45 |= 0x10) : (PWMCFG45 &= ~0x10))  // PWM5è®¡æ•°å™¨ä½¿èƒ½è®¾ç½®
 
-typedef struct
-{
-	u8	PWM_Enable;	//PWMÊ¹ÄÜ,  ENABLE, DISABLE
-	u8	PWM_Counter;		//¼ÆÊıÆ÷Ê¹ÄÜ,  ENABLE, DISABLE
-	u8	PWM_CInt;				//¼ÆÊıÆ÷¹éÁãÖĞ¶ÏÊ¹ÄÜ,  ENABLE, DISABLE
-	u8	PWM_Clock_Sel;	//Ê±ÖÓÔ´Ñ¡Ôñ,  PWMn_CLK_SYS, PWMn_CLK_TM2
-	u8	PWM_Clock_PS;		//ÏµÍ³Ê±ÖÓ·ÖÆµ²ÎÊı,  0~15
-	u16	PWM_Period;			//PWMÖÜÆÚ,  0~0x7fff
+#define PWM15_Counter0Int_Set(n) (n == 1 ? (PWMCFG01 |= 0x04) : (PWMCFG01 &= ~0x04))  // PWM0è®¡æ•°å™¨å½’é›¶ä¸­æ–­ä½¿èƒ½è®¾ç½®
+#define PWM15_Counter1Int_Set(n) (n == 1 ? (PWMCFG01 |= 0x40) : (PWMCFG01 &= ~0x40))  // PWM1è®¡æ•°å™¨å½’é›¶ä¸­æ–­ä½¿èƒ½è®¾ç½®
+#define PWM15_Counter2Int_Set(n) (n == 1 ? (PWMCFG23 |= 0x04) : (PWMCFG23 &= ~0x04))  // PWM2è®¡æ•°å™¨å½’é›¶ä¸­æ–­ä½¿èƒ½è®¾ç½®
+#define PWM15_Counter3Int_Set(n) (n == 1 ? (PWMCFG23 |= 0x40) : (PWMCFG23 &= ~0x40))  // PWM3è®¡æ•°å™¨å½’é›¶ä¸­æ–­ä½¿èƒ½è®¾ç½®
+#define PWM15_Counter4Int_Set(n) (n == 1 ? (PWMCFG45 |= 0x04) : (PWMCFG45 &= ~0x04))  // PWM4è®¡æ•°å™¨å½’é›¶ä¸­æ–­ä½¿èƒ½è®¾ç½®
+#define PWM15_Counter5Int_Set(n) (n == 1 ? (PWMCFG45 |= 0x40) : (PWMCFG45 &= ~0x40))  // PWM5è®¡æ•°å™¨å½’é›¶ä¸­æ–­ä½¿èƒ½è®¾ç½®
+
+//========================================================================
+//                              å®šä¹‰å£°æ˜
+//========================================================================
+
+#define PWM0 0
+#define PWM1 1
+#define PWM2 2
+#define PWM3 3
+#define PWM4 4
+#define PWM5 5
+
+#define PWM00 0
+#define PWM01 1
+#define PWM02 2
+#define PWM03 3
+#define PWM04 4
+#define PWM05 5
+#define PWM06 6
+#define PWM07 7
+#define PWM10 8
+#define PWM11 9
+#define PWM12 10
+#define PWM13 11
+#define PWM14 12
+#define PWM15 13
+#define PWM16 14
+#define PWM17 15
+#define PWM20 16
+#define PWM21 17
+#define PWM22 18
+#define PWM23 19
+#define PWM24 20
+#define PWM25 21
+#define PWM26 22
+#define PWM27 23
+#define PWM30 24
+#define PWM31 25
+#define PWM32 26
+#define PWM33 27
+#define PWM34 28
+#define PWM35 29
+#define PWM36 30
+#define PWM37 31
+#define PWM40 32
+#define PWM41 33
+#define PWM42 34
+#define PWM43 35
+#define PWM44 36
+#define PWM45 37
+#define PWM46 38
+#define PWM47 39
+#define PWM50 40
+#define PWM51 41
+#define PWM52 42
+#define PWM53 43
+#define PWM54 44
+#define PWM55 45
+#define PWM56 46
+#define PWM57 47
+
+#define PWMn_CLK_SYS 0
+#define PWMn_CLK_TM2 1
+
+typedef struct {
+    u8  PWM_Enable;     // PWMä½¿èƒ½,  ENABLE, DISABLE
+    u8  PWM_Counter;    //è®¡æ•°å™¨ä½¿èƒ½,  ENABLE, DISABLE
+    u8  PWM_CInt;       //è®¡æ•°å™¨å½’é›¶ä¸­æ–­ä½¿èƒ½,  ENABLE, DISABLE
+    u8  PWM_Clock_Sel;  //æ—¶é’Ÿæºé€‰æ‹©,  PWMn_CLK_SYS, PWMn_CLK_TM2
+    u8  PWM_Clock_PS;   //ç³»ç»Ÿæ—¶é’Ÿåˆ†é¢‘å‚æ•°,  0~15
+    u16 PWM_Period;     // PWMå‘¨æœŸ,  0~0x7fff
 } PWM15_InitTypeDef;
 
-u8	PWM15_Init(u8 PWM_id, PWM15_InitTypeDef *PWMx);
-u8	PWMChannelCtrl(u8 PWM_id, u8 pwm_eno, u8 pwm_ini, u8 pwm_eni, u8 pwm_ent2i, u8 pwm_ent1i);
-u8	PWMLevelSet(u8 PWM_id, u8 pwm_hldl, u8 pwm_hldh);
-u8	PWM15Duty(u8 PWM_id, u16 dutyL, u16 dutyH);
+u8 PWM15_Init(u8 PWM_id, PWM15_InitTypeDef *PWMx);
+u8 PWMChannelCtrl(u8 PWM_id, u8 pwm_eno, u8 pwm_ini, u8 pwm_eni, u8 pwm_ent2i, u8 pwm_ent1i);
+u8 PWMLevelSet(u8 PWM_id, u8 pwm_hldl, u8 pwm_hldh);
+u8 PWM15Duty(u8 PWM_id, u16 dutyL, u16 dutyH);
 
 #endif
-

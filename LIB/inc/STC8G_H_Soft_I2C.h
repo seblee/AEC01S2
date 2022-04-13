@@ -7,16 +7,15 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* 如果要在程序中使用此代码,请在程序中注明使用了STC的资料及程序            */
+/* 濡傛灉瑕佸湪绋嬪簭涓娇鐢ㄦ浠ｇ爜,璇峰湪绋嬪簭涓敞鏄庝娇鐢ㄤ簡STC鐨勮祫鏂欏強绋嬪簭            */
 /*---------------------------------------------------------------------*/
 
-#ifndef	__SOFT_I2C_H
-#define	__SOFT_I2C_H
+#ifndef __SOFT_I2C_H
+#define __SOFT_I2C_H
 
-#include	"config.h"
+#include "config.h"
 
-void	SI2C_WriteNbyte(u8 addr, u8 *p, u8 number);
-void	SI2C_ReadNbyte( u8 addr, u8 *p, u8 number);
+void SI2C_WriteNbyte(u8 addr, u8 *p, u8 number);
+void SI2C_ReadNbyte(u8 addr, u8 *p, u8 number);
 
 #endif
-

@@ -7,153 +7,142 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* Èç¹ûÒªÔÚ³ÌÐòÖÐÊ¹ÓÃ´Ë´úÂë,ÇëÔÚ³ÌÐòÖÐ×¢Ã÷Ê¹ÓÃÁËSTCµÄ×ÊÁÏ¼°³ÌÐò            */
+/* å¦‚æžœè¦åœ¨ç¨‹åºä¸­ä½¿ç”¨æ­¤ä»£ç ,è¯·åœ¨ç¨‹åºä¸­æ³¨æ˜Žä½¿ç”¨äº†STCçš„èµ„æ–™åŠç¨‹åº            */
 /*---------------------------------------------------------------------*/
 
-#include	"STC8G_PWM15bit.h"
+#include "STC8G_PWM15bit.h"
 
 //========================================================================
-// º¯Êý: PWM0_ISR_Handler
-// ÃèÊö: 15Î»ÔöÇ¿ÐÍPWM0ÖÐ¶Ïº¯Êý.
-// ²ÎÊý: none.
-// ·µ»Ø: none.
-// °æ±¾: V1.0, 2020-09-23
+// å‡½æ•°: PWM0_ISR_Handler
+// æè¿°: 15ä½å¢žå¼ºåž‹PWM0ä¸­æ–­å‡½æ•°.
+// å‚æ•°: none.
+// è¿”å›ž: none.
+// ç‰ˆæœ¬: V1.0, 2020-09-23
 //========================================================================
-void	PWM0_ISR_Handler (void) interrupt PWM0_VECTOR
+void PWM0_ISR_Handler(void) interrupt PWM0_VECTOR
 {
-	char store;
-	store = P_SW2;
-	P_SW2 |= 0x80;
+    char store;
+    store = P_SW2;
+    P_SW2 |= 0x80;
 
-	if(PWMCFG01 & 0x08)		//PWM0¼ÆÊýÆ÷ÖÐ¶Ï
-	{
-		PWMCFG01 &= ~0x08;		//ÇåPWM0¼ÆÊýÆ÷ÖÐ¶Ï±êÖ¾
-		// TODO: ÔÚ´Ë´¦Ìí¼ÓÓÃ»§´úÂë
-	}
-	if(PWM0IF)		//PWM0Æ¥ÅäÖÐ¶Ï
-	{
-		PWM0IF = 0;
-		// TODO: ÔÚ´Ë´¦Ìí¼ÓÓÃ»§´úÂë
-	}
-	P_SW2 = store;
+    if (PWMCFG01 & 0x08) {  // PWM0è®¡æ•°å™¨ä¸­æ–­
+        PWMCFG01 &= ~0x08;  //æ¸…PWM0è®¡æ•°å™¨ä¸­æ–­æ ‡å¿—
+                            // TODO: åœ¨æ­¤å¤„æ·»åŠ ç”¨æˆ·ä»£ç 
+    }
+    if (PWM0IF) {  // PWM0åŒ¹é…ä¸­æ–­
+        PWM0IF = 0;
+        // TODO: åœ¨æ­¤å¤„æ·»åŠ ç”¨æˆ·ä»£ç 
+    }
+    P_SW2 = store;
 }
 
 //========================================================================
-// º¯Êý: PWM1_ISR_Handler
-// ÃèÊö: 15Î»ÔöÇ¿ÐÍPWM1ÖÐ¶Ïº¯Êý.
-// ²ÎÊý: none.
-// ·µ»Ø: none.
-// °æ±¾: V1.0, 2020-09-23
+// å‡½æ•°: PWM1_ISR_Handler
+// æè¿°: 15ä½å¢žå¼ºåž‹PWM1ä¸­æ–­å‡½æ•°.
+// å‚æ•°: none.
+// è¿”å›ž: none.
+// ç‰ˆæœ¬: V1.0, 2020-09-23
 //========================================================================
-void	PWM1_ISR_Handler (void) interrupt PWM1_VECTOR
+void PWM1_ISR_Handler(void) interrupt PWM1_VECTOR
 {
-	char store;
-	store = P_SW2;
-	P_SW2 |= 0x80;
+    char store;
+    store = P_SW2;
+    P_SW2 |= 0x80;
 
-	if(PWMCFG01 & 0x80)		//PWM1¼ÆÊýÆ÷ÖÐ¶Ï
-	{
-		PWMCFG01 &= ~0x80;		//ÇåPWM1¼ÆÊýÆ÷ÖÐ¶Ï±êÖ¾
-		// TODO: ÔÚ´Ë´¦Ìí¼ÓÓÃ»§´úÂë
-	}
-	if(PWM1IF)		//PWM1Æ¥ÅäÖÐ¶Ï
-	{
-		PWM1IF = 0;
-		// TODO: ÔÚ´Ë´¦Ìí¼ÓÓÃ»§´úÂë
-	}
-	P_SW2 = store;
+    if (PWMCFG01 & 0x80) {  // PWM1è®¡æ•°å™¨ä¸­æ–­
+        PWMCFG01 &= ~0x80;  //æ¸…PWM1è®¡æ•°å™¨ä¸­æ–­æ ‡å¿—
+        // TODO:åœ¨æ­¤å¤„æ·»åŠ ç”¨æˆ·ä»£ç 
+    }
+    if (PWM1IF) {  // PWM1åŒ¹é…ä¸­æ–­
+        PWM1IF = 0;
+        // TODO: åœ¨æ­¤å¤„æ·»åŠ ç”¨æˆ·ä»£ç 
+    }
+    P_SW2 = store;
 }
 
 //========================================================================
-// º¯Êý: PWM2_ISR_Handler
-// ÃèÊö: 15Î»ÔöÇ¿ÐÍPWM2ÖÐ¶Ïº¯Êý.
-// ²ÎÊý: none.
-// ·µ»Ø: none.
-// °æ±¾: V1.0, 2020-09-23
+// å‡½æ•°: PWM2_ISR_Handler
+// æè¿°: 15ä½å¢žå¼ºåž‹PWM2ä¸­æ–­å‡½æ•°.
+// å‚æ•°: none.
+// è¿”å›ž: none.
+// ç‰ˆæœ¬: V1.0, 2020-09-23
 //========================================================================
-void	PWM2_ISR_Handler (void) interrupt PWM2_VECTOR
+void PWM2_ISR_Handler(void) interrupt PWM2_VECTOR
 {
-	char store;
-	store = P_SW2;
-	P_SW2 |= 0x80;
+    char store;
+    store = P_SW2;
+    P_SW2 |= 0x80;
 
-	if(PWMCFG23 & 0x08)		//PWM2¼ÆÊýÆ÷ÖÐ¶Ï
-	{
-		PWMCFG23 &= ~0x08;		//ÇåPWM2¼ÆÊýÆ÷ÖÐ¶Ï±êÖ¾
-		// TODO: ÔÚ´Ë´¦Ìí¼ÓÓÃ»§´úÂë
-	}
-	if(PWM2IF)		//PWM2Æ¥ÅäÖÐ¶Ï
-	{
-		PWM2IF = 0;
-		// TODO: ÔÚ´Ë´¦Ìí¼ÓÓÃ»§´úÂë
-	}
-	P_SW2 = store;
+    if (PWMCFG23 & 0x08) {  // PWM2è®¡æ•°å™¨ä¸­æ–­
+        PWMCFG23 &= ~0x08;  //æ¸…PWM2è®¡æ•°å™¨ä¸­æ–­æ ‡å¿—
+        // TODO: åœ¨æ­¤å¤„æ·»åŠ ç”¨æˆ·ä»£ç 
+    }
+    if (PWM2IF) {  // PWM2åŒ¹é…ä¸­æ–­
+        PWM2IF = 0;
+        // TODO: åœ¨æ­¤å¤„æ·»åŠ ç”¨æˆ·ä»£ç 
+    }
+    P_SW2 = store;
 }
 
 //========================================================================
-// º¯Êý: PWM3_ISR_Handler
-// ÃèÊö: 15Î»ÔöÇ¿ÐÍPWM3ÖÐ¶Ïº¯Êý.
-// ²ÎÊý: none.
-// ·µ»Ø: none.
-// °æ±¾: V1.0, 2020-09-23
+// å‡½æ•°: PWM3_ISR_Handler
+// æè¿°: 15ä½å¢žå¼ºåž‹PWM3ä¸­æ–­å‡½æ•°.
+// å‚æ•°: none.
+// è¿”å›ž: none.
+// ç‰ˆæœ¬: V1.0, 2020-09-23
 //========================================================================
-void	PWM3_ISR_Handler (void) interrupt PWM3_VECTOR
+void PWM3_ISR_Handler(void) interrupt PWM3_VECTOR
 {
-	char store;
-	store = P_SW2;
-	P_SW2 |= 0x80;
+    char store;
+    store = P_SW2;
+    P_SW2 |= 0x80;
 
-	if(PWMCFG23 & 0x80)		//PWM3¼ÆÊýÆ÷ÖÐ¶Ï
-	{
-		PWMCFG23 &= ~0x80;		//ÇåPWM3¼ÆÊýÆ÷ÖÐ¶Ï±êÖ¾
-		// TODO: ÔÚ´Ë´¦Ìí¼ÓÓÃ»§´úÂë
-	}
-	if(PWM3IF)		//PWM3Æ¥ÅäÖÐ¶Ï
-	{
-		PWM3IF = 0;
-		// TODO: ÔÚ´Ë´¦Ìí¼ÓÓÃ»§´úÂë
-	}
-	P_SW2 = store;
+    if (PWMCFG23 & 0x80) {  // PWM3è®¡æ•°å™¨ä¸­æ–­
+        PWMCFG23 &= ~0x80;  //æ¸…PWM3è®¡æ•°å™¨ä¸­æ–­æ ‡å¿—
+        // TODO: åœ¨æ­¤å¤„æ·»åŠ ç”¨æˆ·ä»£ç 
+    }
+    if (PWM3IF) {  // PWM3åŒ¹é…ä¸­æ–­
+        PWM3IF = 0;
+        // TODO: åœ¨æ­¤å¤„æ·»åŠ ç”¨æˆ·ä»£ç 
+    }
+    P_SW2 = store;
 }
 
 //========================================================================
-// º¯Êý: PWM4_ISR_Handler
-// ÃèÊö: 15Î»ÔöÇ¿ÐÍPWM4ÖÐ¶Ïº¯Êý.
-// ²ÎÊý: none.
-// ·µ»Ø: none.
-// °æ±¾: V1.0, 2020-09-23
+// å‡½æ•°: PWM4_ISR_Handler
+// æè¿°: 15ä½å¢žå¼ºåž‹PWM4ä¸­æ–­å‡½æ•°.
+// å‚æ•°: none.
+// è¿”å›ž: none.
+// ç‰ˆæœ¬: V1.0, 2020-09-23
 //========================================================================
-void	PWM4_ISR_Handler (void) interrupt PWM4_VECTOR
+void PWM4_ISR_Handler(void) interrupt PWM4_VECTOR
 {
-	char store;
-	store = P_SW2;
-	P_SW2 |= 0x80;
+    char store;
+    store = P_SW2;
+    P_SW2 |= 0x80;
 
-	if(PWMCFG45 & 0x08)		//PWM4¼ÆÊýÆ÷ÖÐ¶Ï
-	{
-		PWMCFG45 &= ~0x08;		//ÇåPWM4¼ÆÊýÆ÷ÖÐ¶Ï±êÖ¾
-		// TODO: ÔÚ´Ë´¦Ìí¼ÓÓÃ»§´úÂë
-	}
-	if(PWM4IF)		//PWM4Æ¥ÅäÖÐ¶Ï
-	{
-		PWM4IF = 0;
-		// TODO: ÔÚ´Ë´¦Ìí¼ÓÓÃ»§´úÂë
-	}
-	P_SW2 = store;
+    if (PWMCFG45 & 0x08) {  // PWM4è®¡æ•°å™¨ä¸­æ–­
+        PWMCFG45 &= ~0x08;  //æ¸…PWM4è®¡æ•°å™¨ä¸­æ–­æ ‡å¿—
+        // TODO: åœ¨æ­¤å¤„æ·»åŠ ç”¨æˆ·ä»£ç 
+    }
+    if (PWM4IF) {  // PWM4åŒ¹é…ä¸­æ–­
+        PWM4IF = 0;
+        // TODO: åœ¨æ­¤å¤„æ·»åŠ ç”¨æˆ·ä»£ç 
+    }
+    P_SW2 = store;
 }
 
 //========================================================================
-// º¯Êý: PWM5_ISR_Handler
-// ÃèÊö: 15Î»ÔöÇ¿ÐÍPWM5ÖÐ¶Ïº¯Êý.
-// ²ÎÊý: none.
-// ·µ»Ø: none.
-// °æ±¾: V1.0, 2020-09-23
+// å‡½æ•°: PWM5_ISR_Handler
+// æè¿°: 15ä½å¢žå¼ºåž‹PWM5ä¸­æ–­å‡½æ•°.
+// å‚æ•°: none.
+// è¿”å›ž: none.
+// ç‰ˆæœ¬: V1.0, 2020-09-23
 //========================================================================
-//void	PWM5_ISR_Handler (void) interrupt PWM5_VECTOR	//ÖÐ¶ÏÏòÁ¿ºÅ³¬¹ý31£¬¿É½èÖúÆäËüÖÐ¶ÏºÅÌø×ª£¬·½·¨Ïê¼û¹æ¸ñÊé½éÉÜ
-//{
-//	if(PWMCFG45 & 0x80)		//PWM5¼ÆÊýÆ÷ÖÐ¶Ï
-//	{
-//		PWMCFG45 &= ~0x80;		//ÇåPWM5¼ÆÊýÆ÷ÖÐ¶Ï±êÖ¾
-//		// TODO: ÔÚ´Ë´¦Ìí¼ÓÓÃ»§´úÂë
-//	}
-//}
+// void PWM5_ISR_Handler(void) interrupt PWM5_VECTOR  //ä¸­æ–­å‘é‡å·è¶…è¿‡31ï¼Œå¯å€ŸåŠ©å…¶å®ƒä¸­æ–­å·è·³è½¬ï¼Œæ–¹æ³•è¯¦è§è§„æ ¼ä¹¦ä»‹ç»
+// {
+//     if (PWMCFG45 & 0x80) {  // PWM5è®¡æ•°å™¨ä¸­æ–­
+//         PWMCFG45 &= ~0x80;  //æ¸…PWM5è®¡æ•°å™¨ä¸­æ–­æ ‡å¿—
+//         // TODO: åœ¨æ­¤å¤„æ·»åŠ ç”¨æˆ·ä»£ç 
+//     }
+// }

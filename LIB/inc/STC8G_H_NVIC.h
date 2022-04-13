@@ -7,32 +7,32 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* Èç¹ûÒªÔÚ³ÌĞòÖĞÊ¹ÓÃ´Ë´úÂë,ÇëÔÚ³ÌĞòÖĞ×¢Ã÷Ê¹ÓÃÁËSTCµÄ×ÊÁÏ¼°³ÌĞò            */
+/* å¦‚æœè¦åœ¨ç¨‹åºä¸­ä½¿ç”¨æ­¤ä»£ç ,è¯·åœ¨ç¨‹åºä¸­æ³¨æ˜ä½¿ç”¨äº†STCçš„èµ„æ–™åŠç¨‹åº            */
 /*---------------------------------------------------------------------*/
 
-#ifndef	__NVIC_H
-#define	__NVIC_H
+#ifndef __NVIC_H
+#define __NVIC_H
 
-#include	"config.h"
-#include	"STC8H_PWM.h"
-#include	"STC8G_PCA.h"
-#include	"STC8G_H_ADC.h"
-#include	"STC8G_H_I2C.h"
-#include	"STC8G_H_SPI.h"
-#include	"STC8G_H_UART.h"
-#include	"STC8G_H_Exti.h"
-#include	"STC8G_H_Timer.h"
-#include	"STC8G_H_Compare.h"
-
-//========================================================================
-//                              ¶¨ÒåÉùÃ÷
-//========================================================================
-
-#define	FALLING_EDGE		1		//²úÉúÏÂ½µÑØÖĞ¶Ï
-#define	RISING_EDGE			2		//²úÉúÉÏÉıÑØÖĞ¶Ï
+#include "STC8G_H_ADC.h"
+#include "STC8G_H_Compare.h"
+#include "STC8G_H_Exti.h"
+#include "STC8G_H_I2C.h"
+#include "STC8G_H_SPI.h"
+#include "STC8G_H_Timer.h"
+#include "STC8G_H_UART.h"
+#include "STC8G_PCA.h"
+#include "STC8H_PWM.h"
+#include "config.h"
 
 //========================================================================
-//                           Íâ²¿º¯ÊıºÍ±äÁ¿ÉùÃ÷
+//                              å®šä¹‰å£°æ˜
+//========================================================================
+
+#define FALLING_EDGE 1  //äº§ç”Ÿä¸‹é™æ²¿ä¸­æ–­
+#define RISING_EDGE  2  //äº§ç”Ÿä¸Šå‡æ²¿ä¸­æ–­
+
+//========================================================================
+//                           å¤–éƒ¨å‡½æ•°å’Œå˜é‡å£°æ˜
 //========================================================================
 
 u8 NVIC_Timer0_Init(u8 State, u8 Priority);
@@ -57,4 +57,3 @@ u8 NVIC_PWM_Init(u8 Channel, u8 State, u8 Priority);
 u8 NVIC_PCA_Init(u8 Channel, u8 State, u8 Priority);
 
 #endif
-

@@ -7,138 +7,129 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* Èç¹ûÒªÔÚ³ÌĞòÖĞÊ¹ÓÃ´Ë´úÂë,ÇëÔÚ³ÌĞòÖĞ×¢Ã÷Ê¹ÓÃÁËSTCµÄ×ÊÁÏ¼°³ÌĞò            */
+/* å¦‚æœè¦åœ¨ç¨‹åºä¸­ä½¿ç”¨æ­¤ä»£ç ,è¯·åœ¨ç¨‹åºä¸­æ³¨æ˜ä½¿ç”¨äº†STCçš„èµ„æ–™åŠç¨‹åº            */
 /*---------------------------------------------------------------------*/
 
-#include	"APP.h"
-#include	"STC8G_PCA.h"
-#include	"STC8G_H_GPIO.h"
-#include	"STC8G_H_UART.h"
-#include	"STC8G_H_NVIC.h"
+#include "APP.h"
+#include "STC8G_H_GPIO.h"
+#include "STC8G_H_NVIC.h"
+#include "STC8G_H_UART.h"
+#include "STC8G_PCA.h"
 
-/*************   ¹¦ÄÜËµÃ÷   ***************
+/*************   åŠŸèƒ½è¯´æ˜   ***************
 
-±¾Àı³Ì»ùÓÚSTC8G1K08-20PIN½øĞĞ±àĞ´²âÊÔ£¬STC8GÏµÁĞĞ¾Æ¬¿ÉÍ¨ÓÃ²Î¿¼.
+æœ¬ä¾‹ç¨‹åŸºäºSTC8G1K08-20PINè¿›è¡Œç¼–å†™æµ‹è¯•ï¼ŒSTC8Gç³»åˆ—èŠ¯ç‰‡å¯é€šç”¨å‚è€ƒ.
 
-PCA0  ÉèÖÃÎª8Î»PWM. P1.1Êä³ö±ä»¯µÄPWMĞÅºÅ, ÀàËÆ"ºôÎüµÆ"µÄÇı¶¯.
-PCA1  ÉèÖÃÎª²¶»ñ. ¿ÉÒÔÁ¬½Óµ½P1.1»òÕßP3.7ÓÃÀ´²âÊÔ²¶»ñ, ²¶»ñµÄÊ±ÖÓÊı´Ó´®¿Ú1Êä³ö. Ò²¿ÉÒÔ´ÓÍâ²¿ÊäÈëÒ»¸öĞÅºÅÀ´²¶»ñ.
-PCA2  ÉèÖÃÎª16Î»Èí¼ş¶¨Ê±, ¶¨Ê±Ê±¼äÎª15000¸öPCAÊ±ÖÓ, ²¢ÇÒ´ÓP3.7Êä³öÕâ¸öĞÅºÅ,Êä³öÖÜÆÚÎª30000¸öPCAÊ±ÖÓ.
+PCA0  è®¾ç½®ä¸º8ä½PWM. P1.1è¾“å‡ºå˜åŒ–çš„PWMä¿¡å·, ç±»ä¼¼"å‘¼å¸ç¯"çš„é©±åŠ¨.
+PCA1  è®¾ç½®ä¸ºæ•è·. å¯ä»¥è¿æ¥åˆ°P1.1æˆ–è€…P3.7ç”¨æ¥æµ‹è¯•æ•è·, æ•è·çš„æ—¶é’Ÿæ•°ä»ä¸²å£1è¾“å‡º. ä¹Ÿå¯ä»¥ä»å¤–éƒ¨è¾“å…¥ä¸€ä¸ªä¿¡å·æ¥æ•è·.
+PCA2  è®¾ç½®ä¸º16ä½è½¯ä»¶å®šæ—¶, å®šæ—¶æ—¶é—´ä¸º15000ä¸ªPCAæ—¶é’Ÿ, å¹¶ä¸”ä»P3.7è¾“å‡ºè¿™ä¸ªä¿¡å·,è¾“å‡ºå‘¨æœŸä¸º30000ä¸ªPCAæ—¶é’Ÿ.
 
-²¶»ñÂö¿íÊ±¼ä=²¶»ñµÄÊ±ÖÓÊı/PCAÊ±ÖÓÔ´, ±ÈÈç ²¶»ñµÄÊ±ÖÓÊı = 256, PCAÊ±ÖÓÔ´ = 22.1184MHz(1T), Âö¿í = 256/22.1184MHz = 11.57us.
+æ•è·è„‰å®½æ—¶é—´=æ•è·çš„æ—¶é’Ÿæ•°/PCAæ—¶é’Ÿæº, æ¯”å¦‚ æ•è·çš„æ—¶é’Ÿæ•° = 256, PCAæ—¶é’Ÿæº = 22.1184MHz(1T), è„‰å®½ = 256/22.1184MHz = 11.57us.
 
-ÏÂÔØÊ±, Ñ¡ÔñÊ±ÖÓ 22.1184MHz (ÓÃ»§¿ÉÔÚ"config.h"ĞŞ¸ÄÆµÂÊ).
+ä¸‹è½½æ—¶, é€‰æ‹©æ—¶é’Ÿ 22.1184MHz (ç”¨æˆ·å¯åœ¨"config.h"ä¿®æ”¹é¢‘ç‡).
 
 ******************************************/
 
-
 //========================================================================
-//                               ±¾µØ³£Á¿ÉùÃ÷	
-//========================================================================
-
-
-//========================================================================
-//                               ±¾µØ±äÁ¿ÉùÃ÷
+//                               æœ¬åœ°å¸¸é‡å£°æ˜
 //========================================================================
 
-static u8	cnt0;
-static u8	pwm0;		//pwm
-static bit	B_PWM0_Dir;	//·½Ïò, 0Îª+, 1Îª-.
-
 //========================================================================
-//                               ±¾µØº¯ÊıÉùÃ÷
+//                               æœ¬åœ°å˜é‡å£°æ˜
 //========================================================================
 
+static u8  cnt0;
+static u8  pwm0;        // pwm
+static bit B_PWM0_Dir;  //æ–¹å‘, 0ä¸º+, 1ä¸º-.
 
 //========================================================================
-//                            Íâ²¿º¯ÊıºÍ±äÁ¿ÉùÃ÷
+//                               æœ¬åœ°å‡½æ•°å£°æ˜
 //========================================================================
 
+//========================================================================
+//                            å¤–éƒ¨å‡½æ•°å’Œå˜é‡å£°æ˜
+//========================================================================
 
 //========================================================================
-// º¯Êı: PCA_Capture_init
-// ÃèÊö: ÓÃ»§³õÊ¼»¯³ÌĞò.
-// ²ÎÊı: None.
-// ·µ»Ø: None.
-// °æ±¾: V1.0, 2020-09-28
+// å‡½æ•°: PCA_Capture_init
+// æè¿°: ç”¨æˆ·åˆå§‹åŒ–ç¨‹åº.
+// å‚æ•°: None.
+// è¿”å›: None.
+// ç‰ˆæœ¬: V1.0, 2020-09-28
 //========================================================================
 void PCA_Capture_init(void)
 {
-	COMx_InitDefine		COMx_InitStructure;				//½á¹¹¶¨Òå
-	PCA_InitTypeDef		PCA_InitStructure;
+    COMx_InitDefine COMx_InitStructure;  //ç»“æ„å®šä¹‰
+    PCA_InitTypeDef PCA_InitStructure;
 
-	P1_MODE_IN_HIZ(GPIO_Pin_0);		//P1.0 ÉèÖÃÎª¸ß×èÊäÈë
-	P1_MODE_IO_PU(GPIO_Pin_1);		//P1.1 ÉèÖÃÎª×¼Ë«Ïò¿Ú
-	P3_MODE_IO_PU(GPIO_Pin_7);		//P3.7 ÉèÖÃÎª×¼Ë«Ïò¿Ú
-	//--------------------------------------------
-	COMx_InitStructure.UART_Mode      = UART_8bit_BRTx;	//Ä£Ê½, UART_ShiftRight,UART_8bit_BRTx,UART_9bit,UART_9bit_BRTx
-	COMx_InitStructure.UART_BRT_Use   = BRT_Timer1;			//Ê¹ÓÃ²¨ÌØÂÊ, BRT_Timer1, BRT_Timer2 (×¢Òâ: ´®¿Ú2¹Ì¶¨Ê¹ÓÃBRT_Timer2)
-	COMx_InitStructure.UART_BaudRate  = 115200ul;			//²¨ÌØÂÊ, Ò»°ã 110 ~ 115200
-	COMx_InitStructure.UART_RxEnable  = ENABLE;				//½ÓÊÕÔÊĞí,   ENABLE»òDISABLE
-	COMx_InitStructure.BaudRateDouble = DISABLE;			//²¨ÌØÂÊ¼Ó±¶, ENABLE»òDISABLE
-	UART_Configuration(UART1, &COMx_InitStructure);		//³õÊ¼»¯´®¿Ú1 UART1,UART2,UART3,UART4
-	NVIC_UART1_Init(ENABLE,Priority_1);		//ÖĞ¶ÏÊ¹ÄÜ, ENABLE/DISABLE; ÓÅÏÈ¼¶(µÍµ½¸ß) Priority_0,Priority_1,Priority_2,Priority_3
+    P1_MODE_IN_HIZ(GPIO_Pin_0);  // P1.0 è®¾ç½®ä¸ºé«˜é˜»è¾“å…¥
+    P1_MODE_IO_PU(GPIO_Pin_1);   // P1.1 è®¾ç½®ä¸ºå‡†åŒå‘å£
+    P3_MODE_IO_PU(GPIO_Pin_7);   // P3.7 è®¾ç½®ä¸ºå‡†åŒå‘å£
+    //--------------------------------------------
+    COMx_InitStructure.UART_Mode      = UART_8bit_BRTx;  //æ¨¡å¼, UART_ShiftRight,UART_8bit_BRTx,UART_9bit,UART_9bit_BRTx
+    COMx_InitStructure.UART_BRT_Use   = BRT_Timer1;      //ä½¿ç”¨æ³¢ç‰¹ç‡, BRT_Timer1, BRT_Timer2 (æ³¨æ„: ä¸²å£2å›ºå®šä½¿ç”¨BRT_Timer2)
+    COMx_InitStructure.UART_BaudRate  = 115200ul;        //æ³¢ç‰¹ç‡, ä¸€èˆ¬ 110 ~ 115200
+    COMx_InitStructure.UART_RxEnable  = ENABLE;          //æ¥æ”¶å…è®¸,   ENABLEæˆ–DISABLE
+    COMx_InitStructure.BaudRateDouble = DISABLE;         //æ³¢ç‰¹ç‡åŠ å€, ENABLEæˆ–DISABLE
+    UART_Configuration(UART1, &COMx_InitStructure);      //åˆå§‹åŒ–ä¸²å£1 UART1,UART2,UART3,UART4
+    NVIC_UART1_Init(ENABLE, Priority_1);                 //ä¸­æ–­ä½¿èƒ½, ENABLE/DISABLE; ä¼˜å…ˆçº§(ä½åˆ°é«˜) Priority_0,Priority_1,Priority_2,Priority_3
 
-	PrintString1("STC8G1K08 PCA Test Programme!\r\n");	//UART1·¢ËÍÒ»¸ö×Ö·û´®
-	//--------------------------------------------
-	PCA_InitStructure.PCA_Clock    = PCA_Clock_1T;		//PCA_Clock_1T, PCA_Clock_2T, PCA_Clock_4T, PCA_Clock_6T, PCA_Clock_8T, PCA_Clock_12T, PCA_Clock_Timer0_OF, PCA_Clock_ECI
-	PCA_InitStructure.PCA_RUN      = DISABLE;					//ENABLE, DISABLE
-	PCA_Init(PCA_Counter,&PCA_InitStructure);		//ÉèÖÃ¹«ÓÃCounter
+    PrintString1("STC8G1K08 PCA Test Programme!\r\n");  // UART1å‘é€ä¸€ä¸ªå­—ç¬¦ä¸²
+    //--------------------------------------------
+    PCA_InitStructure.PCA_Clock = PCA_Clock_1T;  // PCA_Clock_1T, PCA_Clock_2T, PCA_Clock_4T, PCA_Clock_6T, PCA_Clock_8T, PCA_Clock_12T, PCA_Clock_Timer0_OF, PCA_Clock_ECI
+    PCA_InitStructure.PCA_RUN   = DISABLE;       // ENABLE, DISABLE
+    PCA_Init(PCA_Counter, &PCA_InitStructure);   //è®¾ç½®å…¬ç”¨Counter
 
-	PCA_InitStructure.PCA_PWM_Wide = PCA_PWM_8bit;		//PCA_PWM_8bit, PCA_PWM_7bit, PCA_PWM_6bit, PCA_PWM_10bit
-	PCA_InitStructure.PCA_Value    = 128 << 8;				//¶ÔÓÚPWM,¸ß8Î»ÎªPWMÕ¼¿Õ±È
-	PCA_Init(PCA0,&PCA_InitStructure);
+    PCA_InitStructure.PCA_PWM_Wide = PCA_PWM_8bit;  // PCA_PWM_8bit, PCA_PWM_7bit, PCA_PWM_6bit, PCA_PWM_10bit
+    PCA_InitStructure.PCA_Value    = 128 << 8;      //å¯¹äºPWM,é«˜8ä½ä¸ºPWMå ç©ºæ¯”
+    PCA_Init(PCA0, &PCA_InitStructure);
 
-	PCA_InitStructure.PCA_PWM_Wide = 0;								//PCA_PWM_8bit, PCA_PWM_7bit, PCA_PWM_6bit, PCA_PWM_10bit
-	PCA_InitStructure.PCA_Value    = 0;								//¶ÔÓÚ²¶»ñ, Õâ¸öÖµÃ»ÒâÒå
-	PCA_Init(PCA1,&PCA_InitStructure);
+    PCA_InitStructure.PCA_PWM_Wide = 0;  // PCA_PWM_8bit, PCA_PWM_7bit, PCA_PWM_6bit, PCA_PWM_10bit
+    PCA_InitStructure.PCA_Value    = 0;  //å¯¹äºæ•è·, è¿™ä¸ªå€¼æ²¡æ„ä¹‰
+    PCA_Init(PCA1, &PCA_InitStructure);
 
-	PCA_InitStructure.PCA_PWM_Wide = 0;								//PCA_PWM_8bit, PCA_PWM_7bit, PCA_PWM_6bit, PCA_PWM_10bit
-	PCA_InitStructure.PCA_Value    = 15000;						//¶ÔÓÚÈí¼ş¶¨Ê±, ÎªÆ¥Åä±È½ÏÖµ
-	PCA_Init(PCA2,&PCA_InitStructure);
+    PCA_InitStructure.PCA_PWM_Wide = 0;      // PCA_PWM_8bit, PCA_PWM_7bit, PCA_PWM_6bit, PCA_PWM_10bit
+    PCA_InitStructure.PCA_Value    = 15000;  //å¯¹äºè½¯ä»¶å®šæ—¶, ä¸ºåŒ¹é…æ¯”è¾ƒå€¼
+    PCA_Init(PCA2, &PCA_InitStructure);
 
-	NVIC_PCA_Init(PCA_Counter,DISABLE,Priority_0);
-	NVIC_PCA_Init(PCA0,PCA_Mode_PWM,Priority_0);		//PWM
-	NVIC_PCA_Init(PCA1,PCA_Mode_Capture,Priority_0);		//Capture
-	NVIC_PCA_Init(PCA2,PCA_Mode_HighPulseOutput,Priority_0);	//HighPulseOutput
-	CR = 1;							//Æô¶¯PCA
-	//--------------------------------------------
-	pwm0 = 128;
-	B_PWM0_Dir = 0;
+    NVIC_PCA_Init(PCA_Counter, DISABLE, Priority_0);
+    NVIC_PCA_Init(PCA0, PCA_Mode_PWM, Priority_0);              // PWM
+    NVIC_PCA_Init(PCA1, PCA_Mode_Capture, Priority_0);          // Capture
+    NVIC_PCA_Init(PCA2, PCA_Mode_HighPulseOutput, Priority_0);  // HighPulseOutput
+    CR = 1;                                                     //å¯åŠ¨PCA
+    //--------------------------------------------
+    pwm0       = 128;
+    B_PWM0_Dir = 0;
 }
 
-
 //========================================================================
-// º¯Êı: Sample_PCA_Capture
-// ÃèÊö: ÓÃ»§Ó¦ÓÃ³ÌĞò.
-// ²ÎÊı: None.
-// ·µ»Ø: None.
-// °æ±¾: V1.0, 2020-09-28
+// å‡½æ•°: Sample_PCA_Capture
+// æè¿°: ç”¨æˆ·åº”ç”¨ç¨‹åº.
+// å‚æ•°: None.
+// è¿”å›: None.
+// ç‰ˆæœ¬: V1.0, 2020-09-28
 //========================================================================
 void Sample_PCA_Capture(void)
 {
-	if(B_Capture1)
-	{
-		B_Capture1 = 0;
-		//²¶»ñÂö¿íÊ±¼ä=CCAP1_tmp/PCA_Clock, ±ÈÈç CCAP1_tmp = 256, PCA_Clock = 22.1184MHz(1T), Âö¿í = 256/22.1184MHz = 11.57us
-		TX1_write2buff(CCAP1_tmp/10000 + '0');
-		TX1_write2buff(CCAP1_tmp%10000/1000 + '0');
-		TX1_write2buff(CCAP1_tmp%1000/100 + '0');
-		TX1_write2buff(CCAP1_tmp%100/10 + '0');
-		TX1_write2buff(CCAP1_tmp%10 + '0');
-		PrintString1("\r\n");
-	}
+    if (B_Capture1) {
+        B_Capture1 = 0;
+        //æ•è·è„‰å®½æ—¶é—´=CCAP1_tmp/PCA_Clock, æ¯”å¦‚ CCAP1_tmp = 256, PCA_Clock = 22.1184MHz(1T), è„‰å®½ = 256/22.1184MHz = 11.57us
+        TX1_write2buff(CCAP1_tmp / 10000 + '0');
+        TX1_write2buff(CCAP1_tmp % 10000 / 1000 + '0');
+        TX1_write2buff(CCAP1_tmp % 1000 / 100 + '0');
+        TX1_write2buff(CCAP1_tmp % 100 / 10 + '0');
+        TX1_write2buff(CCAP1_tmp % 10 + '0');
+        PrintString1("\r\n");
+    }
 
-	cnt0++;
-	if((cnt0 & 15) == 15)	//16ms
-	{
-		if(B_PWM0_Dir)
-		{
-				if(--pwm0 <= 8)		B_PWM0_Dir = 0;
-		}
-		else	if(++pwm0 >= 248)	B_PWM0_Dir = 1;
-		UpdatePcaPwm(PCA0,pwm0);
-	}
+    cnt0++;
+    if ((cnt0 & 15) == 15)  // 16ms
+    {
+        if (B_PWM0_Dir) {
+            if (--pwm0 <= 8)
+                B_PWM0_Dir = 0;
+        } else if (++pwm0 >= 248)
+            B_PWM0_Dir = 1;
+        UpdatePcaPwm(PCA0, pwm0);
+    }
 }
-
-
-

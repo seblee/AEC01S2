@@ -7,26 +7,32 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* Èç¹ûÒªÔÚ³ÌÐòÖÐÊ¹ÓÃ´Ë´úÂë,ÇëÔÚ³ÌÐòÖÐ×¢Ã÷Ê¹ÓÃÁËSTCµÄ×ÊÁÏ¼°³ÌÐò            */
+/* å¦‚æžœè¦åœ¨ç¨‹åºä¸­ä½¿ç”¨æ­¤ä»£ç ,è¯·åœ¨ç¨‹åºä¸­æ³¨æ˜Žä½¿ç”¨äº†STCçš„èµ„æ–™åŠç¨‹åº            */
 /*---------------------------------------------------------------------*/
 
-#include	"STC8G_H_Compare.h"
+#include "STC8G_H_Compare.h"
 
 //========================================================================
-// º¯Êý:void	CMP_Inilize(CMP_InitDefine *CMPx)
-// ÃèÊö: ±È½ÏÆ÷³õÊ¼»¯³ÌÐò.
-// ²ÎÊý: CMPx: ½á¹¹²ÎÊý,Çë²Î¿¼compare.hÀïµÄ¶¨Òå.
-// ·µ»Ø: none.
-// °æ±¾: V1.0, 2012-10-22
+// å‡½æ•°:void	CMP_Inilize(CMP_InitDefine *CMPx)
+// æè¿°: æ¯”è¾ƒå™¨åˆå§‹åŒ–ç¨‹åº.
+// å‚æ•°: CMPx: ç»“æž„å‚æ•°,è¯·å‚è€ƒcompare.hé‡Œçš„å®šä¹‰.
+// è¿”å›ž: none.
+// ç‰ˆæœ¬: V1.0, 2012-10-22
 //========================================================================
-void	CMP_Inilize(CMP_InitDefine *CMPx)
+void CMP_Inilize(CMP_InitDefine *CMPx)
 {
-	CMPCR1 &= 0x30;
-	CMPCR2 = CMPx->CMP_OutDelayDuty & 0x3f;										//±È½Ï½á¹û±ä»¯ÑÓÊ±ÖÜÆÚÊý, 0~63
-	if(CMPx->CMP_EN == ENABLE)				CMPCR1 |= CMPEN;				//ÔÊÐí±È½ÏÆ÷		ENABLE,DISABLE
-	if(CMPx->CMP_P_Select  == CMP_P_ADC)	CMPCR1 |= PIS;			//±È½ÏÆ÷ÊäÈëÕý¼«Ñ¡Ôñ, CMP_P_P37: Ñ¡ÔñP3.7×öÕýÊäÈë, CMP_P_ADC: ÓÉADCÄ£ÄâÊäÈë¶Ë×öÕýÊäÈë.
-	if(CMPx->CMP_N_Select  == CMP_N_P36)	CMPCR1 |= NIS;			//±È½ÏÆ÷ÊäÈë¸º¼«Ñ¡Ôñ, CMP_N_GAP: Ñ¡ÔñÄÚ²¿BandGap¾­¹ýOPºóµÄµçÑ¹×ö¸ºÊäÈë, CMP_N_P36: Ñ¡ÔñP3.6×ö¸ºÊäÈë.
-	if(CMPx->CMP_Outpt_En == ENABLE)		CMPCR1 |= CMPOE;			//ÔÊÐí±È½Ï½á¹ûÊä³öµ½P3.4/P4.1,   ENABLE,DISABLE
-	if(CMPx->CMP_InvCMPO     == ENABLE)		CMPCR2 |= INVCMPO;	//±È½ÏÆ÷Êä³öÈ¡·´, 	ENABLE,DISABLE
-	if(CMPx->CMP_100nsFilter == DISABLE)	CMPCR2 |= DISFLT;		//ÄÚ²¿0.1uFÂË²¨,  	ENABLE,DISABLE
+    CMPCR1 &= 0x30;
+    CMPCR2 = CMPx->CMP_OutDelayDuty & 0x3f;  //æ¯”è¾ƒç»“æžœå˜åŒ–å»¶æ—¶å‘¨æœŸæ•°, 0~63
+    if (CMPx->CMP_EN == ENABLE)
+        CMPCR1 |= CMPEN;  //å…è®¸æ¯”è¾ƒå™¨		ENABLE,DISABLE
+    if (CMPx->CMP_P_Select == CMP_P_ADC)
+        CMPCR1 |= PIS;  //æ¯”è¾ƒå™¨è¾“å…¥æ­£æžé€‰æ‹©, CMP_P_P37: é€‰æ‹©P3.7åšæ­£è¾“å…¥, CMP_P_ADC: ç”±ADCæ¨¡æ‹Ÿè¾“å…¥ç«¯åšæ­£è¾“å…¥.
+    if (CMPx->CMP_N_Select == CMP_N_P36)
+        CMPCR1 |= NIS;  //æ¯”è¾ƒå™¨è¾“å…¥è´Ÿæžé€‰æ‹©, CMP_N_GAP: é€‰æ‹©å†…éƒ¨BandGapç»è¿‡OPåŽçš„ç”µåŽ‹åšè´Ÿè¾“å…¥, CMP_N_P36: é€‰æ‹©P3.6åšè´Ÿè¾“å…¥.
+    if (CMPx->CMP_Outpt_En == ENABLE)
+        CMPCR1 |= CMPOE;  //å…è®¸æ¯”è¾ƒç»“æžœè¾“å‡ºåˆ°P3.4/P4.1,   ENABLE,DISABLE
+    if (CMPx->CMP_InvCMPO == ENABLE)
+        CMPCR2 |= INVCMPO;  //æ¯”è¾ƒå™¨è¾“å‡ºå–å, 	ENABLE,DISABLE
+    if (CMPx->CMP_100nsFilter == DISABLE)
+        CMPCR2 |= DISFLT;  //å†…éƒ¨0.1uFæ»¤æ³¢,  	ENABLE,DISABLE
 }

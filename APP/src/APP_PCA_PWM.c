@@ -7,129 +7,121 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* Èç¹ûÒªÔÚ³ÌĞòÖĞÊ¹ÓÃ´Ë´úÂë,ÇëÔÚ³ÌĞòÖĞ×¢Ã÷Ê¹ÓÃÁËSTCµÄ×ÊÁÏ¼°³ÌĞò            */
+/* å¦‚æœè¦åœ¨ç¨‹åºä¸­ä½¿ç”¨æ­¤ä»£ç ,è¯·åœ¨ç¨‹åºä¸­æ³¨æ˜ä½¿ç”¨äº†STCçš„èµ„æ–™åŠç¨‹åº            */
 /*---------------------------------------------------------------------*/
 
-#include	"APP.h"
-#include	"STC8G_PCA.h"
-#include	"STC8G_H_GPIO.h"
-#include	"STC8G_H_NVIC.h"
+#include "APP.h"
+#include "STC8G_H_GPIO.h"
+#include "STC8G_H_NVIC.h"
+#include "STC8G_PCA.h"
 
-/*************   ¹¦ÄÜËµÃ÷   ***************
+/*************   åŠŸèƒ½è¯´æ˜   ***************
 
-±¾Àı³Ì»ùÓÚSTC8G1K08-20PIN½øĞĞ±àĞ´²âÊÔ£¬STC8GÏµÁĞĞ¾Æ¬¿ÉÍ¨ÓÃ²Î¿¼.
+æœ¬ä¾‹ç¨‹åŸºäºSTC8G1K08-20PINè¿›è¡Œç¼–å†™æµ‹è¯•ï¼ŒSTC8Gç³»åˆ—èŠ¯ç‰‡å¯é€šç”¨å‚è€ƒ.
 
-Êä³ö3Â·±ä»¯µÄPWMĞÅºÅ, ÀàËÆ"ºôÎüµÆ"µÄÇı¶¯.
-PWM0  Îª8Î»PWM.
-PWM1  Îª7Î»PWM.
-PWM2  Îª10Î»PWM.
+è¾“å‡º3è·¯å˜åŒ–çš„PWMä¿¡å·, ç±»ä¼¼"å‘¼å¸ç¯"çš„é©±åŠ¨.
+PWM0  ä¸º8ä½PWM.
+PWM1  ä¸º7ä½PWM.
+PWM2  ä¸º10ä½PWM.
 
-ÏÂÔØÊ±, Ñ¡ÔñÊ±ÖÓ 24MHz (ÓÃ»§¿ÉÔÚ"config.h"ĞŞ¸ÄÆµÂÊ).
+ä¸‹è½½æ—¶, é€‰æ‹©æ—¶é’Ÿ 24MHz (ç”¨æˆ·å¯åœ¨"config.h"ä¿®æ”¹é¢‘ç‡).
 
 ******************************************/
 
-
 //========================================================================
-//                               ±¾µØ³£Á¿ÉùÃ÷	
-//========================================================================
-
-
-//========================================================================
-//                               ±¾µØ±äÁ¿ÉùÃ÷
+//                               æœ¬åœ°å¸¸é‡å£°æ˜
 //========================================================================
 
-static u16	pwm0,pwm1,pwm2;
-static bit	B_PWM0_Dir,B_PWM1_Dir,B_PWM2_Dir;	//·½Ïò, 0Îª+, 1Îª-.
-
 //========================================================================
-//                               ±¾µØº¯ÊıÉùÃ÷
+//                               æœ¬åœ°å˜é‡å£°æ˜
 //========================================================================
 
+static u16 pwm0, pwm1, pwm2;
+static bit B_PWM0_Dir, B_PWM1_Dir, B_PWM2_Dir;  //æ–¹å‘, 0ä¸º+, 1ä¸º-.
 
 //========================================================================
-//                            Íâ²¿º¯ÊıºÍ±äÁ¿ÉùÃ÷
+//                               æœ¬åœ°å‡½æ•°å£°æ˜
 //========================================================================
 
+//========================================================================
+//                            å¤–éƒ¨å‡½æ•°å’Œå˜é‡å£°æ˜
+//========================================================================
 
 //========================================================================
-// º¯Êı: PCA_PWM_init
-// ÃèÊö: ÓÃ»§³õÊ¼»¯³ÌĞò.
-// ²ÎÊı: None.
-// ·µ»Ø: None.
-// °æ±¾: V1.0, 2020-09-28
+// å‡½æ•°: PCA_PWM_init
+// æè¿°: ç”¨æˆ·åˆå§‹åŒ–ç¨‹åº.
+// å‚æ•°: None.
+// è¿”å›: None.
+// ç‰ˆæœ¬: V1.0, 2020-09-28
 //========================================================================
 void PCA_PWM_init(void)
 {
-	PCA_InitTypeDef		PCA_InitStructure;
+    PCA_InitTypeDef PCA_InitStructure;
 
-	P1_MODE_IO_PU(GPIO_Pin_All);		//P1 ÉèÖÃÎª×¼Ë«Ïò¿Ú
-	P3_MODE_IO_PU(GPIO_Pin_7);			//P3.7 ÉèÖÃÎª×¼Ë«Ïò¿Ú
-	//--------------------------------------------
-	PCA_InitStructure.PCA_Clock    = PCA_Clock_1T;		//PCA_Clock_1T, PCA_Clock_2T, PCA_Clock_4T, PCA_Clock_6T, PCA_Clock_8T, PCA_Clock_12T, PCA_Clock_Timer0_OF, PCA_Clock_ECI
-	PCA_InitStructure.PCA_RUN      = DISABLE;				//ENABLE, DISABLE
-	PCA_Init(PCA_Counter,&PCA_InitStructure);			//ÉèÖÃ¹«ÓÃCounter
+    P1_MODE_IO_PU(GPIO_Pin_All);  // P1 è®¾ç½®ä¸ºå‡†åŒå‘å£
+    P3_MODE_IO_PU(GPIO_Pin_7);    // P3.7 è®¾ç½®ä¸ºå‡†åŒå‘å£
+    //--------------------------------------------
+    PCA_InitStructure.PCA_Clock = PCA_Clock_1T;  // PCA_Clock_1T, PCA_Clock_2T, PCA_Clock_4T, PCA_Clock_6T, PCA_Clock_8T, PCA_Clock_12T, PCA_Clock_Timer0_OF, PCA_Clock_ECI
+    PCA_InitStructure.PCA_RUN   = DISABLE;       // ENABLE, DISABLE
+    PCA_Init(PCA_Counter, &PCA_InitStructure);   //è®¾ç½®å…¬ç”¨Counter
 
-	PCA_InitStructure.PCA_PWM_Wide = PCA_PWM_8bit;		//PCA_PWM_8bit, PCA_PWM_7bit, PCA_PWM_6bit, PCA_PWM_10bit
-	PCA_InitStructure.PCA_Value    = 128 << 8;				//¶ÔÓÚPWM,¸ß8Î»ÎªPWMÕ¼¿Õ±È
-	PCA_Init(PCA0,&PCA_InitStructure);
+    PCA_InitStructure.PCA_PWM_Wide = PCA_PWM_8bit;  // PCA_PWM_8bit, PCA_PWM_7bit, PCA_PWM_6bit, PCA_PWM_10bit
+    PCA_InitStructure.PCA_Value    = 128 << 8;      //å¯¹äºPWM,é«˜8ä½ä¸ºPWMå ç©ºæ¯”
+    PCA_Init(PCA0, &PCA_InitStructure);
 
-	PCA_InitStructure.PCA_PWM_Wide = PCA_PWM_7bit;		//PCA_PWM_8bit, PCA_PWM_7bit, PCA_PWM_6bit, PCA_PWM_10bit
-	PCA_InitStructure.PCA_Value    = 64 << 8;					//¶ÔÓÚPWM,¸ß8Î»ÎªPWMÕ¼¿Õ±È
-	PCA_Init(PCA1,&PCA_InitStructure);
+    PCA_InitStructure.PCA_PWM_Wide = PCA_PWM_7bit;  // PCA_PWM_8bit, PCA_PWM_7bit, PCA_PWM_6bit, PCA_PWM_10bit
+    PCA_InitStructure.PCA_Value    = 64 << 8;       //å¯¹äºPWM,é«˜8ä½ä¸ºPWMå ç©ºæ¯”
+    PCA_Init(PCA1, &PCA_InitStructure);
 
-	PCA_InitStructure.PCA_PWM_Wide = PCA_PWM_10bit;		//PCA_PWM_8bit, PCA_PWM_7bit, PCA_PWM_6bit, PCA_PWM_10bit
-	PCA_InitStructure.PCA_Value    = 32 << 8;					//¶ÔÓÚPWM,¸ß8Î»ÎªPWMÕ¼¿Õ±È
-	PCA_Init(PCA2,&PCA_InitStructure);
+    PCA_InitStructure.PCA_PWM_Wide = PCA_PWM_10bit;  // PCA_PWM_8bit, PCA_PWM_7bit, PCA_PWM_6bit, PCA_PWM_10bit
+    PCA_InitStructure.PCA_Value    = 32 << 8;        //å¯¹äºPWM,é«˜8ä½ä¸ºPWMå ç©ºæ¯”
+    PCA_Init(PCA2, &PCA_InitStructure);
 
-	NVIC_PCA_Init(PCA_Counter,PCA_Mode_PWM,Priority_0);
-	NVIC_PCA_Init(PCA0,PCA_Mode_PWM,Priority_0);
-	NVIC_PCA_Init(PCA1,PCA_Mode_PWM,Priority_0);
-	NVIC_PCA_Init(PCA2,PCA_Mode_PWM,Priority_0);
-	CR = 1;							//Æô¶¯PCA
-	//--------------------------------------------
-	pwm0 = 128;
-	pwm1 = 64;
-	pwm2 = 512;
-	B_PWM0_Dir = 0;
-	B_PWM1_Dir = 0;
-	B_PWM2_Dir = 0;
+    NVIC_PCA_Init(PCA_Counter, PCA_Mode_PWM, Priority_0);
+    NVIC_PCA_Init(PCA0, PCA_Mode_PWM, Priority_0);
+    NVIC_PCA_Init(PCA1, PCA_Mode_PWM, Priority_0);
+    NVIC_PCA_Init(PCA2, PCA_Mode_PWM, Priority_0);
+    CR = 1;  //å¯åŠ¨PCA
+    //--------------------------------------------
+    pwm0       = 128;
+    pwm1       = 64;
+    pwm2       = 512;
+    B_PWM0_Dir = 0;
+    B_PWM1_Dir = 0;
+    B_PWM2_Dir = 0;
 
-	UpdatePcaPwm(PCA0,pwm0);
-	UpdatePcaPwm(PCA1,pwm1);
-	UpdatePcaPwm(PCA2,pwm2);
+    UpdatePcaPwm(PCA0, pwm0);
+    UpdatePcaPwm(PCA1, pwm1);
+    UpdatePcaPwm(PCA2, pwm2);
 }
 
-
 //========================================================================
-// º¯Êı: Sample_PCA_PWM
-// ÃèÊö: ÓÃ»§Ó¦ÓÃ³ÌĞò.
-// ²ÎÊı: None.
-// ·µ»Ø: None.
-// °æ±¾: V1.0, 2020-09-28
+// å‡½æ•°: Sample_PCA_PWM
+// æè¿°: ç”¨æˆ·åº”ç”¨ç¨‹åº.
+// å‚æ•°: None.
+// è¿”å›: None.
+// ç‰ˆæœ¬: V1.0, 2020-09-28
 //========================================================================
 void Sample_PCA_PWM(void)
 {
-	if(B_PWM0_Dir)
-	{
-		if(--pwm0 <= 16)	B_PWM0_Dir = 0;	//8Î»PWM
-	}
-	else	if(++pwm0 >= 240)	B_PWM0_Dir = 1;	//8Î»PWM
-	UpdatePcaPwm(PCA0,pwm0);
+    if (B_PWM0_Dir) {
+        if (--pwm0 <= 16)
+            B_PWM0_Dir = 0;  // 8ä½PWM
+    } else if (++pwm0 >= 240)
+        B_PWM0_Dir = 1;  // 8ä½PWM
+    UpdatePcaPwm(PCA0, pwm0);
 
-	if(B_PWM1_Dir)
-	{
-		if(--pwm1 <= 8)		B_PWM1_Dir = 0;	//7Î»PWM
-	}
-	else	if(++pwm1 >= 120)	B_PWM1_Dir = 1;	//7Î»PWM
-	UpdatePcaPwm(PCA1,pwm1);
+    if (B_PWM1_Dir) {
+        if (--pwm1 <= 8)
+            B_PWM1_Dir = 0;  // 7ä½PWM
+    } else if (++pwm1 >= 120)
+        B_PWM1_Dir = 1;  // 7ä½PWM
+    UpdatePcaPwm(PCA1, pwm1);
 
-	if(B_PWM2_Dir)
-	{
-		if(--pwm2 <= 24)		B_PWM2_Dir = 0;	//10Î»PWM
-	}
-	else	if(++pwm2 >= 1000)	B_PWM2_Dir = 1;	//10Î»PWM
-	UpdatePcaPwm(PCA2,pwm2);
+    if (B_PWM2_Dir) {
+        if (--pwm2 <= 24)
+            B_PWM2_Dir = 0;  // 10ä½PWM
+    } else if (++pwm2 >= 1000)
+        B_PWM2_Dir = 1;  // 10ä½PWM
+    UpdatePcaPwm(PCA2, pwm2);
 }
-
-
-

@@ -7,218 +7,226 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* Èç¹ûÒªÔÚ³ÌÐòÖÐÊ¹ÓÃ´Ë´úÂë,ÇëÔÚ³ÌÐòÖÐ×¢Ã÷Ê¹ÓÃÁËSTCµÄ×ÊÁÏ¼°³ÌÐò            */
+/* å¦‚æžœè¦åœ¨ç¨‹åºä¸­ä½¿ç”¨æ­¤ä»£ç ,è¯·åœ¨ç¨‹åºä¸­æ³¨æ˜Žä½¿ç”¨äº†STCçš„èµ„æ–™åŠç¨‹åº            */
 /*---------------------------------------------------------------------*/
 
-#include	"APP.h"
-#include	"STC8G_H_EEPROM.h"
-#include	"STC8G_H_UART.h"
-#include	"STC8G_H_NVIC.h"
+#include "APP.h"
+#include "STC8G_H_EEPROM.h"
+#include "STC8G_H_NVIC.h"
+#include "STC8G_H_UART.h"
 
-/*************	±¾³ÌÐò¹¦ÄÜËµÃ÷	**************
+/*************	æœ¬ç¨‹åºåŠŸèƒ½è¯´æ˜Ž	**************
 
-±¾Àý³Ì»ùÓÚSTC8H8K64UÎªÖ÷¿ØÐ¾Æ¬µÄÊµÑéÏä8½øÐÐ±àÐ´²âÊÔ£¬STC8G¡¢STC8HÏµÁÐÐ¾Æ¬¿ÉÍ¨ÓÃ²Î¿¼.
+æœ¬ä¾‹ç¨‹åŸºäºŽSTC8H8K64Uä¸ºä¸»æŽ§èŠ¯ç‰‡çš„å®žéªŒç®±8è¿›è¡Œç¼–å†™æµ‹è¯•ï¼ŒSTC8Gã€STC8Hç³»åˆ—èŠ¯ç‰‡å¯é€šç”¨å‚è€ƒ.
 
-Í¨¹ý´®¿Ú¶ÔSTCÄÚ²¿×Ô´øµÄEEPROM(FLASH)½øÐÐ¶ÁÐ´²âÊÔ¡£
+é€šè¿‡ä¸²å£å¯¹STCå†…éƒ¨è‡ªå¸¦çš„EEPROM(FLASH)è¿›è¡Œè¯»å†™æµ‹è¯•ã€‚
 
-¶ÔFLASH×öÉÈÇø²Á³ý¡¢Ð´Èë¡¢¶Á³öµÄ²Ù×÷£¬ÃüÁîÖ¸¶¨µØÖ·¡£
+å¯¹FLASHåšæ‰‡åŒºæ“¦é™¤ã€å†™å…¥ã€è¯»å‡ºçš„æ“ä½œï¼Œå‘½ä»¤æŒ‡å®šåœ°å€ã€‚
 
-Ä¬ÈÏ²¨ÌØÂÊ:  115200,N,8,1. 
+é»˜è®¤æ³¢ç‰¹çŽ‡:  115200,N,8,1.
 
-´®¿ÚÃüÁîÉèÖÃ: (ÃüÁî×ÖÄ¸²»Çø·Ö´óÐ¡Ð´)
-    E 0x0040             --> ¶Ô0x0040µØÖ·ÉÈÇøÄÚÈÝ½øÐÐ²Á³ý.
-    W 0x0040 1234567890  --> ¶Ô0x0040µØÖ·Ð´Èë×Ö·û1234567890.
-    R 0x0040 10          --> ¶Ô0x0040µØÖ·¶Á³ö10¸ö×Ö½ÚÊý¾Ý. 
+ä¸²å£å‘½ä»¤è®¾ç½®: (å‘½ä»¤å­—æ¯ä¸åŒºåˆ†å¤§å°å†™)
+    E 0x0040             --> å¯¹0x0040åœ°å€æ‰‡åŒºå†…å®¹è¿›è¡Œæ“¦é™¤.
+    W 0x0040 1234567890  --> å¯¹0x0040åœ°å€å†™å…¥å­—ç¬¦1234567890.
+    R 0x0040 10          --> å¯¹0x0040åœ°å€è¯»å‡º10ä¸ªå­—èŠ‚æ•°æ®.
 
-×¢Òâ£ºÏÂÔØÊ±£¬ÏÂÔØ½çÃæ"Ó²¼þÑ¡Ïî"ÖÐÉèÖÃÓÃ»§EEPROM´óÐ¡£¬
+æ³¨æ„ï¼šä¸‹è½½æ—¶ï¼Œä¸‹è½½ç•Œé¢"ç¡¬ä»¶é€‰é¡¹"ä¸­è®¾ç½®ç”¨æˆ·EEPROMå¤§å°ï¼Œ
 
-²¢È·±£´®¿ÚÃüÁîÖÐµÄµØÖ·ÔÚEEPROMÉèÖÃµÄ´óÐ¡·¶Î§Ö®ÄÚ¡£
+å¹¶ç¡®ä¿ä¸²å£å‘½ä»¤ä¸­çš„åœ°å€åœ¨EEPROMè®¾ç½®çš„å¤§å°èŒƒå›´ä¹‹å†…ã€‚
 
-ÏÂÔØÊ±, Ñ¡ÔñÊ±ÖÓ 22.1184MHz (¿ÉÒÔÔÚÅäÖÃÎÄ¼þ"config.h"ÖÐÐÞ¸Ä).
+ä¸‹è½½æ—¶, é€‰æ‹©æ—¶é’Ÿ 22.1184MHz (å¯ä»¥åœ¨é…ç½®æ–‡ä»¶"config.h"ä¸­ä¿®æ”¹).
 
 ******************************************/
 
-
 //========================================================================
-//                               ±¾µØ³£Á¿ÉùÃ÷	
-//========================================================================
-
-#define     Max_Length       100    //¶ÁÐ´EEPROM»º³å³¤¶È
-
-//========================================================================
-//                               ±¾µØ±äÁ¿ÉùÃ÷
+//                               æœ¬åœ°å¸¸é‡å£°æ˜Ž
 //========================================================================
 
-u8  xdata   tmp[Max_Length];        //EEPROM²Ù×÷»º³å
+#define Max_Length 100  //è¯»å†™EEPROMç¼“å†²é•¿åº¦
 
 //========================================================================
-//                               ±¾µØº¯ÊýÉùÃ÷
+//                               æœ¬åœ°å˜é‡å£°æ˜Ž
 //========================================================================
 
+u8 xdata tmp[Max_Length];  // EEPROMæ“ä½œç¼“å†²
 
 //========================================================================
-//                            Íâ²¿º¯ÊýºÍ±äÁ¿ÉùÃ÷
+//                               æœ¬åœ°å‡½æ•°å£°æ˜Ž
 //========================================================================
 
+//========================================================================
+//                            å¤–éƒ¨å‡½æ•°å’Œå˜é‡å£°æ˜Ž
+//========================================================================
 
 //========================================================================
-// º¯Êý: EEPROM_init
-// ÃèÊö: ÓÃ»§³õÊ¼»¯³ÌÐò.
-// ²ÎÊý: None.
-// ·µ»Ø: None.
-// °æ±¾: V1.0, 2020-09-28
+// å‡½æ•°: EEPROM_init
+// æè¿°: ç”¨æˆ·åˆå§‹åŒ–ç¨‹åº.
+// å‚æ•°: None.
+// è¿”å›ž: None.
+// ç‰ˆæœ¬: V1.0, 2020-09-28
 //========================================================================
 void EEPROM_init(void)
 {
-	COMx_InitDefine		COMx_InitStructure;					//½á¹¹¶¨Òå
+    COMx_InitDefine COMx_InitStructure;  //ç»“æž„å®šä¹‰
 
-	COMx_InitStructure.UART_Mode      = UART_8bit_BRTx;	//Ä£Ê½, UART_ShiftRight,UART_8bit_BRTx,UART_9bit,UART_9bit_BRTx
-	COMx_InitStructure.UART_BRT_Use   = BRT_Timer1;			//Ê¹ÓÃ²¨ÌØÂÊ, BRT_Timer1, BRT_Timer2 (×¢Òâ: ´®¿Ú2¹Ì¶¨Ê¹ÓÃBRT_Timer2)
-	COMx_InitStructure.UART_BaudRate  = 115200ul;			//²¨ÌØÂÊ, Ò»°ã 110 ~ 115200
-	COMx_InitStructure.UART_RxEnable  = ENABLE;				//½ÓÊÕÔÊÐí,   ENABLE»òDISABLE
-	COMx_InitStructure.BaudRateDouble = DISABLE;			//²¨ÌØÂÊ¼Ó±¶, ENABLE»òDISABLE
-	UART_Configuration(UART1, &COMx_InitStructure);		//³õÊ¼»¯´®¿Ú1 UART1,UART2,UART3,UART4
-	NVIC_UART1_Init(ENABLE,Priority_1);		//ÖÐ¶ÏÊ¹ÄÜ, ENABLE/DISABLE; ÓÅÏÈ¼¶(µÍµ½¸ß) Priority_0,Priority_1,Priority_2,Priority_3
+    COMx_InitStructure.UART_Mode      = UART_8bit_BRTx;  //æ¨¡å¼, UART_ShiftRight,UART_8bit_BRTx,UART_9bit,UART_9bit_BRTx
+    COMx_InitStructure.UART_BRT_Use   = BRT_Timer1;      //ä½¿ç”¨æ³¢ç‰¹çŽ‡, BRT_Timer1, BRT_Timer2 (æ³¨æ„: ä¸²å£2å›ºå®šä½¿ç”¨BRT_Timer2)
+    COMx_InitStructure.UART_BaudRate  = 115200ul;        //æ³¢ç‰¹çŽ‡, ä¸€èˆ¬ 110 ~ 115200
+    COMx_InitStructure.UART_RxEnable  = ENABLE;          //æŽ¥æ”¶å…è®¸,   ENABLEæˆ–DISABLE
+    COMx_InitStructure.BaudRateDouble = DISABLE;         //æ³¢ç‰¹çŽ‡åŠ å€, ENABLEæˆ–DISABLE
+    UART_Configuration(UART1, &COMx_InitStructure);      //åˆå§‹åŒ–ä¸²å£1 UART1,UART2,UART3,UART4
+    NVIC_UART1_Init(ENABLE, Priority_1);                 //ä¸­æ–­ä½¿èƒ½, ENABLE/DISABLE; ä¼˜å…ˆçº§(ä½Žåˆ°é«˜) Priority_0,Priority_1,Priority_2,Priority_3
 
-	PrintString1("STC8ÏµÁÐµ¥Æ¬»úEEPROM²âÊÔ³ÌÐò£¬´®¿ÚÃüÁîÉèÖÃÈçÏÂ:\r\n");    //UART1·¢ËÍÒ»¸ö×Ö·û´®
-	PrintString1("E 0x0040             --> ¶Ô0x0040µØÖ·ÉÈÇøÄÚÈÝ½øÐÐ²Á³ý.\r\n");     //UART1·¢ËÍÒ»¸ö×Ö·û´®
-	PrintString1("W 0x0040 1234567890  --> ¶Ô0x0040µØÖ·Ð´Èë×Ö·û1234567890.\r\n");  //UART1·¢ËÍÒ»¸ö×Ö·û´®
-	PrintString1("R 0x0040 10          --> ¶Ô0x0040µØÖ·¶Á³ö10¸ö×Ö½ÚÄÚÈÝ.\r\n");    //UART1·¢ËÍÒ»¸ö×Ö·û´®
+    PrintString1("STC8ç³»åˆ—å•ç‰‡æœºEEPROMæµ‹è¯•ç¨‹åºï¼Œä¸²å£å‘½ä»¤è®¾ç½®å¦‚ä¸‹:\r\n");           // UART1å‘é€ä¸€ä¸ªå­—ç¬¦ä¸²
+    PrintString1("E 0x0040             --> å¯¹0x0040åœ°å€æ‰‡åŒºå†…å®¹è¿›è¡Œæ“¦é™¤.\r\n");    // UART1å‘é€ä¸€ä¸ªå­—ç¬¦ä¸²
+    PrintString1("W 0x0040 1234567890  --> å¯¹0x0040åœ°å€å†™å…¥å­—ç¬¦1234567890.\r\n");  // UART1å‘é€ä¸€ä¸ªå­—ç¬¦ä¸²
+    PrintString1("R 0x0040 10          --> å¯¹0x0040åœ°å€è¯»å‡º10ä¸ªå­—èŠ‚å†…å®¹.\r\n");    // UART1å‘é€ä¸€ä¸ªå­—ç¬¦ä¸²
 }
 
 //========================================================================
-// º¯Êý: CheckData
-// ÃèÊö: Êý¾ÝÐ£Ñéº¯Êý.
-// ²ÎÊý: None.
-// ·µ»Ø: None.
-// °æ±¾: V1.0, 2020-09-28
+// å‡½æ•°: CheckData
+// æè¿°: æ•°æ®æ ¡éªŒå‡½æ•°.
+// å‚æ•°: None.
+// è¿”å›ž: None.
+// ç‰ˆæœ¬: V1.0, 2020-09-28
 //========================================================================
-u8	CheckData(u8 dat)
+u8 CheckData(u8 dat)
 {
-	if((dat >= '0') && (dat <= '9'))		return (dat-'0');
-	if((dat >= 'A') && (dat <= 'F'))		return (dat-'A'+10);
-	if((dat >= 'a') && (dat <= 'f'))		return (dat-'a'+10);
-	return 0xff;
+    if ((dat >= '0') && (dat <= '9'))
+        return (dat - '0');
+    if ((dat >= 'A') && (dat <= 'F'))
+        return (dat - 'A' + 10);
+    if ((dat >= 'a') && (dat <= 'f'))
+        return (dat - 'a' + 10);
+    return 0xff;
 }
 
 //========================================================================
-// º¯Êý: GetAddress
-// ÃèÊö: ¼ÆËã¸÷ÖÖÊäÈë·½Ê½µÄµØÖ·.
-// ²ÎÊý: ÎÞ.
-// ·µ»Ø: 16Î»EEPROMµØÖ·.
-// °æ±¾: V1.0, 2013-6-6
+// å‡½æ•°: GetAddress
+// æè¿°: è®¡ç®—å„ç§è¾“å…¥æ–¹å¼çš„åœ°å€.
+// å‚æ•°: æ— .
+// è¿”å›ž: 16ä½EEPROMåœ°å€.
+// ç‰ˆæœ¬: V1.0, 2013-6-6
 //========================================================================
 u16 GetAddress(void)
 {
-	u16 address;
-	u8  i,j;
-	
-	address = 0;
-	if((RX1_Buffer[2] == '0') && (RX1_Buffer[3] == 'X'))
-	{
-		for(i=4; i<8; i++)
-		{
-			j = CheckData(RX1_Buffer[i]);
-			if(j >= 0x10)   return 65535;   //error
-			address = (address << 4) + j;
-		}
-		return (address);
-	}
-	return  65535;  //error
+    u16 address;
+    u8  i, j;
+
+    address = 0;
+    if ((RX1_Buffer[2] == '0') && (RX1_Buffer[3] == 'X')) {
+        for (i = 4; i < 8; i++) {
+            j = CheckData(RX1_Buffer[i]);
+            if (j >= 0x10)
+                return 65535;  // error
+            address = (address << 4) + j;
+        }
+        return (address);
+    }
+    return 65535;  // error
 }
 
 //========================================================================
-// º¯Êý: GetDataLength
-// ÃèÊö: »ñÈ¡Òª¶Á³öÊý¾ÝµÄ×Ö½ÚÊý.
-// ²ÎÊý: ÎÞ.
-// ·µ»Ø: 1Òª¶Á³öÊý¾ÝµÄ×Ö½ÚÊý.
-// °æ±¾: V1.0, 2013-6-6
+// å‡½æ•°: GetDataLength
+// æè¿°: èŽ·å–è¦è¯»å‡ºæ•°æ®çš„å­—èŠ‚æ•°.
+// å‚æ•°: æ— .
+// è¿”å›ž: 1è¦è¯»å‡ºæ•°æ®çš„å­—èŠ‚æ•°.
+// ç‰ˆæœ¬: V1.0, 2013-6-6
 //========================================================================
 u8 GetDataLength(void)
 {
-	u8  i;
-	u8  length;
-	
-	length = 0;
-	for(i=9; i<COM1.RX_Cnt; i++)
-	{
-		if(CheckData(RX1_Buffer[i]) >= 10)  break;
-		length = length * 10 + CheckData(RX1_Buffer[i]);
-	}
-	return (length);
+    u8 i;
+    u8 length;
+
+    length = 0;
+    for (i = 9; i < COM1.RX_Cnt; i++) {
+        if (CheckData(RX1_Buffer[i]) >= 10)
+            break;
+        length = length * 10 + CheckData(RX1_Buffer[i]);
+    }
+    return (length);
 }
 
 //========================================================================
-// º¯Êý: Sample_EEPROM
-// ÃèÊö: ÓÃ»§Ó¦ÓÃ³ÌÐò.
-// ²ÎÊý: None.
-// ·µ»Ø: None.
-// °æ±¾: V1.0, 2020-09-28
+// å‡½æ•°: Sample_EEPROM
+// æè¿°: ç”¨æˆ·åº”ç”¨ç¨‹åº.
+// å‚æ•°: None.
+// è¿”å›ž: None.
+// ç‰ˆæœ¬: V1.0, 2020-09-28
 //========================================================================
 void Sample_EEPROM(void)
 {
-	u8  i,j;
-	u16 addr;
-	u8  status;
+    u8  i, j;
+    u16 addr;
+    u8  status;
 
-	if(COM1.RX_TimeOut > 0)		//³¬Ê±¼ÆÊý
-	{
-		if(--COM1.RX_TimeOut == 0)
-		{
-			for(i=0; i<COM1.RX_Cnt; i++)    TX1_write2buff(RX1_Buffer[i]);    //°ÑÊÕµ½µÄÊý¾ÝÔ­Ñù·µ»Ø,ÓÃÓÚ²âÊÔ
+    if (COM1.RX_TimeOut > 0)  //è¶…æ—¶è®¡æ•°
+    {
+        if (--COM1.RX_TimeOut == 0) {
+            for (i = 0; i < COM1.RX_Cnt; i++)
+                TX1_write2buff(RX1_Buffer[i]);  //æŠŠæ”¶åˆ°çš„æ•°æ®åŽŸæ ·è¿”å›ž,ç”¨äºŽæµ‹è¯•
 
-			status = 0xff;  //×´Ì¬¸øÒ»¸ö·Ç0Öµ
-			if((COM1.RX_Cnt >= 8) && (RX1_Buffer[1] == ' ')) //×î¶ÌÃüÁîÎª8¸ö×Ö½Ú
-			{
-				for(i=0; i<8; i++)
-				{
-					if((RX1_Buffer[i] >= 'a') && (RX1_Buffer[i] <= 'z'))    RX1_Buffer[i] = RX1_Buffer[i] - 'a' + 'A';  //Ð¡Ð´×ª´óÐ´
-				}
-				addr = GetAddress();
-				if(addr < 63488)    //ÏÞÖÆÔÚ0~123ÉÈÇø
-				{
-					if(RX1_Buffer[0] == 'E')    //Ð´ÈëN¸ö×Ö½Ú
-					{
-						EEPROM_SectorErase(addr);           //²Á³ýÉÈÇø
-						PrintString1("²Á³ý³É¹¦£¡\r\n");
-						status = 0; //ÃüÁîÕýÈ·
-					}
+            status = 0xff;                                     //çŠ¶æ€ç»™ä¸€ä¸ªéž0å€¼
+            if ((COM1.RX_Cnt >= 8) && (RX1_Buffer[1] == ' '))  //æœ€çŸ­å‘½ä»¤ä¸º8ä¸ªå­—èŠ‚
+            {
+                for (i = 0; i < 8; i++) {
+                    if ((RX1_Buffer[i] >= 'a') && (RX1_Buffer[i] <= 'z'))
+                        RX1_Buffer[i] = RX1_Buffer[i] - 'a' + 'A';  //å°å†™è½¬å¤§å†™
+                }
+                addr = GetAddress();
+                if (addr < 63488)  //é™åˆ¶åœ¨0~123æ‰‡åŒº
+                {
+                    if (RX1_Buffer[0] == 'E')  //å†™å…¥Nä¸ªå­—èŠ‚
+                    {
+                        EEPROM_SectorErase(addr);  //æ“¦é™¤æ‰‡åŒº
+                        PrintString1("æ“¦é™¤æˆåŠŸï¼\r\n");
+                        status = 0;  //å‘½ä»¤æ­£ç¡®
+                    }
 
-					else if((RX1_Buffer[0] == 'W') && (RX1_Buffer[8] == ' '))    //Ð´ÈëN¸ö×Ö½Ú
-					{
-						j = COM1.RX_Cnt - 9;
-						if(j > Max_Length)  j = Max_Length; //Ô½½ç¼ì²â
-						//EEPROM_SectorErase(addr);           //²Á³ýÉÈÇø
-						EEPROM_write_n(addr,&RX1_Buffer[9],j);      //Ð´N¸ö×Ö½Ú
-						PrintString1("ÒÑÐ´Èë");
-						if(j >= 100)    {TX1_write2buff(j/100+'0');   j = j % 100;}
-						if(j >= 10)     {TX1_write2buff(j/10+'0');    j = j % 10;}
-						TX1_write2buff(j%10+'0');
-						PrintString1("×Ö½Ú£¡\r\n");
-						status = 0; //ÃüÁîÕýÈ·
-					}
+                    else if ((RX1_Buffer[0] == 'W') && (RX1_Buffer[8] == ' '))  //å†™å…¥Nä¸ªå­—èŠ‚
+                    {
+                        j = COM1.RX_Cnt - 9;
+                        if (j > Max_Length)
+                            j = Max_Length;  //è¶Šç•Œæ£€æµ‹
+                        // EEPROM_SectorErase(addr);           //æ“¦é™¤æ‰‡åŒº
+                        EEPROM_write_n(addr, &RX1_Buffer[9], j);  //å†™Nä¸ªå­—èŠ‚
+                        PrintString1("å·²å†™å…¥");
+                        if (j >= 100) {
+                            TX1_write2buff(j / 100 + '0');
+                            j = j % 100;
+                        }
+                        if (j >= 10) {
+                            TX1_write2buff(j / 10 + '0');
+                            j = j % 10;
+                        }
+                        TX1_write2buff(j % 10 + '0');
+                        PrintString1("å­—èŠ‚ï¼\r\n");
+                        status = 0;  //å‘½ä»¤æ­£ç¡®
+                    }
 
-					else if((RX1_Buffer[0] == 'R') && (RX1_Buffer[8] == ' '))   //PCÇëÇó·µ»ØN×Ö½ÚEEPROMÊý¾Ý
-					{
-						j = GetDataLength();
-						if(j > Max_Length)  j = Max_Length; //Ô½½ç¼ì²â
-						if(j > 0)
-						{
-							PrintString1("¶Á³ö");
-							TX1_write2buff(j/10+'0');
-							TX1_write2buff(j%10+'0');
-							PrintString1("¸ö×Ö½ÚÄÚÈÝÈçÏÂ£º\r\n");
-							EEPROM_read_n(addr,tmp,j);
-							for(i=0; i<j; i++)  TX1_write2buff(tmp[i]);
-							TX1_write2buff(0x0d);
-							TX1_write2buff(0x0a);
-							status = 0; //ÃüÁîÕýÈ·
-						}
-					}
-				}
-			}
-			if(status != 0) PrintString1("ÃüÁî´íÎó£¡\r\n");
-			COM1.RX_Cnt = 0;
-		}
-	}
+                    else if ((RX1_Buffer[0] == 'R') && (RX1_Buffer[8] == ' '))  // PCè¯·æ±‚è¿”å›žNå­—èŠ‚EEPROMæ•°æ®
+                    {
+                        j = GetDataLength();
+                        if (j > Max_Length)
+                            j = Max_Length;  //è¶Šç•Œæ£€æµ‹
+                        if (j > 0) {
+                            PrintString1("è¯»å‡º");
+                            TX1_write2buff(j / 10 + '0');
+                            TX1_write2buff(j % 10 + '0');
+                            PrintString1("ä¸ªå­—èŠ‚å†…å®¹å¦‚ä¸‹ï¼š\r\n");
+                            EEPROM_read_n(addr, tmp, j);
+                            for (i = 0; i < j; i++)
+                                TX1_write2buff(tmp[i]);
+                            TX1_write2buff(0x0d);
+                            TX1_write2buff(0x0a);
+                            status = 0;  //å‘½ä»¤æ­£ç¡®
+                        }
+                    }
+                }
+            }
+            if (status != 0)
+                PrintString1("å‘½ä»¤é”™è¯¯ï¼\r\n");
+            COM1.RX_Cnt = 0;
+        }
+    }
 }

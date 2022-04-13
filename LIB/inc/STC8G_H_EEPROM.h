@@ -7,53 +7,51 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* Èç¹ûÒªÔÚ³ÌĞòÖĞÊ¹ÓÃ´Ë´úÂë,ÇëÔÚ³ÌĞòÖĞ×¢Ã÷Ê¹ÓÃÁËSTCµÄ×ÊÁÏ¼°³ÌĞò            */
+/* å¦‚æœè¦åœ¨ç¨‹åºä¸­ä½¿ç”¨æ­¤ä»£ç ,è¯·åœ¨ç¨‹åºä¸­æ³¨æ˜ä½¿ç”¨äº†STCçš„èµ„æ–™åŠç¨‹åº            */
 /*---------------------------------------------------------------------*/
 
-#ifndef	__EEPROM_H
-#define	__EEPROM_H
+#ifndef __EEPROM_H
+#define __EEPROM_H
 
-#include	"config.h"
+#include "config.h"
 
 //========================================================================
-//                              ¶¨ÒåÉùÃ÷
+//                              å®šä¹‰å£°æ˜
 //========================================================================
 
-#define		STC8X1K08	8
-#define		STC8X1K16	16
-#define		STC8XxK32	32
-#define		STC8XxK60	60
+#define STC8X1K08 8
+#define STC8X1K16 16
+#define STC8XxK32 32
+#define STC8XxK60 60
 
-//	Ñ¡ÔñMCUĞÍºÅ
-#define	MCU_Type	STC8X1K08  //STC8X1K08, STC8X1K16, STC8XxK32, STC8XxK32, STC8XxK60
+//	é€‰æ‹©MCUå‹å·
+#define MCU_Type STC8X1K08  // STC8X1K08, STC8X1K16, STC8XxK32, STC8XxK32, STC8XxK60
 
 /************************** ISP/IAP *****************************
 
-   ĞÍºÅ    ´óĞ¡  ÉÈÇøÊı  ¿ªÊ¼µØÖ·    ½áÊøµØÖ·   MOVC¶ÁÆ«ÒÆµØÖ·
-STC8X1K08   4K   8ÉÈÇø   0x0000  ~  0x0FFF       0x2000
-STC8X1K16  12K   24ÉÈÇø  0x0000  ~  0x2FFF       0x4000
-STC8XxK32  32K   64ÉÈÇø  0x0000  ~  0x7FFF       0x8000
-STC8XxK60   4K   8ÉÈÇø   0x0000  ~  0x0FFF       0xF000
+   å‹å·    å¤§å°  æ‰‡åŒºæ•°  å¼€å§‹åœ°å€    ç»“æŸåœ°å€   MOVCè¯»åç§»åœ°å€
+STC8X1K08   4K   8æ‰‡åŒº   0x0000  ~  0x0FFF       0x2000
+STC8X1K16  12K   24æ‰‡åŒº  0x0000  ~  0x2FFF       0x4000
+STC8XxK32  32K   64æ‰‡åŒº  0x0000  ~  0x7FFF       0x8000
+STC8XxK60   4K   8æ‰‡åŒº   0x0000  ~  0x0FFF       0xF000
 
 */
 
-#if   (MCU_Type == STC8X1K08)
-      #define   MOVC_ShiftAddress    0x2000
+#if (MCU_Type == STC8X1K08)
+#define MOVC_ShiftAddress 0x2000
 #elif (MCU_Type == STC8X1K16)
-      #define   MOVC_ShiftAddress    0x4000
+#define MOVC_ShiftAddress 0x4000
 #elif (MCU_Type == STC8XxK32)
-      #define   MOVC_ShiftAddress    0x8000
+#define MOVC_ShiftAddress 0x8000
 #elif (MCU_Type == STC8XxK60)
-      #define   MOVC_ShiftAddress    0xF000
+#define MOVC_ShiftAddress 0xF000
 #else
-      #define   MOVC_ShiftAddress    0xC000		//ÓÃ»§×Ô¶¨Òå
+#define MOVC_ShiftAddress 0xC000  //ç”¨æˆ·è‡ªå®šä¹‰
 #endif
 
-
-void	DisableEEPROM(void);
-void 	EEPROM_read_n(u16 EE_address,u8 *DataAddress,u16 number);
-void 	EEPROM_write_n(u16 EE_address,u8 *DataAddress,u16 number);
-void	EEPROM_SectorErase(u16 EE_address);
-
+void DisableEEPROM(void);
+void EEPROM_read_n(u16 EE_address, u8 *DataAddress, u16 number);
+void EEPROM_write_n(u16 EE_address, u8 *DataAddress, u16 number);
+void EEPROM_SectorErase(u16 EE_address);
 
 #endif

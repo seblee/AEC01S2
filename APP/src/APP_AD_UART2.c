@@ -7,112 +7,103 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* Èç¹ûÒªÔÚ³ÌÐòÖÐÊ¹ÓÃ´Ë´úÂë,ÇëÔÚ³ÌÐòÖÐ×¢Ã÷Ê¹ÓÃÁËSTCµÄ×ÊÁÏ¼°³ÌÐò            */
+/* å¦‚æžœè¦åœ¨ç¨‹åºä¸­ä½¿ç”¨æ­¤ä»£ç ,è¯·åœ¨ç¨‹åºä¸­æ³¨æ˜Žä½¿ç”¨äº†STCçš„èµ„æ–™åŠç¨‹åº            */
 /*---------------------------------------------------------------------*/
 
-#include	"APP_AD_UART2.h"
-#include	"STC8G_H_GPIO.h"
-#include	"STC8G_H_ADC.h"
-#include	"STC8G_H_UART.h"
-#include	"STC8G_H_NVIC.h"
+#include "APP_AD_UART2.h"
+#include "STC8G_H_ADC.h"
+#include "STC8G_H_GPIO.h"
+#include "STC8G_H_NVIC.h"
+#include "STC8G_H_UART.h"
 
+/*************	åŠŸèƒ½è¯´æ˜Ž	**************
 
-/*************	¹¦ÄÜËµÃ÷	**************
+æœ¬ä¾‹ç¨‹åŸºäºŽSTC8H8K64Uä¸ºä¸»æŽ§èŠ¯ç‰‡çš„å®žéªŒç®±8è¿›è¡Œç¼–å†™æµ‹è¯•ï¼ŒSTC8Gã€STC8Hç³»åˆ—èŠ¯ç‰‡å¯é€šç”¨å‚è€ƒ.
 
-±¾Àý³Ì»ùÓÚSTC8H8K64UÎªÖ÷¿ØÐ¾Æ¬µÄÊµÑéÏä8½øÐÐ±àÐ´²âÊÔ£¬STC8G¡¢STC8HÏµÁÐÐ¾Æ¬¿ÉÍ¨ÓÃ²Î¿¼.
+æœ¬ç¨‹åºæ¼”ç¤ºå¤šè·¯ADCæŸ¥è¯¢é‡‡æ ·ï¼Œé€šè¿‡ä¸²å£2å‘é€ç»™ä¸Šä½æœºï¼Œæ³¢ç‰¹çŽ‡115200,N,8,1ã€‚
 
-±¾³ÌÐòÑÝÊ¾¶àÂ·ADC²éÑ¯²ÉÑù£¬Í¨¹ý´®¿Ú2·¢ËÍ¸øÉÏÎ»»ú£¬²¨ÌØÂÊ115200,N,8,1¡£
+ç”¨å®šæ—¶å™¨åšæ³¢ç‰¹çŽ‡å‘ç”Ÿå™¨ï¼Œå»ºè®®ä½¿ç”¨1Tæ¨¡å¼(é™¤éžä½Žæ³¢ç‰¹çŽ‡ç”¨12T)ï¼Œå¹¶é€‰æ‹©å¯è¢«æ³¢ç‰¹çŽ‡æ•´é™¤çš„æ—¶é’Ÿé¢‘çŽ‡ï¼Œä»¥æé«˜ç²¾åº¦ã€‚
 
-ÓÃ¶¨Ê±Æ÷×ö²¨ÌØÂÊ·¢ÉúÆ÷£¬½¨ÒéÊ¹ÓÃ1TÄ£Ê½(³ý·ÇµÍ²¨ÌØÂÊÓÃ12T)£¬²¢Ñ¡Ôñ¿É±»²¨ÌØÂÊÕû³ýµÄÊ±ÖÓÆµÂÊ£¬ÒÔÌá¸ß¾«¶È¡£
-
-ÏÂÔØÊ±, Ñ¡ÔñÊ±ÖÓ 22.1184MHz (¿ÉÒÔÔÚÅäÖÃÎÄ¼þ"config.h"ÖÐÐÞ¸Ä).
+ä¸‹è½½æ—¶, é€‰æ‹©æ—¶é’Ÿ 22.1184MHz (å¯ä»¥åœ¨é…ç½®æ–‡ä»¶"config.h"ä¸­ä¿®æ”¹).
 
 ******************************************/
 
+//========================================================================
+//                               æœ¬åœ°å¸¸é‡å£°æ˜Ž
+//========================================================================
 
 //========================================================================
-//                               ±¾µØ³£Á¿ÉùÃ÷	
-//========================================================================
-
-
-//========================================================================
-//                               ±¾µØ±äÁ¿ÉùÃ÷
+//                               æœ¬åœ°å˜é‡å£°æ˜Ž
 //========================================================================
 
 u8 index = 0;
 
 //========================================================================
-//                               ±¾µØº¯ÊýÉùÃ÷
+//                               æœ¬åœ°å‡½æ•°å£°æ˜Ž
 //========================================================================
 
+//========================================================================
+//                            å¤–éƒ¨å‡½æ•°å’Œå˜é‡å£°æ˜Ž
+//========================================================================
 
 //========================================================================
-//                            Íâ²¿º¯ÊýºÍ±äÁ¿ÉùÃ÷
-//========================================================================
-
-
-//========================================================================
-// º¯Êý: ADtoUART_init
-// ÃèÊö: ÓÃ»§³õÊ¼»¯³ÌÐò.
-// ²ÎÊý: None.
-// ·µ»Ø: None.
-// °æ±¾: V1.0, 2020-09-28
+// å‡½æ•°: ADtoUART_init
+// æè¿°: ç”¨æˆ·åˆå§‹åŒ–ç¨‹åº.
+// å‚æ•°: None.
+// è¿”å›ž: None.
+// ç‰ˆæœ¬: V1.0, 2020-09-28
 //========================================================================
 void ADtoUART_init(void)
 {
-	ADC_InitTypeDef		ADC_InitStructure;		//½á¹¹¶¨Òå
-	COMx_InitDefine		COMx_InitStructure;					//½á¹¹¶¨Òå
+    ADC_InitTypeDef ADC_InitStructure;   //ç»“æž„å®šä¹‰
+    COMx_InitDefine COMx_InitStructure;  //ç»“æž„å®šä¹‰
 
-	P1_MODE_IN_HIZ(GPIO_Pin_LOW);		//P1.0~P1.3 ÉèÖÃÎª¸ß×èÊäÈë
-	P4_MODE_IO_PU(GPIO_Pin_6 | GPIO_Pin_7);	//P4.6,P4.7 ÉèÖÃÎª×¼Ë«Ïò¿Ú
-	
-	COMx_InitStructure.UART_Mode      = UART_8bit_BRTx;		//Ä£Ê½,   UART_ShiftRight,UART_8bit_BRTx,UART_9bit,UART_9bit_BRTx
-//	COMx_InitStructure.UART_BRT_Use   = BRT_Timer2;			//Ñ¡Ôñ²¨ÌØÂÊ·¢ÉúÆ÷, BRT_Timer2 (×¢Òâ: ´®¿Ú2¹Ì¶¨Ê¹ÓÃBRT_Timer2, ËùÒÔ²»ÓÃÑ¡Ôñ)
-	COMx_InitStructure.UART_BaudRate  = 115200ul;			//²¨ÌØÂÊ,     110 ~ 115200
-	COMx_InitStructure.UART_RxEnable  = ENABLE;				//½ÓÊÕÔÊÐí,   ENABLE»òDISABLE
-	UART_Configuration(UART2, &COMx_InitStructure);		//³õÊ¼»¯´®¿Ú2 USART1,USART2,USART3,USART4
-	NVIC_UART2_Init(ENABLE,Priority_1);		//ÖÐ¶ÏÊ¹ÄÜ, ENABLE/DISABLE; ÓÅÏÈ¼¶(µÍµ½¸ß) Priority_0,Priority_1,Priority_2,Priority_3
+    P1_MODE_IN_HIZ(GPIO_Pin_LOW);            // P1.0~P1.3 è®¾ç½®ä¸ºé«˜é˜»è¾“å…¥
+    P4_MODE_IO_PU(GPIO_Pin_6 | GPIO_Pin_7);  // P4.6,P4.7 è®¾ç½®ä¸ºå‡†åŒå‘å£
 
-	ADC_InitStructure.ADC_SMPduty   = 31;		//ADC Ä£ÄâÐÅºÅ²ÉÑùÊ±¼ä¿ØÖÆ, 0~31£¨×¢Òâ£º SMPDUTY Ò»¶¨²»ÄÜÉèÖÃÐ¡ÓÚ 10£©
-	ADC_InitStructure.ADC_CsSetup   = 0;		//ADC Í¨µÀÑ¡ÔñÊ±¼ä¿ØÖÆ 0(Ä¬ÈÏ),1
-	ADC_InitStructure.ADC_CsHold    = 1;		//ADC Í¨µÀÑ¡Ôñ±£³ÖÊ±¼ä¿ØÖÆ 0,1(Ä¬ÈÏ),2,3
-	ADC_InitStructure.ADC_Speed     = ADC_SPEED_2X1T;		//ÉèÖÃ ADC ¹¤×÷Ê±ÖÓÆµÂÊ	ADC_SPEED_2X1T~ADC_SPEED_2X16T
-	ADC_InitStructure.ADC_AdjResult = ADC_RIGHT_JUSTIFIED;	//ADC½á¹ûµ÷Õû,	ADC_LEFT_JUSTIFIED,ADC_RIGHT_JUSTIFIED
-	ADC_Inilize(&ADC_InitStructure);		//³õÊ¼»¯
-	ADC_PowerControl(ENABLE);						//ADCµçÔ´¿ª¹Ø, ENABLE»òDISABLE
-	NVIC_ADC_Init(DISABLE,Priority_0);		//ÖÐ¶ÏÊ¹ÄÜ, ENABLE/DISABLE; ÓÅÏÈ¼¶(µÍµ½¸ß) Priority_0,Priority_1,Priority_2,Priority_3
+    COMx_InitStructure.UART_Mode = UART_8bit_BRTx;  //æ¨¡å¼,   UART_ShiftRight,UART_8bit_BRTx,UART_9bit,UART_9bit_BRTx
+    //	COMx_InitStructure.UART_BRT_Use   = BRT_Timer2;			//é€‰æ‹©æ³¢ç‰¹çŽ‡å‘ç”Ÿå™¨, BRT_Timer2 (æ³¨æ„: ä¸²å£2å›ºå®šä½¿ç”¨BRT_Timer2, æ‰€ä»¥ä¸ç”¨é€‰æ‹©)
+    COMx_InitStructure.UART_BaudRate = 115200ul;     //æ³¢ç‰¹çŽ‡,     110 ~ 115200
+    COMx_InitStructure.UART_RxEnable = ENABLE;       //æŽ¥æ”¶å…è®¸,   ENABLEæˆ–DISABLE
+    UART_Configuration(UART2, &COMx_InitStructure);  //åˆå§‹åŒ–ä¸²å£2 USART1,USART2,USART3,USART4
+    NVIC_UART2_Init(ENABLE, Priority_1);             //ä¸­æ–­ä½¿èƒ½, ENABLE/DISABLE; ä¼˜å…ˆçº§(ä½Žåˆ°é«˜) Priority_0,Priority_1,Priority_2,Priority_3
+
+    ADC_InitStructure.ADC_SMPduty   = 31;                   // ADC æ¨¡æ‹Ÿä¿¡å·é‡‡æ ·æ—¶é—´æŽ§åˆ¶, 0~31ï¼ˆæ³¨æ„ï¼š SMPDUTY ä¸€å®šä¸èƒ½è®¾ç½®å°äºŽ 10ï¼‰
+    ADC_InitStructure.ADC_CsSetup   = 0;                    // ADC é€šé“é€‰æ‹©æ—¶é—´æŽ§åˆ¶ 0(é»˜è®¤),1
+    ADC_InitStructure.ADC_CsHold    = 1;                    // ADC é€šé“é€‰æ‹©ä¿æŒæ—¶é—´æŽ§åˆ¶ 0,1(é»˜è®¤),2,3
+    ADC_InitStructure.ADC_Speed     = ADC_SPEED_2X1T;       //è®¾ç½® ADC å·¥ä½œæ—¶é’Ÿé¢‘çŽ‡	ADC_SPEED_2X1T~ADC_SPEED_2X16T
+    ADC_InitStructure.ADC_AdjResult = ADC_RIGHT_JUSTIFIED;  // ADCç»“æžœè°ƒæ•´,	ADC_LEFT_JUSTIFIED,ADC_RIGHT_JUSTIFIED
+    ADC_Inilize(&ADC_InitStructure);                        //åˆå§‹åŒ–
+    ADC_PowerControl(ENABLE);                               // ADCç”µæºå¼€å…³, ENABLEæˆ–DISABLE
+    NVIC_ADC_Init(DISABLE, Priority_0);                     //ä¸­æ–­ä½¿èƒ½, ENABLE/DISABLE; ä¼˜å…ˆçº§(ä½Žåˆ°é«˜) Priority_0,Priority_1,Priority_2,Priority_3
 }
 
 //========================================================================
-// º¯Êý: Sample_ADtoUART
-// ÃèÊö: ÓÃ»§Ó¦ÓÃ³ÌÐò.
-// ²ÎÊý: None.
-// ·µ»Ø: None.
-// °æ±¾: V1.0, 2020-09-24
+// å‡½æ•°: Sample_ADtoUART
+// æè¿°: ç”¨æˆ·åº”ç”¨ç¨‹åº.
+// å‚æ•°: None.
+// è¿”å›ž: None.
+// ç‰ˆæœ¬: V1.0, 2020-09-24
 //========================================================================
 void Sample_ADtoUART(void)
 {
-	u16	j;
+    u16 j;
 
-	j = Get_ADCResult(index);	//²ÎÊý0~15,²éÑ¯·½Ê½×öÒ»´ÎADC, ·µ»ØÖµ¾ÍÊÇ½á¹û, == 4096 Îª´íÎó
-	TX2_write2buff('A');
-	TX2_write2buff('D');
-	TX2_write2buff(index+'0');
-	TX2_write2buff('=');
-	TX2_write2buff(j/1000 + '0');
-	TX2_write2buff(j%1000/100 + '0');
-	TX2_write2buff(j%100/10 + '0');
-	TX2_write2buff(j%10 + '0');
-	TX2_write2buff(' ');
-	TX2_write2buff(' ');
+    j = Get_ADCResult(index);  //å‚æ•°0~15,æŸ¥è¯¢æ–¹å¼åšä¸€æ¬¡ADC, è¿”å›žå€¼å°±æ˜¯ç»“æžœ, == 4096 ä¸ºé”™è¯¯
+    TX2_write2buff('A');
+    TX2_write2buff('D');
+    TX2_write2buff(index + '0');
+    TX2_write2buff('=');
+    TX2_write2buff(j / 1000 + '0');
+    TX2_write2buff(j % 1000 / 100 + '0');
+    TX2_write2buff(j % 100 / 10 + '0');
+    TX2_write2buff(j % 10 + '0');
+    TX2_write2buff(' ');
+    TX2_write2buff(' ');
 
-	index++;
-	if(index > 4)
-	{
-		index = 0;
-		PrintString2("\r\n");
-	}
+    index++;
+    if (index > 4) {
+        index = 0;
+        PrintString2("\r\n");
+    }
 }
-
-
-

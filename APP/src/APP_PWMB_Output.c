@@ -7,155 +7,144 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* Èç¹ûÒªÔÚ³ÌÐòÖÐÊ¹ÓÃ´Ë´úÂë,ÇëÔÚ³ÌÐòÖÐ×¢Ã÷Ê¹ÓÃÁËSTCµÄ×ÊÁÏ¼°³ÌÐò            */
+/* å¦‚æžœè¦åœ¨ç¨‹åºä¸­ä½¿ç”¨æ­¤ä»£ç ,è¯·åœ¨ç¨‹åºä¸­æ³¨æ˜Žä½¿ç”¨äº†STCçš„èµ„æ–™åŠç¨‹åº            */
 /*---------------------------------------------------------------------*/
 
-#include	"APP.h"
-#include	"STC8H_PWM.h"
-#include	"STC8G_H_GPIO.h"
-#include	"STC8G_H_NVIC.h"
+#include "APP.h"
+#include "STC8G_H_GPIO.h"
+#include "STC8G_H_NVIC.h"
+#include "STC8H_PWM.h"
 
-/*************	¹¦ÄÜËµÃ÷	**************
+/************* åŠŸèƒ½è¯´æ˜Ž **************
 
-±¾Àý³Ì»ùÓÚSTC8H8K64UÎªÖ÷¿ØÐ¾Æ¬µÄÊµÑéÏä8½øÐÐ±àÐ´²âÊÔ£¬STC8HÏµÁÐÐ¾Æ¬¿ÉÍ¨ÓÃ²Î¿¼.
+æœ¬ä¾‹ç¨‹åŸºäºŽSTC8H8K64Uä¸ºä¸»æŽ§èŠ¯ç‰‡çš„å®žéªŒç®±8è¿›è¡Œç¼–å†™æµ‹è¯•ï¼ŒSTC8Hç³»åˆ—èŠ¯ç‰‡å¯é€šç”¨å‚è€ƒ.
 
-¸ß¼¶PWM¶¨Ê±Æ÷ PWM5,PWM6,PWM7,PWM8 Ã¿¸öÍ¨µÀ¶¼¿É¶ÀÁ¢ÊµÏÖPWMÊä³ö.
+é«˜çº§PWMå®šæ—¶å™¨ PWM5,PWM6,PWM7,PWM8 æ¯ä¸ªé€šé“éƒ½å¯ç‹¬ç«‹å®žçŽ°PWMè¾“å‡º.
 
-4¸öÍ¨µÀPWM¸ù¾ÝÐèÒªÉèÖÃ¶ÔÓ¦Êä³ö¿Ú£¬¿ÉÍ¨¹ýÊ¾²¨Æ÷¹Û²ìÊä³öµÄÐÅºÅ.
+4ä¸ªé€šé“PWMæ ¹æ®éœ€è¦è®¾ç½®å¯¹åº”è¾“å‡ºå£ï¼Œå¯é€šè¿‡ç¤ºæ³¢å™¨è§‚å¯Ÿè¾“å‡ºçš„ä¿¡å·.
 
-PWMÖÜÆÚºÍÕ¼¿Õ±È¿ÉÒÔ×Ô¶¨ÒåÉèÖÃ£¬×î¸ß¿É´ï65535.
+PWMå‘¨æœŸå’Œå ç©ºæ¯”å¯ä»¥è‡ªå®šä¹‰è®¾ç½®ï¼Œæœ€é«˜å¯è¾¾65535.
 
-ÏÂÔØÊ±, Ñ¡ÔñÊ±ÖÓ 24MHZ (ÓÃ»§¿ÉÔÚ"config.h"ÐÞ¸ÄÆµÂÊ).
+ä¸‹è½½æ—¶, é€‰æ‹©æ—¶é’Ÿ 24MHZ (ç”¨æˆ·å¯åœ¨"config.h"ä¿®æ”¹é¢‘çŽ‡).
 
 ******************************************/
 
+//========================================================================
+//                               æœ¬åœ°å¸¸é‡å£°æ˜Ž
+//========================================================================
 
 //========================================================================
-//                               ±¾µØ³£Á¿ÉùÃ÷	
-//========================================================================
-
-
-//========================================================================
-//                               ±¾µØ±äÁ¿ÉùÃ÷
+//                               æœ¬åœ°å˜é‡å£°æ˜Ž
 //========================================================================
 
 PWMx_Duty PWMB_Duty;
-bit PWM5_Flag;
-bit PWM6_Flag;
-bit PWM7_Flag;
-bit PWM8_Flag;
+bit       PWM5_Flag;
+bit       PWM6_Flag;
+bit       PWM7_Flag;
+bit       PWM8_Flag;
 
 //========================================================================
-//                               ±¾µØº¯ÊýÉùÃ÷
+//                               æœ¬åœ°å‡½æ•°å£°æ˜Ž
 //========================================================================
 
+//========================================================================
+//                            å¤–éƒ¨å‡½æ•°å’Œå˜é‡å£°æ˜Ž
+//========================================================================
 
 //========================================================================
-//                            Íâ²¿º¯ÊýºÍ±äÁ¿ÉùÃ÷
-//========================================================================
-
-
-//========================================================================
-// º¯Êý: PWMB_Output_init
-// ÃèÊö: ÓÃ»§³õÊ¼»¯³ÌÐò.
-// ²ÎÊý: None.
-// ·µ»Ø: None.
-// °æ±¾: V1.0, 2020-09-28
+// å‡½æ•°: PWMB_Output_init
+// æè¿°: ç”¨æˆ·åˆå§‹åŒ–ç¨‹åº.
+// å‚æ•°: None.
+// è¿”å›ž: None.
+// ç‰ˆæœ¬: V1.0, 2020-09-28
 //========================================================================
 void PWMB_Output_init(void)
 {
-	PWMx_InitDefine		PWMx_InitStructure;
-	
-	PWMB_Duty.PWM5_Duty = 128;
-	PWMB_Duty.PWM6_Duty = 256;
-	PWMB_Duty.PWM7_Duty = 512;
-	PWMB_Duty.PWM8_Duty = 1024;
+    PWMx_InitDefine PWMx_InitStructure;
 
-	PWMx_InitStructure.PWM_Mode    =	CCMRn_PWM_MODE1;	//Ä£Ê½,		CCMRn_FREEZE,CCMRn_MATCH_VALID,CCMRn_MATCH_INVALID,CCMRn_ROLLOVER,CCMRn_FORCE_INVALID,CCMRn_FORCE_VALID,CCMRn_PWM_MODE1,CCMRn_PWM_MODE2
-	PWMx_InitStructure.PWM_Duty    = PWMB_Duty.PWM5_Duty;	//PWMÕ¼¿Õ±ÈÊ±¼ä, 0~Period
-	PWMx_InitStructure.PWM_EnoSelect   = ENO5P;					//Êä³öÍ¨µÀÑ¡Ôñ,	ENO1P,ENO1N,ENO2P,ENO2N,ENO3P,ENO3N,ENO4P,ENO4N / ENO5P,ENO6P,ENO7P,ENO8P
-	PWM_Configuration(PWM5, &PWMx_InitStructure);				//³õÊ¼»¯PWM,  PWMA,PWMB
+    PWMB_Duty.PWM5_Duty = 128;
+    PWMB_Duty.PWM6_Duty = 256;
+    PWMB_Duty.PWM7_Duty = 512;
+    PWMB_Duty.PWM8_Duty = 1024;
 
-	PWMx_InitStructure.PWM_Mode    =	CCMRn_PWM_MODE1;	//Ä£Ê½,		CCMRn_FREEZE,CCMRn_MATCH_VALID,CCMRn_MATCH_INVALID,CCMRn_ROLLOVER,CCMRn_FORCE_INVALID,CCMRn_FORCE_VALID,CCMRn_PWM_MODE1,CCMRn_PWM_MODE2
-	PWMx_InitStructure.PWM_Duty    = PWMB_Duty.PWM6_Duty;	//PWMÕ¼¿Õ±ÈÊ±¼ä, 0~Period
-	PWMx_InitStructure.PWM_EnoSelect   = ENO6P;					//Êä³öÍ¨µÀÑ¡Ôñ,	ENO1P,ENO1N,ENO2P,ENO2N,ENO3P,ENO3N,ENO4P,ENO4N / ENO5P,ENO6P,ENO7P,ENO8P
-	PWM_Configuration(PWM6, &PWMx_InitStructure);				//³õÊ¼»¯PWM,  PWMA,PWMB
+    PWMx_InitStructure.PWM_Mode = CCMRn_PWM_MODE1;  //æ¨¡å¼, CCMRn_FREEZE,CCMRn_MATCH_VALID,CCMRn_MATCH_INVALID,CCMRn_ROLLOVER,CCMRn_FORCE_INVALID,CCMRn_FORCE_VALID,CCMRn_PWM_MODE1,CCMRn_PWM_MODE2
+    PWMx_InitStructure.PWM_Duty = PWMB_Duty.PWM5_Duty;  // PWMå ç©ºæ¯”æ—¶é—´, 0~Period
+    PWMx_InitStructure.PWM_EnoSelect = ENO5P;           //è¾“å‡ºé€šé“é€‰æ‹©, ENO1P,ENO1N,ENO2P,ENO2N,ENO3P,ENO3N,ENO4P,ENO4N / ENO5P,ENO6P,ENO7P,ENO8P
+    PWM_Configuration(PWM5, &PWMx_InitStructure);       //åˆå§‹åŒ–PWM,  PWMA,PWMB
 
-	PWMx_InitStructure.PWM_Mode    =	CCMRn_PWM_MODE1;	//Ä£Ê½,		CCMRn_FREEZE,CCMRn_MATCH_VALID,CCMRn_MATCH_INVALID,CCMRn_ROLLOVER,CCMRn_FORCE_INVALID,CCMRn_FORCE_VALID,CCMRn_PWM_MODE1,CCMRn_PWM_MODE2
-	PWMx_InitStructure.PWM_Duty    = PWMB_Duty.PWM7_Duty;	//PWMÕ¼¿Õ±ÈÊ±¼ä, 0~Period
-	PWMx_InitStructure.PWM_EnoSelect   = ENO7P;					//Êä³öÍ¨µÀÑ¡Ôñ,	ENO1P,ENO1N,ENO2P,ENO2N,ENO3P,ENO3N,ENO4P,ENO4N / ENO5P,ENO6P,ENO7P,ENO8P
-	PWM_Configuration(PWM7, &PWMx_InitStructure);				//³õÊ¼»¯PWM,  PWMA,PWMB
+    PWMx_InitStructure.PWM_Mode = CCMRn_PWM_MODE1;  //æ¨¡å¼, CCMRn_FREEZE,CCMRn_MATCH_VALID,CCMRn_MATCH_INVALID,CCMRn_ROLLOVER,CCMRn_FORCE_INVALID,CCMRn_FORCE_VALID,CCMRn_PWM_MODE1,CCMRn_PWM_MODE2
+    PWMx_InitStructure.PWM_Duty = PWMB_Duty.PWM6_Duty;  // PWMå ç©ºæ¯”æ—¶é—´, 0~Period
+    PWMx_InitStructure.PWM_EnoSelect = ENO6P;           //è¾“å‡ºé€šé“é€‰æ‹©, ENO1P,ENO1N,ENO2P,ENO2N,ENO3P,ENO3N,ENO4P,ENO4N / ENO5P,ENO6P,ENO7P,ENO8P
+    PWM_Configuration(PWM6, &PWMx_InitStructure);       //åˆå§‹åŒ–PWM,  PWMA,PWMB
 
-	PWMx_InitStructure.PWM_Mode    =	CCMRn_PWM_MODE1;	//Ä£Ê½,		CCMRn_FREEZE,CCMRn_MATCH_VALID,CCMRn_MATCH_INVALID,CCMRn_ROLLOVER,CCMRn_FORCE_INVALID,CCMRn_FORCE_VALID,CCMRn_PWM_MODE1,CCMRn_PWM_MODE2
-	PWMx_InitStructure.PWM_Duty    = PWMB_Duty.PWM8_Duty;	//PWMÕ¼¿Õ±ÈÊ±¼ä, 0~Period
-	PWMx_InitStructure.PWM_EnoSelect   = ENO8P;					//Êä³öÍ¨µÀÑ¡Ôñ,	ENO1P,ENO1N,ENO2P,ENO2N,ENO3P,ENO3N,ENO4P,ENO4N / ENO5P,ENO6P,ENO7P,ENO8P
-	PWM_Configuration(PWM8, &PWMx_InitStructure);				//³õÊ¼»¯PWM,  PWMA,PWMB
+    PWMx_InitStructure.PWM_Mode = CCMRn_PWM_MODE1;  //æ¨¡å¼, CCMRn_FREEZE,CCMRn_MATCH_VALID,CCMRn_MATCH_INVALID,CCMRn_ROLLOVER,CCMRn_FORCE_INVALID,CCMRn_FORCE_VALID,CCMRn_PWM_MODE1,CCMRn_PWM_MODE2
+    PWMx_InitStructure.PWM_Duty = PWMB_Duty.PWM7_Duty;  // PWMå ç©ºæ¯”æ—¶é—´, 0~Period
+    PWMx_InitStructure.PWM_EnoSelect = ENO7P;           //è¾“å‡ºé€šé“é€‰æ‹©, ENO1P,ENO1N,ENO2P,ENO2N,ENO3P,ENO3N,ENO4P,ENO4N / ENO5P,ENO6P,ENO7P,ENO8P
+    PWM_Configuration(PWM7, &PWMx_InitStructure);       //åˆå§‹åŒ–PWM,  PWMA,PWMB
 
-	PWMx_InitStructure.PWM_Period   = 2047;							//ÖÜÆÚÊ±¼ä,   0~65535
-	PWMx_InitStructure.PWM_DeadTime = 0;								//ËÀÇø·¢ÉúÆ÷ÉèÖÃ, 0~255
-	PWMx_InitStructure.PWM_MainOutEnable= ENABLE;				//Ö÷Êä³öÊ¹ÄÜ, ENABLE,DISABLE
-	PWMx_InitStructure.PWM_CEN_Enable   = ENABLE;				//Ê¹ÄÜ¼ÆÊýÆ÷, ENABLE,DISABLE
-	PWM_Configuration(PWMB, &PWMx_InitStructure);				//³õÊ¼»¯PWMÍ¨ÓÃ¼Ä´æÆ÷,  PWMA,PWMB
+    PWMx_InitStructure.PWM_Mode = CCMRn_PWM_MODE1;  //æ¨¡å¼, CCMRn_FREEZE,CCMRn_MATCH_VALID,CCMRn_MATCH_INVALID,CCMRn_ROLLOVER,CCMRn_FORCE_INVALID,CCMRn_FORCE_VALID,CCMRn_PWM_MODE1,CCMRn_PWM_MODE2
+    PWMx_InitStructure.PWM_Duty = PWMB_Duty.PWM8_Duty;  // PWMå ç©ºæ¯”æ—¶é—´, 0~Period
+    PWMx_InitStructure.PWM_EnoSelect = ENO8P;           //è¾“å‡ºé€šé“é€‰æ‹©, ENO1P,ENO1N,ENO2P,ENO2N,ENO3P,ENO3N,ENO4P,ENO4N / ENO5P,ENO6P,ENO7P,ENO8P
+    PWM_Configuration(PWM8, &PWMx_InitStructure);       //åˆå§‹åŒ–PWM,  PWMA,PWMB
 
-	NVIC_PWM_Init(PWMB,DISABLE,Priority_0);
-	P0_MODE_IO_PU(GPIO_Pin_LOW);		//P0.0,P0.1,P0.2,P0.3 ÉèÖÃÎª×¼Ë«Ïò¿Ú
+    PWMx_InitStructure.PWM_Period        = 2047;    //å‘¨æœŸæ—¶é—´,   0~65535
+    PWMx_InitStructure.PWM_DeadTime      = 0;       //æ­»åŒºå‘ç”Ÿå™¨è®¾ç½®, 0~255
+    PWMx_InitStructure.PWM_MainOutEnable = ENABLE;  //ä¸»è¾“å‡ºä½¿èƒ½, ENABLE,DISABLE
+    PWMx_InitStructure.PWM_CEN_Enable    = ENABLE;  //ä½¿èƒ½è®¡æ•°å™¨, ENABLE,DISABLE
+    PWM_Configuration(PWMB, &PWMx_InitStructure);   //åˆå§‹åŒ–PWMé€šç”¨å¯„å­˜å™¨,  PWMA,PWMB
+
+    NVIC_PWM_Init(PWMB, DISABLE, Priority_0);
+    P0_MODE_IO_PU(GPIO_Pin_LOW);  // P0.0,P0.1,P0.2,P0.3 è®¾ç½®ä¸ºå‡†åŒå‘å£
 }
 
 //========================================================================
-// º¯Êý: Sample_PWMB_Output
-// ÃèÊö: ÓÃ»§Ó¦ÓÃ³ÌÐò.
-// ²ÎÊý: None.
-// ·µ»Ø: None.
-// °æ±¾: V1.0, 2020-09-28
+// å‡½æ•°: Sample_PWMB_Output
+// æè¿°: ç”¨æˆ·åº”ç”¨ç¨‹åº.
+// å‚æ•°: None.
+// è¿”å›ž: None.
+// ç‰ˆæœ¬: V1.0, 2020-09-28
 //========================================================================
 void Sample_PWMB_Output(void)
 {
-	if(!PWM5_Flag)
-	{
-		PWMB_Duty.PWM5_Duty++;
-		if(PWMB_Duty.PWM5_Duty >= 2047) PWM5_Flag = 1;
-	}
-	else
-	{
-		PWMB_Duty.PWM5_Duty--;
-		if(PWMB_Duty.PWM5_Duty <= 0) PWM5_Flag = 0;
-	}
+    if (!PWM5_Flag) {
+        PWMB_Duty.PWM5_Duty++;
+        if (PWMB_Duty.PWM5_Duty >= 2047)
+            PWM5_Flag = 1;
+    } else {
+        PWMB_Duty.PWM5_Duty--;
+        if (PWMB_Duty.PWM5_Duty <= 0)
+            PWM5_Flag = 0;
+    }
 
-	if(!PWM6_Flag)
-	{
-		PWMB_Duty.PWM6_Duty++;
-		if(PWMB_Duty.PWM6_Duty >= 2047) PWM6_Flag = 1;
-	}
-	else
-	{
-		PWMB_Duty.PWM6_Duty--;
-		if(PWMB_Duty.PWM6_Duty <= 0) PWM6_Flag = 0;
-	}
+    if (!PWM6_Flag) {
+        PWMB_Duty.PWM6_Duty++;
+        if (PWMB_Duty.PWM6_Duty >= 2047)
+            PWM6_Flag = 1;
+    } else {
+        PWMB_Duty.PWM6_Duty--;
+        if (PWMB_Duty.PWM6_Duty <= 0)
+            PWM6_Flag = 0;
+    }
 
-	if(!PWM7_Flag)
-	{
-		PWMB_Duty.PWM7_Duty++;
-		if(PWMB_Duty.PWM7_Duty >= 2047) PWM7_Flag = 1;
-	}
-	else
-	{
-		PWMB_Duty.PWM7_Duty--;
-		if(PWMB_Duty.PWM7_Duty <= 0) PWM7_Flag = 0;
-	}
+    if (!PWM7_Flag) {
+        PWMB_Duty.PWM7_Duty++;
+        if (PWMB_Duty.PWM7_Duty >= 2047)
+            PWM7_Flag = 1;
+    } else {
+        PWMB_Duty.PWM7_Duty--;
+        if (PWMB_Duty.PWM7_Duty <= 0)
+            PWM7_Flag = 0;
+    }
 
-	if(!PWM8_Flag)
-	{
-		PWMB_Duty.PWM8_Duty++;
-		if(PWMB_Duty.PWM8_Duty >= 2047) PWM8_Flag = 1;
-	}
-	else
-	{
-		PWMB_Duty.PWM8_Duty--;
-		if(PWMB_Duty.PWM8_Duty <= 0) PWM8_Flag = 0;
-	}
-	
-	UpdatePwm(PWMB, &PWMB_Duty);
+    if (!PWM8_Flag) {
+        PWMB_Duty.PWM8_Duty++;
+        if (PWMB_Duty.PWM8_Duty >= 2047)
+            PWM8_Flag = 1;
+    } else {
+        PWMB_Duty.PWM8_Duty--;
+        if (PWMB_Duty.PWM8_Duty <= 0)
+            PWM8_Flag = 0;
+    }
+
+    UpdatePwm(PWMB, &PWMB_Duty);
 }
-
-
-

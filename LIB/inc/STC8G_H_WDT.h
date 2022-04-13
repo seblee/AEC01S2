@@ -7,34 +7,33 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* Èç¹ûÒªÔÚ³ÌĞòÖĞÊ¹ÓÃ´Ë´úÂë,ÇëÔÚ³ÌĞòÖĞ×¢Ã÷Ê¹ÓÃÁËSTCµÄ×ÊÁÏ¼°³ÌĞò            */
+/* å¦‚æœè¦åœ¨ç¨‹åºä¸­ä½¿ç”¨æ­¤ä»£ç ,è¯·åœ¨ç¨‹åºä¸­æ³¨æ˜ä½¿ç”¨äº†STCçš„èµ„æ–™åŠç¨‹åº            */
 /*---------------------------------------------------------------------*/
 
-#ifndef	__WDT_H
-#define	__WDT_H
+#ifndef __WDT_H
+#define __WDT_H
 
-#include	"config.h"
+#include "config.h"
 
-#define WDT_IDLE_STOP		0
-#define WDT_IDLE_RUN		1
+#define WDT_IDLE_STOP 0
+#define WDT_IDLE_RUN  1
 
-#define WDT_SCALE_2			0		/* WDT Timeout=(12*32768*SCALE)/SYSclk */
-#define WDT_SCALE_4			1
-#define WDT_SCALE_8			2
-#define WDT_SCALE_16		3
-#define WDT_SCALE_32		4
-#define WDT_SCALE_64		5
-#define WDT_SCALE_128		6
-#define WDT_SCALE_256		7
+#define WDT_SCALE_2   0 /* WDT Timeout=(12*32768*SCALE)/SYSclk */
+#define WDT_SCALE_4   1
+#define WDT_SCALE_8   2
+#define WDT_SCALE_16  3
+#define WDT_SCALE_32  4
+#define WDT_SCALE_64  5
+#define WDT_SCALE_128 6
+#define WDT_SCALE_256 7
 
-typedef struct
-{
-	u8	WDT_Enable;				//¿´ÃÅ¹·Ê¹ÄÜ  	ENABLE,DISABLE
-	u8	WDT_IDLE_Mode;		//IDLEÄ£Ê½Í£Ö¹¼ÆÊı		WDT_IDLE_STOP,WDT_IDLE_RUN
-	u8	WDT_PS;						//¿´ÃÅ¹·¶¨Ê±Æ÷Ê±ÖÓ·ÖÆµÏµÊı		WDT_SCALE_2,WDT_SCALE_4,WDT_SCALE_8,WDT_SCALE_16,WDT_SCALE_32,WDT_SCALE_64,WDT_SCALE_128,WDT_SCALE_256
+typedef struct {
+    u8 WDT_Enable;     //çœ‹é—¨ç‹—ä½¿èƒ½   ENABLE,DISABLE
+    u8 WDT_IDLE_Mode;  // IDLEæ¨¡å¼åœæ­¢è®¡æ•° WDT_IDLE_STOP,WDT_IDLE_RUN
+    u8 WDT_PS;         //çœ‹é—¨ç‹—å®šæ—¶å™¨æ—¶é’Ÿåˆ†é¢‘ç³»æ•° WDT_SCALE_2,WDT_SCALE_4,WDT_SCALE_8,WDT_SCALE_16,WDT_SCALE_32,WDT_SCALE_64,WDT_SCALE_128,WDT_SCALE_256
 } WDT_InitTypeDef;
 
 void WDT_Inilize(WDT_InitTypeDef *WDT);
-void WDT_Clear (void);
+void WDT_Clear(void);
 
 #endif

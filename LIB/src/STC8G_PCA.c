@@ -7,94 +7,88 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* Èç¹ûÒªÔÚ³ÌĞòÖĞÊ¹ÓÃ´Ë´úÂë,ÇëÔÚ³ÌĞòÖĞ×¢Ã÷Ê¹ÓÃÁËSTCµÄ×ÊÁÏ¼°³ÌĞò            */
+/* å¦‚æœè¦åœ¨ç¨‹åºä¸­ä½¿ç”¨æ­¤ä»£ç ,è¯·åœ¨ç¨‹åºä¸­æ³¨æ˜ä½¿ç”¨äº†STCçš„èµ„æ–™åŠç¨‹åº            */
 /*---------------------------------------------------------------------*/
 
-#include	"STC8G_PCA.h"
+#include "STC8G_PCA.h"
 
-bit		B_Capture0,B_Capture1,B_Capture2;
-u8		PCA0_mode,PCA1_mode,PCA2_mode;
-u16		CCAP0_tmp,PCA_Timer0;
-u16		CCAP1_tmp,PCA_Timer1;
-u16		CCAP2_tmp,PCA_Timer2;
+bit B_Capture0, B_Capture1, B_Capture2;
+u8  PCA0_mode, PCA1_mode, PCA2_mode;
+u16 CCAP0_tmp, PCA_Timer0;
+u16 CCAP1_tmp, PCA_Timer1;
+u16 CCAP2_tmp, PCA_Timer2;
 
 //========================================================================
-// º¯Êı: UpdatePcaPwm(u8 PCA_id, u16 pwm_value)
-// ÃèÊö: ¸üĞÂPWMÖµ. 
-// ²ÎÊı: PCA_id: PCAĞòºÅ. È¡Öµ PCA0,PCA1,PCA2,PCA_Counter
-//		 pwm_value: pwmÖµ, Õâ¸öÖµÊÇÊä³öµÍµçÆ½µÄÊ±¼ä.
-// ·µ»Ø: none.
-// °æ±¾: V1.0, 2012-11-22
+// å‡½æ•°: UpdatePcaPwm(u8 PCA_id, u16 pwm_value)
+// æè¿°: æ›´æ–°PWMå€¼.
+// å‚æ•°: PCA_id: PCAåºå·. å–å€¼ PCA0,PCA1,PCA2,PCA_Counter
+//		 pwm_value: pwmå€¼, è¿™ä¸ªå€¼æ˜¯è¾“å‡ºä½ç”µå¹³çš„æ—¶é—´.
+// è¿”å›: none.
+// ç‰ˆæœ¬: V1.0, 2012-11-22
 //========================================================================
-void	UpdatePcaPwm(u8 PCA_id, u16 pwm_value)
+void UpdatePcaPwm(u8 PCA_id, u16 pwm_value)
 {
-	if(PCA_id == PCA0)
-	{
-		PCA_PWM0 = (PCA_PWM0 & ~0x32) | (u8)((pwm_value & 0x0300) >> 4) | (u8)((pwm_value & 0x0400) >> 9);
-		CCAP0H = (u8)pwm_value;
-	}
-	else if(PCA_id == PCA1)
-	{
-		PCA_PWM1 = (PCA_PWM1 & ~0x32) | (u8)((pwm_value & 0x0300) >> 4) | (u8)((pwm_value & 0x0400) >> 9);
-		CCAP1H = (u8)pwm_value;
-	}
-	else if(PCA_id == PCA2)
-	{
-		PCA_PWM2 = (PCA_PWM2 & ~0x32) | (u8)((pwm_value & 0x0300) >> 4) | (u8)((pwm_value & 0x0400) >> 9);
-		CCAP2H = (u8)pwm_value;
-	}
+    if (PCA_id == PCA0) {
+        PCA_PWM0 = (PCA_PWM0 & ~0x32) | (u8)((pwm_value & 0x0300) >> 4) | (u8)((pwm_value & 0x0400) >> 9);
+        CCAP0H   = (u8)pwm_value;
+    } else if (PCA_id == PCA1) {
+        PCA_PWM1 = (PCA_PWM1 & ~0x32) | (u8)((pwm_value & 0x0300) >> 4) | (u8)((pwm_value & 0x0400) >> 9);
+        CCAP1H   = (u8)pwm_value;
+    } else if (PCA_id == PCA2) {
+        PCA_PWM2 = (PCA_PWM2 & ~0x32) | (u8)((pwm_value & 0x0300) >> 4) | (u8)((pwm_value & 0x0400) >> 9);
+        CCAP2H   = (u8)pwm_value;
+    }
 }
 
 //========================================================================
-// º¯Êı: void	PCA_Init(PCA_id, PCA_InitTypeDef *PCAx)
-// ÃèÊö: PCA³õÊ¼»¯³ÌĞò.
-// ²ÎÊı: PCA_id: PCAĞòºÅ. È¡Öµ PCA0,PCA1,PCA2,PCA_Counter
-//		 PCAx: ½á¹¹²ÎÊı,Çë²Î¿¼PCA.hÀïµÄ¶¨Òå.
-// ·µ»Ø: none.
-// °æ±¾: V1.0, 2012-11-22
+// å‡½æ•°: void	PCA_Init(PCA_id, PCA_InitTypeDef *PCAx)
+// æè¿°: PCAåˆå§‹åŒ–ç¨‹åº.
+// å‚æ•°: PCA_id: PCAåºå·. å–å€¼ PCA0,PCA1,PCA2,PCA_Counter
+//		 PCAx: ç»“æ„å‚æ•°,è¯·å‚è€ƒPCA.hé‡Œçš„å®šä¹‰.
+// è¿”å›: none.
+// ç‰ˆæœ¬: V1.0, 2012-11-22
 //========================================================================
-void	PCA_Init(u8 PCA_id, PCA_InitTypeDef *PCAx)
+void PCA_Init(u8 PCA_id, PCA_InitTypeDef *PCAx)
 {
-	if(PCA_id > PCA_Counter)	return;		//id´íÎó
+    if (PCA_id > PCA_Counter)
+        return;  // idé”™è¯¯
 
-	if(PCA_id == PCA_Counter)			//ÉèÖÃ¹«ÓÃCounter
-	{
-		CR = 0;
-		CH = 0;
-		CL = 0;
-		CMOD  = (CMOD  & ~(7<<1)) | PCAx->PCA_Clock;			//Ñ¡ÔñÊ±ÖÓÔ´
-		if(PCAx->PCA_RUN == ENABLE)	CR = 1;
-		return;
-	}
+    if (PCA_id == PCA_Counter)  //è®¾ç½®å…¬ç”¨Counter
+    {
+        CR   = 0;
+        CH   = 0;
+        CL   = 0;
+        CMOD = (CMOD & ~(7 << 1)) | PCAx->PCA_Clock;  //é€‰æ‹©æ—¶é’Ÿæº
+        if (PCAx->PCA_RUN == ENABLE)
+            CR = 1;
+        return;
+    }
 
-	if(PCA_id == PCA0)
-	{
-		PCA_PWM0  = (PCA_PWM0 & ~(3<<6)) | PCAx->PCA_PWM_Wide;	//PWM¿í¶È
+    if (PCA_id == PCA0) {
+        PCA_PWM0 = (PCA_PWM0 & ~(3 << 6)) | PCAx->PCA_PWM_Wide;  // PWMå®½åº¦
 
-		PCA_Timer0 = PCAx->PCA_Value;
-		B_Capture0 = 0;
-		CCAP0_tmp = PCA_Timer0;
-		CCAP0L = (u8)CCAP0_tmp;			//½«Ó°Éä¼Ä´æÆ÷Ğ´Èë²¶»ñ¼Ä´æÆ÷£¬ÏÈĞ´CCAP0L
-		CCAP0H = (u8)(CCAP0_tmp >> 8);	//ºóĞ´CCAP0H
-	}
-	if(PCA_id == PCA1)
-	{
-		PCA_PWM1  = (PCA_PWM1 & ~(3<<6)) | PCAx->PCA_PWM_Wide;
+        PCA_Timer0 = PCAx->PCA_Value;
+        B_Capture0 = 0;
+        CCAP0_tmp  = PCA_Timer0;
+        CCAP0L     = (u8)CCAP0_tmp;         //å°†å½±å°„å¯„å­˜å™¨å†™å…¥æ•è·å¯„å­˜å™¨ï¼Œå…ˆå†™CCAP0L
+        CCAP0H     = (u8)(CCAP0_tmp >> 8);  //åå†™CCAP0H
+    }
+    if (PCA_id == PCA1) {
+        PCA_PWM1 = (PCA_PWM1 & ~(3 << 6)) | PCAx->PCA_PWM_Wide;
 
-		PCA_Timer1 = PCAx->PCA_Value;
-		B_Capture1 = 0;
-		CCAP1_tmp = PCA_Timer1;
-		CCAP1L = (u8)CCAP1_tmp;			//½«Ó°Éä¼Ä´æÆ÷Ğ´Èë²¶»ñ¼Ä´æÆ÷£¬ÏÈĞ´CCAP0L
-		CCAP1H = (u8)(CCAP1_tmp >> 8);	//ºóĞ´CCAP0H
-	}
-	if(PCA_id == PCA2)
-	{
-		PCA_PWM2  = (PCA_PWM2 & ~(3<<6)) | PCAx->PCA_PWM_Wide;
+        PCA_Timer1 = PCAx->PCA_Value;
+        B_Capture1 = 0;
+        CCAP1_tmp  = PCA_Timer1;
+        CCAP1L     = (u8)CCAP1_tmp;         //å°†å½±å°„å¯„å­˜å™¨å†™å…¥æ•è·å¯„å­˜å™¨ï¼Œå…ˆå†™CCAP0L
+        CCAP1H     = (u8)(CCAP1_tmp >> 8);  //åå†™CCAP0H
+    }
+    if (PCA_id == PCA2) {
+        PCA_PWM2 = (PCA_PWM2 & ~(3 << 6)) | PCAx->PCA_PWM_Wide;
 
-		PCA_Timer2 = PCAx->PCA_Value;
-		B_Capture2 = 0;
-		CCAP2_tmp = PCA_Timer2;
-		CCAP2L = (u8)CCAP2_tmp;			//½«Ó°Éä¼Ä´æÆ÷Ğ´Èë²¶»ñ¼Ä´æÆ÷£¬ÏÈĞ´CCAP0L
-		CCAP2H = (u8)(CCAP2_tmp >> 8);	//ºóĞ´CCAP0H
-	}
+        PCA_Timer2 = PCAx->PCA_Value;
+        B_Capture2 = 0;
+        CCAP2_tmp  = PCA_Timer2;
+        CCAP2L     = (u8)CCAP2_tmp;         //å°†å½±å°„å¯„å­˜å™¨å†™å…¥æ•è·å¯„å­˜å™¨ï¼Œå…ˆå†™CCAP0L
+        CCAP2H     = (u8)(CCAP2_tmp >> 8);  //åå†™CCAP0H
+    }
 }

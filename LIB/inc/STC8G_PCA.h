@@ -7,70 +7,67 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* Èç¹ûÒªÔÚ³ÌĞòÖĞÊ¹ÓÃ´Ë´úÂë,ÇëÔÚ³ÌĞòÖĞ×¢Ã÷Ê¹ÓÃÁËSTCµÄ×ÊÁÏ¼°³ÌĞò            */
+/* å¦‚æœè¦åœ¨ç¨‹åºä¸­ä½¿ç”¨æ­¤ä»£ç ,è¯·åœ¨ç¨‹åºä¸­æ³¨æ˜ä½¿ç”¨äº†STCçš„èµ„æ–™åŠç¨‹åº            */
 /*---------------------------------------------------------------------*/
 
-#ifndef	__PCA_H
-#define	__PCA_H
+#ifndef __PCA_H
+#define __PCA_H
 
-#include	"config.h"
+#include "config.h"
 
-#define	PCA0			0
-#define	PCA1			1
-#define	PCA2			2
-#define	PCA_Counter		3
+#define PCA0        0
+#define PCA1        1
+#define PCA2        2
+#define PCA_Counter 3
 
-#define	PCA_Clock_1T	(4<<1)
-#define	PCA_Clock_2T	(1<<1)
-#define	PCA_Clock_4T	(5<<1)
-#define	PCA_Clock_6T	(6<<1)
-#define	PCA_Clock_8T	(7<<1)
-#define	PCA_Clock_12T	(0<<1)
-#define	PCA_Clock_Timer0_OF	(2<<1)
-#define	PCA_Clock_ECI	(3<<1)
+#define PCA_Clock_1T        (4 << 1)
+#define PCA_Clock_2T        (1 << 1)
+#define PCA_Clock_4T        (5 << 1)
+#define PCA_Clock_6T        (6 << 1)
+#define PCA_Clock_8T        (7 << 1)
+#define PCA_Clock_12T       (0 << 1)
+#define PCA_Clock_Timer0_OF (2 << 1)
+#define PCA_Clock_ECI       (3 << 1)
 
-#define	PCA_Rise_Active	(1<<5)
-#define	PCA_Fall_Active	(1<<4)
+#define PCA_Rise_Active (1 << 5)
+#define PCA_Fall_Active (1 << 4)
 
-#define	PCA_PWM_8bit	(0<<6)
-#define	PCA_PWM_7bit	(1<<6)
-#define	PCA_PWM_6bit	(2<<6)
-#define	PCA_PWM_10bit	(3<<6)
-
-//---------------------------------------------------------
-
-#define	PCA_ECOM			(1<<6)	//ÔÊĞíPCAÄ£¿éµÄ±È½Ï¹¦ÄÜ
-#define	PCA_CCAPP			(1<<5)	//ÔÊĞíPCAÄ£¿é½øĞĞÉÏÉıÑØ²¶»ñ
-#define	PCA_CCAPN			(1<<4)	//ÔÊĞíPCAÄ£¿é½øĞĞÏÂ½µÑØ²¶»ñ
-#define	PCA_MAT				(1<<3)	//ÔÊĞíPCAÄ£¿éµÄÆ¥Åä¹¦ÄÜ
-#define	PCA_TOG				(1<<2)	//ÔÊĞíPCAÄ£¿éµÄ¸ßËÙÂö³åÊä³ö¹¦ÄÜ
-#define	PCA_PWM				(1<<1)	//ÔÊĞíPCAÄ£¿éµÄÂö¿íµ÷ÖÆÊä³ö¹¦ÄÜ
-#define	PCA_ECCF			(1<<0)	//ÔÊĞíPCAÄ£¿éµÄÆ¥Åä/²¶»ñÖĞ¶Ï
-
-#define	PCA_Mode_PWM							0x42	//B0100_0010
-#define	PCA_Mode_Capture					0x11	//B0001_0001
-#define	PCA_Mode_SoftTimer				0x48	//B0100_1000
-#define	PCA_Mode_HighPulseOutput	0x4d	//B0100_1101
+#define PCA_PWM_8bit  (0 << 6)
+#define PCA_PWM_7bit  (1 << 6)
+#define PCA_PWM_6bit  (2 << 6)
+#define PCA_PWM_10bit (3 << 6)
 
 //---------------------------------------------------------
 
-typedef struct
-{
-	u8	PCA_Clock;		//PCA_Clock_1T, PCA_Clock_2T, PCA_Clock_4T, PCA_Clock_6T, PCA_Clock_8T, PCA_Clock_12T, PCA_Clock_Timer0_OF, PCA_Clock_ECI
-	u8	PCA_PWM_Wide;	//PCA_PWM_8bit, PCA_PWM_7bit, PCA_PWM_6bit, PCA_PWM_10bit
-	u16	PCA_Value;
-	u8	PCA_RUN;			//ENABLE, DISABLE
+#define PCA_ECOM  (1 << 6)  //å…è®¸PCAæ¨¡å—çš„æ¯”è¾ƒåŠŸèƒ½
+#define PCA_CCAPP (1 << 5)  //å…è®¸PCAæ¨¡å—è¿›è¡Œä¸Šå‡æ²¿æ•è·
+#define PCA_CCAPN (1 << 4)  //å…è®¸PCAæ¨¡å—è¿›è¡Œä¸‹é™æ²¿æ•è·
+#define PCA_MAT   (1 << 3)  //å…è®¸PCAæ¨¡å—çš„åŒ¹é…åŠŸèƒ½
+#define PCA_TOG   (1 << 2)  //å…è®¸PCAæ¨¡å—çš„é«˜é€Ÿè„‰å†²è¾“å‡ºåŠŸèƒ½
+#define PCA_PWM   (1 << 1)  //å…è®¸PCAæ¨¡å—çš„è„‰å®½è°ƒåˆ¶è¾“å‡ºåŠŸèƒ½
+#define PCA_ECCF  (1 << 0)  //å…è®¸PCAæ¨¡å—çš„åŒ¹é…/æ•è·ä¸­æ–­
+
+#define PCA_Mode_PWM             0x42  // B0100_0010
+#define PCA_Mode_Capture         0x11  // B0001_0001
+#define PCA_Mode_SoftTimer       0x48  // B0100_1000
+#define PCA_Mode_HighPulseOutput 0x4d  // B0100_1101
+
+//---------------------------------------------------------
+
+typedef struct {
+    u8  PCA_Clock;     // PCA_Clock_1T, PCA_Clock_2T, PCA_Clock_4T, PCA_Clock_6T, PCA_Clock_8T, PCA_Clock_12T, PCA_Clock_Timer0_OF, PCA_Clock_ECI
+    u8  PCA_PWM_Wide;  // PCA_PWM_8bit, PCA_PWM_7bit, PCA_PWM_6bit, PCA_PWM_10bit
+    u16 PCA_Value;
+    u8  PCA_RUN;  // ENABLE, DISABLE
 } PCA_InitTypeDef;
 
-extern	bit		B_Capture0,B_Capture1,B_Capture2;
-extern	u8		PCA0_mode,PCA1_mode,PCA2_mode;
-extern	u16		CCAP0_tmp,PCA_Timer0;
-extern	u16		CCAP1_tmp,PCA_Timer1;
-extern	u16		CCAP2_tmp,PCA_Timer2;
+extern bit B_Capture0, B_Capture1, B_Capture2;
+extern u8  PCA0_mode, PCA1_mode, PCA2_mode;
+extern u16 CCAP0_tmp, PCA_Timer0;
+extern u16 CCAP1_tmp, PCA_Timer1;
+extern u16 CCAP2_tmp, PCA_Timer2;
 
-void	PCA_Init(u8 PCA_id, PCA_InitTypeDef *PCAx);
-void	UpdatePcaPwm(u8 PCA_id, u16 pwm_value);
-
+void PCA_Init(u8 PCA_id, PCA_InitTypeDef *PCAx);
+void UpdatePcaPwm(u8 PCA_id, u16 pwm_value);
 
 #endif
-

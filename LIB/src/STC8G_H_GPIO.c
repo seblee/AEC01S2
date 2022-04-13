@@ -7,77 +7,103 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* Èç¹ûÒªÔÚ³ÌĞòÖĞÊ¹ÓÃ´Ë´úÂë,ÇëÔÚ³ÌĞòÖĞ×¢Ã÷Ê¹ÓÃÁËSTCµÄ×ÊÁÏ¼°³ÌĞò            */
+/* å¦‚æœè¦åœ¨ç¨‹åºä¸­ä½¿ç”¨æ­¤ä»£ç ,è¯·åœ¨ç¨‹åºä¸­æ³¨æ˜ä½¿ç”¨äº†STCçš„èµ„æ–™åŠç¨‹åº            */
 /*---------------------------------------------------------------------*/
 
-#include	"STC8G_H_GPIO.h"
+#include "STC8G_H_GPIO.h"
 
 //========================================================================
-// º¯Êı: u8	GPIO_Inilize(u8 GPIO, GPIO_InitTypeDef *GPIOx)
-// ÃèÊö: ³õÊ¼»¯IO¿Ú.
-// ²ÎÊı: GPIOx: ½á¹¹²ÎÊı,Çë²Î¿¼timer.hÀïµÄ¶¨Òå.
-// ·µ»Ø: ³É¹¦·µ»Ø SUCCESS, ´íÎó·µ»Ø FAIL.
-// °æ±¾: V1.0, 2012-10-22
+// å‡½æ•°: u8	GPIO_Inilize(u8 GPIO, GPIO_InitTypeDef *GPIOx)
+// æè¿°: åˆå§‹åŒ–IOå£.
+// å‚æ•°: GPIOx: ç»“æ„å‚æ•°,è¯·å‚è€ƒtimer.hé‡Œçš„å®šä¹‰.
+// è¿”å›: æˆåŠŸè¿”å› SUCCESS, é”™è¯¯è¿”å› FAIL.
+// ç‰ˆæœ¬: V1.0, 2012-10-22
 //========================================================================
-u8	GPIO_Inilize(u8 GPIO, GPIO_InitTypeDef *GPIOx)
+u8 GPIO_Inilize(u8 GPIO, GPIO_InitTypeDef *GPIOx)
 {
-	if(GPIO > GPIO_P7)				return FAIL;	//´íÎó
-	if(GPIOx->Mode > GPIO_OUT_PP)	return FAIL;	//´íÎó
-	if(GPIO == GPIO_P0)
-	{
-		if(GPIOx->Mode == GPIO_PullUp)		P0M1 &= ~GPIOx->Pin,	P0M0 &= ~GPIOx->Pin;	 //ÉÏÀ­×¼Ë«Ïò¿Ú
-		if(GPIOx->Mode == GPIO_HighZ)			P0M1 |=  GPIOx->Pin,	P0M0 &= ~GPIOx->Pin;	 //¸¡¿ÕÊäÈë
-		if(GPIOx->Mode == GPIO_OUT_OD)		P0M1 |=  GPIOx->Pin,	P0M0 |=  GPIOx->Pin;	 //¿ªÂ©Êä³ö
-		if(GPIOx->Mode == GPIO_OUT_PP)		P0M1 &= ~GPIOx->Pin,	P0M0 |=  GPIOx->Pin;	 //ÍÆÍìÊä³ö
-	}
-	if(GPIO == GPIO_P1)
-	{
-		if(GPIOx->Mode == GPIO_PullUp)		P1M1 &= ~GPIOx->Pin,	P1M0 &= ~GPIOx->Pin;	 //ÉÏÀ­×¼Ë«Ïò¿Ú
-		if(GPIOx->Mode == GPIO_HighZ)			P1M1 |=  GPIOx->Pin,	P1M0 &= ~GPIOx->Pin;	 //¸¡¿ÕÊäÈë
-		if(GPIOx->Mode == GPIO_OUT_OD)		P1M1 |=  GPIOx->Pin,	P1M0 |=  GPIOx->Pin;	 //¿ªÂ©Êä³ö
-		if(GPIOx->Mode == GPIO_OUT_PP)		P1M1 &= ~GPIOx->Pin,	P1M0 |=  GPIOx->Pin;	 //ÍÆÍìÊä³ö
-	}
-	if(GPIO == GPIO_P2)
-	{
-		if(GPIOx->Mode == GPIO_PullUp)		P2M1 &= ~GPIOx->Pin,	P2M0 &= ~GPIOx->Pin;	 //ÉÏÀ­×¼Ë«Ïò¿Ú
-		if(GPIOx->Mode == GPIO_HighZ)			P2M1 |=  GPIOx->Pin,	P2M0 &= ~GPIOx->Pin;	 //¸¡¿ÕÊäÈë
-		if(GPIOx->Mode == GPIO_OUT_OD)		P2M1 |=  GPIOx->Pin,	P2M0 |=  GPIOx->Pin;	 //¿ªÂ©Êä³ö
-		if(GPIOx->Mode == GPIO_OUT_PP)		P2M1 &= ~GPIOx->Pin,	P2M0 |=  GPIOx->Pin;	 //ÍÆÍìÊä³ö
-	}
-	if(GPIO == GPIO_P3)
-	{
-		if(GPIOx->Mode == GPIO_PullUp)		P3M1 &= ~GPIOx->Pin,	P3M0 &= ~GPIOx->Pin;	 //ÉÏÀ­×¼Ë«Ïò¿Ú
-		if(GPIOx->Mode == GPIO_HighZ)			P3M1 |=  GPIOx->Pin,	P3M0 &= ~GPIOx->Pin;	 //¸¡¿ÕÊäÈë
-		if(GPIOx->Mode == GPIO_OUT_OD)		P3M1 |=  GPIOx->Pin,	P3M0 |=  GPIOx->Pin;	 //¿ªÂ©Êä³ö
-		if(GPIOx->Mode == GPIO_OUT_PP)		P3M1 &= ~GPIOx->Pin,	P3M0 |=  GPIOx->Pin;	 //ÍÆÍìÊä³ö
-	}
-	if(GPIO == GPIO_P4)
-	{
-		if(GPIOx->Mode == GPIO_PullUp)		P4M1 &= ~GPIOx->Pin,	P4M0 &= ~GPIOx->Pin;	 //ÉÏÀ­×¼Ë«Ïò¿Ú
-		if(GPIOx->Mode == GPIO_HighZ)			P4M1 |=  GPIOx->Pin,	P4M0 &= ~GPIOx->Pin;	 //¸¡¿ÕÊäÈë
-		if(GPIOx->Mode == GPIO_OUT_OD)		P4M1 |=  GPIOx->Pin,	P4M0 |=  GPIOx->Pin;	 //¿ªÂ©Êä³ö
-		if(GPIOx->Mode == GPIO_OUT_PP)		P4M1 &= ~GPIOx->Pin,	P4M0 |=  GPIOx->Pin;	 //ÍÆÍìÊä³ö
-	}
-	if(GPIO == GPIO_P5)
-	{
-		if(GPIOx->Mode == GPIO_PullUp)		P5M1 &= ~GPIOx->Pin,	P5M0 &= ~GPIOx->Pin;	 //ÉÏÀ­×¼Ë«Ïò¿Ú
-		if(GPIOx->Mode == GPIO_HighZ)			P5M1 |=  GPIOx->Pin,	P5M0 &= ~GPIOx->Pin;	 //¸¡¿ÕÊäÈë
-		if(GPIOx->Mode == GPIO_OUT_OD)		P5M1 |=  GPIOx->Pin,	P5M0 |=  GPIOx->Pin;	 //¿ªÂ©Êä³ö
-		if(GPIOx->Mode == GPIO_OUT_PP)		P5M1 &= ~GPIOx->Pin,	P5M0 |=  GPIOx->Pin;	 //ÍÆÍìÊä³ö
-	}
-	if(GPIO == GPIO_P6)
-	{
-		if(GPIOx->Mode == GPIO_PullUp)		P6M1 &= ~GPIOx->Pin,	P6M0 &= ~GPIOx->Pin;	 //ÉÏÀ­×¼Ë«Ïò¿Ú
-		if(GPIOx->Mode == GPIO_HighZ)			P6M1 |=  GPIOx->Pin,	P6M0 &= ~GPIOx->Pin;	 //¸¡¿ÕÊäÈë
-		if(GPIOx->Mode == GPIO_OUT_OD)		P6M1 |=  GPIOx->Pin,	P6M0 |=  GPIOx->Pin;	 //¿ªÂ©Êä³ö
-		if(GPIOx->Mode == GPIO_OUT_PP)		P6M1 &= ~GPIOx->Pin,	P6M0 |=  GPIOx->Pin;	 //ÍÆÍìÊä³ö
-	}
-	if(GPIO == GPIO_P7)
-	{
-		if(GPIOx->Mode == GPIO_PullUp)		P7M1 &= ~GPIOx->Pin,	P7M0 &= ~GPIOx->Pin;	 //ÉÏÀ­×¼Ë«Ïò¿Ú
-		if(GPIOx->Mode == GPIO_HighZ)			P7M1 |=  GPIOx->Pin,	P7M0 &= ~GPIOx->Pin;	 //¸¡¿ÕÊäÈë
-		if(GPIOx->Mode == GPIO_OUT_OD)		P7M1 |=  GPIOx->Pin,	P7M0 |=  GPIOx->Pin;	 //¿ªÂ©Êä³ö
-		if(GPIOx->Mode == GPIO_OUT_PP)		P7M1 &= ~GPIOx->Pin,	P7M0 |=  GPIOx->Pin;	 //ÍÆÍìÊä³ö
-	}
-	return SUCCESS;	//³É¹¦
+    if (GPIO > GPIO_P7)
+        return FAIL;  //é”™è¯¯
+    if (GPIOx->Mode > GPIO_OUT_PP)
+        return FAIL;  //é”™è¯¯
+    if (GPIO == GPIO_P0) {
+        if (GPIOx->Mode == GPIO_PullUp)
+            P0M1 &= ~GPIOx->Pin, P0M0 &= ~GPIOx->Pin;  //ä¸Šæ‹‰å‡†åŒå‘å£
+        if (GPIOx->Mode == GPIO_HighZ)
+            P0M1 |= GPIOx->Pin, P0M0 &= ~GPIOx->Pin;  //æµ®ç©ºè¾“å…¥
+        if (GPIOx->Mode == GPIO_OUT_OD)
+            P0M1 |= GPIOx->Pin, P0M0 |= GPIOx->Pin;  //å¼€æ¼è¾“å‡º
+        if (GPIOx->Mode == GPIO_OUT_PP)
+            P0M1 &= ~GPIOx->Pin, P0M0 |= GPIOx->Pin;  //æ¨æŒ½è¾“å‡º
+    }
+    if (GPIO == GPIO_P1) {
+        if (GPIOx->Mode == GPIO_PullUp)
+            P1M1 &= ~GPIOx->Pin, P1M0 &= ~GPIOx->Pin;  //ä¸Šæ‹‰å‡†åŒå‘å£
+        if (GPIOx->Mode == GPIO_HighZ)
+            P1M1 |= GPIOx->Pin, P1M0 &= ~GPIOx->Pin;  //æµ®ç©ºè¾“å…¥
+        if (GPIOx->Mode == GPIO_OUT_OD)
+            P1M1 |= GPIOx->Pin, P1M0 |= GPIOx->Pin;  //å¼€æ¼è¾“å‡º
+        if (GPIOx->Mode == GPIO_OUT_PP)
+            P1M1 &= ~GPIOx->Pin, P1M0 |= GPIOx->Pin;  //æ¨æŒ½è¾“å‡º
+    }
+    if (GPIO == GPIO_P2) {
+        if (GPIOx->Mode == GPIO_PullUp)
+            P2M1 &= ~GPIOx->Pin, P2M0 &= ~GPIOx->Pin;  //ä¸Šæ‹‰å‡†åŒå‘å£
+        if (GPIOx->Mode == GPIO_HighZ)
+            P2M1 |= GPIOx->Pin, P2M0 &= ~GPIOx->Pin;  //æµ®ç©ºè¾“å…¥
+        if (GPIOx->Mode == GPIO_OUT_OD)
+            P2M1 |= GPIOx->Pin, P2M0 |= GPIOx->Pin;  //å¼€æ¼è¾“å‡º
+        if (GPIOx->Mode == GPIO_OUT_PP)
+            P2M1 &= ~GPIOx->Pin, P2M0 |= GPIOx->Pin;  //æ¨æŒ½è¾“å‡º
+    }
+    if (GPIO == GPIO_P3) {
+        if (GPIOx->Mode == GPIO_PullUp)
+            P3M1 &= ~GPIOx->Pin, P3M0 &= ~GPIOx->Pin;  //ä¸Šæ‹‰å‡†åŒå‘å£
+        if (GPIOx->Mode == GPIO_HighZ)
+            P3M1 |= GPIOx->Pin, P3M0 &= ~GPIOx->Pin;  //æµ®ç©ºè¾“å…¥
+        if (GPIOx->Mode == GPIO_OUT_OD)
+            P3M1 |= GPIOx->Pin, P3M0 |= GPIOx->Pin;  //å¼€æ¼è¾“å‡º
+        if (GPIOx->Mode == GPIO_OUT_PP)
+            P3M1 &= ~GPIOx->Pin, P3M0 |= GPIOx->Pin;  //æ¨æŒ½è¾“å‡º
+    }
+    if (GPIO == GPIO_P4) {
+        if (GPIOx->Mode == GPIO_PullUp)
+            P4M1 &= ~GPIOx->Pin, P4M0 &= ~GPIOx->Pin;  //ä¸Šæ‹‰å‡†åŒå‘å£
+        if (GPIOx->Mode == GPIO_HighZ)
+            P4M1 |= GPIOx->Pin, P4M0 &= ~GPIOx->Pin;  //æµ®ç©ºè¾“å…¥
+        if (GPIOx->Mode == GPIO_OUT_OD)
+            P4M1 |= GPIOx->Pin, P4M0 |= GPIOx->Pin;  //å¼€æ¼è¾“å‡º
+        if (GPIOx->Mode == GPIO_OUT_PP)
+            P4M1 &= ~GPIOx->Pin, P4M0 |= GPIOx->Pin;  //æ¨æŒ½è¾“å‡º
+    }
+    if (GPIO == GPIO_P5) {
+        if (GPIOx->Mode == GPIO_PullUp)
+            P5M1 &= ~GPIOx->Pin, P5M0 &= ~GPIOx->Pin;  //ä¸Šæ‹‰å‡†åŒå‘å£
+        if (GPIOx->Mode == GPIO_HighZ)
+            P5M1 |= GPIOx->Pin, P5M0 &= ~GPIOx->Pin;  //æµ®ç©ºè¾“å…¥
+        if (GPIOx->Mode == GPIO_OUT_OD)
+            P5M1 |= GPIOx->Pin, P5M0 |= GPIOx->Pin;  //å¼€æ¼è¾“å‡º
+        if (GPIOx->Mode == GPIO_OUT_PP)
+            P5M1 &= ~GPIOx->Pin, P5M0 |= GPIOx->Pin;  //æ¨æŒ½è¾“å‡º
+    }
+    if (GPIO == GPIO_P6) {
+        if (GPIOx->Mode == GPIO_PullUp)
+            P6M1 &= ~GPIOx->Pin, P6M0 &= ~GPIOx->Pin;  //ä¸Šæ‹‰å‡†åŒå‘å£
+        if (GPIOx->Mode == GPIO_HighZ)
+            P6M1 |= GPIOx->Pin, P6M0 &= ~GPIOx->Pin;  //æµ®ç©ºè¾“å…¥
+        if (GPIOx->Mode == GPIO_OUT_OD)
+            P6M1 |= GPIOx->Pin, P6M0 |= GPIOx->Pin;  //å¼€æ¼è¾“å‡º
+        if (GPIOx->Mode == GPIO_OUT_PP)
+            P6M1 &= ~GPIOx->Pin, P6M0 |= GPIOx->Pin;  //æ¨æŒ½è¾“å‡º
+    }
+    if (GPIO == GPIO_P7) {
+        if (GPIOx->Mode == GPIO_PullUp)
+            P7M1 &= ~GPIOx->Pin, P7M0 &= ~GPIOx->Pin;  //ä¸Šæ‹‰å‡†åŒå‘å£
+        if (GPIOx->Mode == GPIO_HighZ)
+            P7M1 |= GPIOx->Pin, P7M0 &= ~GPIOx->Pin;  //æµ®ç©ºè¾“å…¥
+        if (GPIOx->Mode == GPIO_OUT_OD)
+            P7M1 |= GPIOx->Pin, P7M0 |= GPIOx->Pin;  //å¼€æ¼è¾“å‡º
+        if (GPIOx->Mode == GPIO_OUT_PP)
+            P7M1 &= ~GPIOx->Pin, P7M0 |= GPIOx->Pin;  //æ¨æŒ½è¾“å‡º
+    }
+    return SUCCESS;  //æˆåŠŸ
 }

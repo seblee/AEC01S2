@@ -7,141 +7,137 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* Èç¹ûÒªÔÚ³ÌĞòÖĞÊ¹ÓÃ´Ë´úÂë,ÇëÔÚ³ÌĞòÖĞ×¢Ã÷Ê¹ÓÃÁËSTCµÄ×ÊÁÏ¼°³ÌĞò            */
+/* å¦‚æœè¦åœ¨ç¨‹åºä¸­ä½¿ç”¨æ­¤ä»£ç ,è¯·åœ¨ç¨‹åºä¸­æ³¨æ˜ä½¿ç”¨äº†STCçš„èµ„æ–™åŠç¨‹åº            */
 /*---------------------------------------------------------------------*/
 
 #ifndef __UART_H
-#define __UART_H	 
+#define __UART_H
 
-#include	"config.h"
-
-//========================================================================
-//                              UARTÉèÖÃ
-//========================================================================
-
-#define		UART1_Interrupt(n)	(n==0?(ES = 0):(ES = 1))					/* UART1ÖĞ¶ÏÊ¹ÄÜ */
-#define		UART1_RxEnable(n)	(n==0?(REN = 0):(REN = 1))					/* UART1½ÓÊÕÊ¹ÄÜ */
-
-#define		UART2_Interrupt(n)	IE2 = (IE2 & ~0x01) | (n)					/* UART2ÖĞ¶ÏÊ¹ÄÜ */
-#define		UART2_RxEnable(n)	S2CON = (S2CON & ~0x10) | (n << 4)	/* UART2½ÓÊÕÊ¹ÄÜ */
-
-#define		UART3_Interrupt(n)	IE2 = (IE2 & ~0x08) | (n << 3)		/* UART3ÖĞ¶ÏÊ¹ÄÜ */
-#define		UART3_RxEnable(n)	S3CON = (S3CON & ~0x10) | (n << 4)	/* UART3½ÓÊÕÊ¹ÄÜ */
-
-#define		UART4_Interrupt(n)	IE2 = (IE2 & ~0x10) | (n << 4)		/* UART4ÖĞ¶ÏÊ¹ÄÜ */
-#define		UART4_RxEnable(n)	S4CON = (S4CON & ~0x10) | (n << 4)	/* UART4½ÓÊÕÊ¹ÄÜ */
+#include "config.h"
 
 //========================================================================
-//                              ¶¨ÒåÉùÃ÷
+//                              UARTè®¾ç½®
 //========================================================================
 
-#define	UART1	1
-#define	UART2	2
+#define UART1_Interrupt(n) (n == 0 ? (ES = 0) : (ES = 1))   /* UART1ä¸­æ–­ä½¿èƒ½ */
+#define UART1_RxEnable(n)  (n == 0 ? (REN = 0) : (REN = 1)) /* UART1æ¥æ”¶ä½¿èƒ½ */
+
+#define UART2_Interrupt(n) IE2 = (IE2 & ~0x01) | (n)          /* UART2ä¸­æ–­ä½¿èƒ½ */
+#define UART2_RxEnable(n)  S2CON = (S2CON & ~0x10) | (n << 4) /* UART2æ¥æ”¶ä½¿èƒ½ */
+
+#define UART3_Interrupt(n) IE2 = (IE2 & ~0x08) | (n << 3)     /* UART3ä¸­æ–­ä½¿èƒ½ */
+#define UART3_RxEnable(n)  S3CON = (S3CON & ~0x10) | (n << 4) /* UART3æ¥æ”¶ä½¿èƒ½ */
+
+#define UART4_Interrupt(n) IE2 = (IE2 & ~0x10) | (n << 4)     /* UART4ä¸­æ–­ä½¿èƒ½ */
+#define UART4_RxEnable(n)  S4CON = (S4CON & ~0x10) | (n << 4) /* UART4æ¥æ”¶ä½¿èƒ½ */
+
+//========================================================================
+//                              å®šä¹‰å£°æ˜
+//========================================================================
+
+#define UART1 1
+#define UART2 2
 //#define	UART3	3
 //#define	UART4	4
 
 #ifdef UART1
-#define	COM_TX1_Lenth	128
-#define	COM_RX1_Lenth	128
+#define COM_TX1_Lenth 128
+#define COM_RX1_Lenth 128
 #endif
 #ifdef UART2
-#define	COM_TX2_Lenth	16
-#define	COM_RX2_Lenth	16
+#define COM_TX2_Lenth 16
+#define COM_RX2_Lenth 16
 #endif
 #ifdef UART3
-#define	COM_TX3_Lenth	64
-#define	COM_RX3_Lenth	64
+#define COM_TX3_Lenth 64
+#define COM_RX3_Lenth 64
 #endif
 #ifdef UART4
-#define	COM_TX4_Lenth	32
-#define	COM_RX4_Lenth	32
+#define COM_TX4_Lenth 32
+#define COM_RX4_Lenth 32
 #endif
 
-#define	UART_ShiftRight	0		//Í¬²½ÒÆÎ»Êä³ö
-#define	UART_8bit_BRTx	(1<<6)	//8Î»Êı¾İ,¿É±ä²¨ÌØÂÊ
-#define	UART_9bit				(2<<6)	//9Î»Êı¾İ,¹Ì¶¨²¨ÌØÂÊ
-#define	UART_9bit_BRTx	(3<<6)	//9Î»Êı¾İ,¿É±ä²¨ÌØÂÊ
+#define UART_ShiftRight 0         //åŒæ­¥ç§»ä½è¾“å‡º
+#define UART_8bit_BRTx  (1 << 6)  // 8ä½æ•°æ®,å¯å˜æ³¢ç‰¹ç‡
+#define UART_9bit       (2 << 6)  // 9ä½æ•°æ®,å›ºå®šæ³¢ç‰¹ç‡
+#define UART_9bit_BRTx  (3 << 6)  // 9ä½æ•°æ®,å¯å˜æ³¢ç‰¹ç‡
 
+#define TimeOutSet1 5
+#define TimeOutSet2 5
+#define TimeOutSet3 5
+#define TimeOutSet4 5
 
-#define	TimeOutSet1		5
-#define	TimeOutSet2		5
-#define	TimeOutSet3		5
-#define	TimeOutSet4		5
+#define BRT_Timer1 1
+#define BRT_Timer2 2
+#define BRT_Timer3 3
+#define BRT_Timer4 4
 
-#define	BRT_Timer1	1
-#define	BRT_Timer2	2
-#define	BRT_Timer3	3
-#define	BRT_Timer4	4
+typedef struct {
+    u8 id;  //ä¸²å£å·
 
-typedef struct
-{ 
-	u8	id;				//´®¿ÚºÅ
+    u8 TX_read;    //å‘é€è¯»æŒ‡é’ˆ
+    u8 TX_write;   //å‘é€å†™æŒ‡é’ˆ
+    u8 B_TX_busy;  //å¿™æ ‡å¿—
 
-	u8	TX_read;		//·¢ËÍ¶ÁÖ¸Õë
-	u8	TX_write;		//·¢ËÍĞ´Ö¸Õë
-	u8	B_TX_busy;		//Ã¦±êÖ¾
+    u8 RX_Cnt;      //æ¥æ”¶å­—èŠ‚è®¡æ•°
+    u8 RX_TimeOut;  //æ¥æ”¶è¶…æ—¶
+    u8 B_RX_OK;     //æ¥æ”¶å—å®Œæˆ
+} COMx_Define;
 
-	u8 	RX_Cnt;			//½ÓÊÕ×Ö½Ú¼ÆÊı
-	u8	RX_TimeOut;		//½ÓÊÕ³¬Ê±
-	u8	B_RX_OK;		//½ÓÊÕ¿éÍê³É
-} COMx_Define; 
+typedef struct {
+    u8  UART_Mode;        //æ¨¡å¼,         UART_ShiftRight,UART_8bit_BRTx,UART_9bit,UART_9bit_BRTx
+    u8  UART_BRT_Use;     //ä½¿ç”¨æ³¢ç‰¹ç‡,   BRT_Timer1,BRT_Timer2,BRT_Timer3,BRT_Timer4
+    u32 UART_BaudRate;    //æ³¢ç‰¹ç‡, 	   ä¸€èˆ¬ 110 ~ 115200
+    u8  Morecommunicate;  //å¤šæœºé€šè®¯å…è®¸, ENABLE,DISABLE
+    u8  UART_RxEnable;    //å…è®¸æ¥æ”¶,   ENABLE,DISABLE
+    u8  BaudRateDouble;   //æ³¢ç‰¹ç‡åŠ å€, ENABLE,DISABLE
+} COMx_InitDefine;
 
-typedef struct
-{ 
-	u8	UART_Mode;			//Ä£Ê½,         UART_ShiftRight,UART_8bit_BRTx,UART_9bit,UART_9bit_BRTx
-	u8	UART_BRT_Use;		//Ê¹ÓÃ²¨ÌØÂÊ,   BRT_Timer1,BRT_Timer2,BRT_Timer3,BRT_Timer4
-	u32	UART_BaudRate;		//²¨ÌØÂÊ, 	   Ò»°ã 110 ~ 115200
-	u8	Morecommunicate;	//¶à»úÍ¨Ñ¶ÔÊĞí, ENABLE,DISABLE
-	u8	UART_RxEnable;		//ÔÊĞí½ÓÊÕ,   ENABLE,DISABLE
-	u8	BaudRateDouble;		//²¨ÌØÂÊ¼Ó±¶, ENABLE,DISABLE
-} COMx_InitDefine; 
-
-//extern	u8 xdata *TX1_Buffer;
-//extern	u8 xdata *RX1_Buffer;
-//extern	u8 xdata *TX2_Buffer;
-//extern	u8 xdata *RX2_Buffer;
+// extern	u8 xdata *TX1_Buffer;
+// extern	u8 xdata *RX1_Buffer;
+// extern	u8 xdata *TX2_Buffer;
+// extern	u8 xdata *RX2_Buffer;
 
 #ifdef UART1
-extern	COMx_Define	COM1;
-extern	u8	xdata TX1_Buffer[COM_TX1_Lenth];	//·¢ËÍ»º³å
-extern	u8 	xdata RX1_Buffer[COM_RX1_Lenth];	//½ÓÊÕ»º³å
+extern COMx_Define COM1;
+extern u8 xdata    TX1_Buffer[COM_TX1_Lenth];  //å‘é€ç¼“å†²
+extern u8 xdata    RX1_Buffer[COM_RX1_Lenth];  //æ¥æ”¶ç¼“å†²
 #endif
 #ifdef UART2
-extern	COMx_Define	COM2;
-extern	u8	xdata TX2_Buffer[COM_TX2_Lenth];	//·¢ËÍ»º³å
-extern	u8 	xdata RX2_Buffer[COM_RX2_Lenth];	//½ÓÊÕ»º³å
+extern COMx_Define COM2;
+extern u8 xdata    TX2_Buffer[COM_TX2_Lenth];  //å‘é€ç¼“å†²
+extern u8 xdata    RX2_Buffer[COM_RX2_Lenth];  //æ¥æ”¶ç¼“å†²
 #endif
 #ifdef UART3
-extern	COMx_Define	COM3;
-extern	u8	xdata TX3_Buffer[COM_TX3_Lenth];	//·¢ËÍ»º³å
-extern	u8 	xdata RX3_Buffer[COM_RX3_Lenth];	//½ÓÊÕ»º³å
+extern COMx_Define COM3;
+extern u8 xdata    TX3_Buffer[COM_TX3_Lenth];  //å‘é€ç¼“å†²
+extern u8 xdata    RX3_Buffer[COM_RX3_Lenth];  //æ¥æ”¶ç¼“å†²
 #endif
 #ifdef UART4
-extern	COMx_Define	COM4;
-extern	u8	xdata TX4_Buffer[COM_TX4_Lenth];	//·¢ËÍ»º³å
-extern	u8 	xdata RX4_Buffer[COM_RX4_Lenth];	//½ÓÊÕ»º³å
+extern COMx_Define COM4;
+extern u8 xdata    TX4_Buffer[COM_TX4_Lenth];  //å‘é€ç¼“å†²
+extern u8 xdata    RX4_Buffer[COM_RX4_Lenth];  //æ¥æ”¶ç¼“å†²
 #endif
 
-u8	UART_Configuration(u8 UARTx, COMx_InitDefine *COMx);
+u8 UART_Configuration(u8 UARTx, COMx_InitDefine *COMx);
 #ifdef UART1
-void TX1_write2buff(u8 dat);	//Ğ´Èë·¢ËÍ»º³å£¬Ö¸Õë+1
+void TX1_write2buff(u8 dat);  //å†™å…¥å‘é€ç¼“å†²ï¼ŒæŒ‡é’ˆ+1
 void PrintString1(u8 *puts);
 #endif
 #ifdef UART2
-void TX2_write2buff(u8 dat);	//Ğ´Èë·¢ËÍ»º³å£¬Ö¸Õë+1
+void TX2_write2buff(u8 dat);  //å†™å…¥å‘é€ç¼“å†²ï¼ŒæŒ‡é’ˆ+1
 void PrintString2(u8 *puts);
 #endif
 #ifdef UART3
-void TX3_write2buff(u8 dat);	//Ğ´Èë·¢ËÍ»º³å£¬Ö¸Õë+1
+void TX3_write2buff(u8 dat);  //å†™å…¥å‘é€ç¼“å†²ï¼ŒæŒ‡é’ˆ+1
 void PrintString3(u8 *puts);
 #endif
 #ifdef UART4
-void TX4_write2buff(u8 dat);	//Ğ´Èë·¢ËÍ»º³å£¬Ö¸Õë+1
+void TX4_write2buff(u8 dat);  //å†™å…¥å‘é€ç¼“å†²ï¼ŒæŒ‡é’ˆ+1
 void PrintString4(u8 *puts);
 #endif
 
-//void COMx_write2buff(COMx_Define *COMx, u8 dat);	//Ğ´Èë·¢ËÍ»º³å£¬Ö¸Õë+1
-//void PrintString(COMx_Define *COMx, u8 *puts);
+// void COMx_write2buff(COMx_Define *COMx, u8 dat);	//å†™å…¥å‘é€ç¼“å†²ï¼ŒæŒ‡é’ˆ+1
+// void PrintString(COMx_Define *COMx, u8 *puts);
 
 #endif
-

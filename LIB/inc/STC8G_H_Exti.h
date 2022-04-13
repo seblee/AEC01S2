@@ -7,47 +7,46 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* Èç¹ûÒªÔÚ³ÌĞòÖĞÊ¹ÓÃ´Ë´úÂë,ÇëÔÚ³ÌĞòÖĞ×¢Ã÷Ê¹ÓÃÁËSTCµÄ×ÊÁÏ¼°³ÌĞò            */
+/* å¦‚æœè¦åœ¨ç¨‹åºä¸­ä½¿ç”¨æ­¤ä»£ç ,è¯·åœ¨ç¨‹åºä¸­æ³¨æ˜ä½¿ç”¨äº†STCçš„èµ„æ–™åŠç¨‹åº            */
 /*---------------------------------------------------------------------*/
 
-#ifndef	__EXTI_H
-#define	__EXTI_H
+#ifndef __EXTI_H
+#define __EXTI_H
 
-#include	"config.h"
-
-//========================================================================
-//                             Íâ²¿ÖĞ¶ÏÉèÖÃ
-//========================================================================
-
-#define 	INT0_Mode(n)		(n==0?(IT0 = 0):(IT0 = 1))	/* INT0ÖĞ¶ÏÄ£Ê½  ÏÂ½µÑØ/ÉÏÉı,ÏÂ½µÑØÖĞ¶Ï */
-#define 	INT1_Mode(n)		(n==0?(IT1 = 0):(IT1 = 1))	/* INT0ÖĞ¶ÏÄ£Ê½  ÏÂ½µÑØ/ÉÏÉı,ÏÂ½µÑØÖĞ¶Ï */
-
-#define 	INT0_Interrupt(n)		(n==0?(EX0 = 0):(EX0 = 1))			/* INT0ÖĞ¶ÏÊ¹ÄÜ */
-#define 	INT1_Interrupt(n)		(n==0?(EX1 = 0):(EX1 = 1))			/* INT1ÖĞ¶ÏÊ¹ÄÜ */
-#define 	INT2_Interrupt(n)		INT_CLKO = (INT_CLKO & ~0x10) | (n << 4)			/* INT2ÖĞ¶ÏÊ¹ÄÜ */
-#define 	INT3_Interrupt(n)		INT_CLKO = (INT_CLKO & ~0x20) | (n << 5)			/* INT3ÖĞ¶ÏÊ¹ÄÜ */
-#define 	INT4_Interrupt(n)		INT_CLKO = (INT_CLKO & ~0x40) | (n << 6)			/* INT4ÖĞ¶ÏÊ¹ÄÜ */
+#include "config.h"
 
 //========================================================================
-//                              ¶¨ÒåÉùÃ÷
+//                             å¤–éƒ¨ä¸­æ–­è®¾ç½®
 //========================================================================
 
-#define	EXT_INT0			0	//ÍâÖĞ¶Ï0
-#define	EXT_INT1			1	//ÍâÖĞ¶Ï1
-#define	EXT_INT2			2	//ÍâÖĞ¶Ï2
-#define	EXT_INT3			3	//ÍâÖĞ¶Ï3
-#define	EXT_INT4			4	//ÍâÖĞ¶Ï4
+#define INT0_Mode(n) (n == 0 ? (IT0 = 0) : (IT0 = 1)) /* INT0ä¸­æ–­æ¨¡å¼  ä¸‹é™æ²¿/ä¸Šå‡,ä¸‹é™æ²¿ä¸­æ–­ */
+#define INT1_Mode(n) (n == 0 ? (IT1 = 0) : (IT1 = 1)) /* INT0ä¸­æ–­æ¨¡å¼  ä¸‹é™æ²¿/ä¸Šå‡,ä¸‹é™æ²¿ä¸­æ–­ */
 
-#define	EXT_MODE_RiseFall	0	//ÉÏÉıÑØ/ÏÂ½µÑØÖĞ¶Ï
-#define	EXT_MODE_Fall			1	//ÏÂ½µÑØÖĞ¶Ï
+#define INT0_Interrupt(n) (n == 0 ? (EX0 = 0) : (EX0 = 1))         /* INT0ä¸­æ–­ä½¿èƒ½ */
+#define INT1_Interrupt(n) (n == 0 ? (EX1 = 0) : (EX1 = 1))         /* INT1ä¸­æ–­ä½¿èƒ½ */
+#define INT2_Interrupt(n) INT_CLKO = (INT_CLKO & ~0x10) | (n << 4) /* INT2ä¸­æ–­ä½¿èƒ½ */
+#define INT3_Interrupt(n) INT_CLKO = (INT_CLKO & ~0x20) | (n << 5) /* INT3ä¸­æ–­ä½¿èƒ½ */
+#define INT4_Interrupt(n) INT_CLKO = (INT_CLKO & ~0x40) | (n << 6) /* INT4ä¸­æ–­ä½¿èƒ½ */
 
-typedef struct
-{
-	u8	EXTI_Mode;			//ÖĞ¶ÏÄ£Ê½,  	EXT_MODE_RiseFall, EXT_MODE_Fall
+//========================================================================
+//                              å®šä¹‰å£°æ˜
+//========================================================================
+
+#define EXT_INT0 0  //å¤–ä¸­æ–­0
+#define EXT_INT1 1  //å¤–ä¸­æ–­1
+#define EXT_INT2 2  //å¤–ä¸­æ–­2
+#define EXT_INT3 3  //å¤–ä¸­æ–­3
+#define EXT_INT4 4  //å¤–ä¸­æ–­4
+
+#define EXT_MODE_RiseFall 0  //ä¸Šå‡æ²¿/ä¸‹é™æ²¿ä¸­æ–­
+#define EXT_MODE_Fall     1  //ä¸‹é™æ²¿ä¸­æ–­
+
+typedef struct {
+    u8 EXTI_Mode;  //ä¸­æ–­æ¨¡å¼,  	EXT_MODE_RiseFall, EXT_MODE_Fall
 } EXTI_InitTypeDef;
 
 extern u8 WakeUpSource;
 
-u8	Ext_Inilize(u8 EXT, EXTI_InitTypeDef *INTx);
+u8 Ext_Inilize(u8 EXT, EXTI_InitTypeDef *INTx);
 
 #endif

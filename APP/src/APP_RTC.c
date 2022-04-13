@@ -7,189 +7,196 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* Èç¹ûÒªÔÚ³ÌÐòÖÐÊ¹ÓÃ´Ë´úÂë,ÇëÔÚ³ÌÐòÖÐ×¢Ã÷Ê¹ÓÃÁËSTCµÄ×ÊÁÏ¼°³ÌÐò            */
+/* å¦‚æžœè¦åœ¨ç¨‹åºä¸­ä½¿ç”¨æ­¤ä»£ç ,è¯·åœ¨ç¨‹åºä¸­æ³¨æ˜Žä½¿ç”¨äº†STCçš„èµ„æ–™åŠç¨‹åº            */
 /*---------------------------------------------------------------------*/
 
-#include	"APP.h"
-#include	"STC8G_H_GPIO.h"
-#include	"STC8G_H_I2C.h"
-#include	"STC8G_H_NVIC.h"
-#include	"STC8G_H_Switch.h"
+#include "APP.h"
+#include "STC8G_H_GPIO.h"
+#include "STC8G_H_I2C.h"
+#include "STC8G_H_NVIC.h"
+#include "STC8G_H_Switch.h"
 
-/*************	¹¦ÄÜËµÃ÷	**************
+/*************	åŠŸèƒ½è¯´æ˜Ž	**************
 
-±¾Àý³Ì»ùÓÚSTC8H8K64UÎªÖ÷¿ØÐ¾Æ¬µÄÊµÑéÏä8½øÐÐ±àÐ´²âÊÔ£¬STC8G¡¢STC8HÏµÁÐÐ¾Æ¬¿ÉÍ¨ÓÃ²Î¿¼.
+æœ¬ä¾‹ç¨‹åŸºäºŽSTC8H8K64Uä¸ºä¸»æŽ§èŠ¯ç‰‡çš„å®žéªŒç®±8è¿›è¡Œç¼–å†™æµ‹è¯•ï¼ŒSTC8Gã€STC8Hç³»åˆ—èŠ¯ç‰‡å¯é€šç”¨å‚è€ƒ.
 
-¶ÁÐ´RTC, ICÎªPCF8563.
+è¯»å†™RTC, ICä¸ºPCF8563.
 
-ÓÃSTCµÄMCUµÄIO·½Ê½Çý¶¯8Î»ÊýÂë¹Ü¡£
+ç”¨STCçš„MCUçš„IOæ–¹å¼é©±åŠ¨8ä½æ•°ç ç®¡ã€‚
 
-Ê¹ÓÃTimer0µÄ16Î»×Ô¶¯ÖØ×°À´²úÉú1ms½ÚÅÄ,³ÌÐòÔËÐÐÓÚÕâ¸ö½ÚÅÄÏÂ, ÓÃ»§ÐÞ¸ÄMCUÖ÷Ê±ÖÓÆµÂÊÊ±,×Ô¶¯¶¨Ê±ÓÚ1ms.
+ä½¿ç”¨Timer0çš„16ä½è‡ªåŠ¨é‡è£…æ¥äº§ç”Ÿ1msèŠ‚æ‹,ç¨‹åºè¿è¡ŒäºŽè¿™ä¸ªèŠ‚æ‹ä¸‹, ç”¨æˆ·ä¿®æ”¹MCUä¸»æ—¶é’Ÿé¢‘çŽ‡æ—¶,è‡ªåŠ¨å®šæ—¶äºŽ1ms.
 
-8Î»ÊýÂë¹ÜÏÔÊ¾Ê±¼ä(Ð¡Ê±-·ÖÖÓ-Ãë).
+8ä½æ•°ç ç®¡æ˜¾ç¤ºæ—¶é—´(å°æ—¶-åˆ†é’Ÿ-ç§’).
 
-ÐÐÁÐÉ¨Ãè°´¼ü¼üÂëÎª17~32.
+è¡Œåˆ—æ‰«ææŒ‰é”®é”®ç ä¸º17~32.
 
-°´¼üÖ»Ö§³Öµ¥¼ü°´ÏÂ, ²»Ö§³Ö¶à¼üÍ¬Ê±°´ÏÂ, ÄÇÑù½«»áÓÐ²»¿ÉÔ¤ÖªµÄ½á¹û.
+æŒ‰é”®åªæ”¯æŒå•é”®æŒ‰ä¸‹, ä¸æ”¯æŒå¤šé”®åŒæ—¶æŒ‰ä¸‹, é‚£æ ·å°†ä¼šæœ‰ä¸å¯é¢„çŸ¥çš„ç»“æžœ.
 
-¼ü°´ÏÂ³¬¹ý1Ãëºó,½«ÒÔ10¼ü/ÃëµÄËÙ¶ÈÌá¹©ÖØ¼üÊä³ö. ÓÃ»§Ö»ÐèÒª¼ì²âKeyCodeÊÇ·ñ·Ç0À´ÅÐ¶Ï¼üÊÇ·ñ°´ÏÂ.
+é”®æŒ‰ä¸‹è¶…è¿‡1ç§’åŽ,å°†ä»¥10é”®/ç§’çš„é€Ÿåº¦æä¾›é‡é”®è¾“å‡º. ç”¨æˆ·åªéœ€è¦æ£€æµ‹KeyCodeæ˜¯å¦éž0æ¥åˆ¤æ–­é”®æ˜¯å¦æŒ‰ä¸‹.
 
-µ÷ÕûÊ±¼ä¼ü:
-¼üÂë17: Ð¡Ê±+.
-¼üÂë18: Ð¡Ê±-.
-¼üÂë19: ·ÖÖÓ+.
-¼üÂë20: ·ÖÖÓ-.
+è°ƒæ•´æ—¶é—´é”®:
+é”®ç 17: å°æ—¶+.
+é”®ç 18: å°æ—¶-.
+é”®ç 19: åˆ†é’Ÿ+.
+é”®ç 20: åˆ†é’Ÿ-.
 
-ÏÂÔØÊ±, Ñ¡ÔñÊ±ÖÓ 24MHz (¿ÉÒÔÔÚÅäÖÃÎÄ¼þ"config.h"ÖÐÐÞ¸Ä).
+ä¸‹è½½æ—¶, é€‰æ‹©æ—¶é’Ÿ 24MHz (å¯ä»¥åœ¨é…ç½®æ–‡ä»¶"config.h"ä¸­ä¿®æ”¹).
 
 ******************************************/
 
 //========================================================================
-//                               ±¾µØ³£Á¿ÉùÃ÷	
+//                               æœ¬åœ°å¸¸é‡å£°æ˜Ž
 //========================================================================
 
-
 //========================================================================
-//                               ±¾µØ±äÁ¿ÉùÃ÷
-//========================================================================
-
-
-//========================================================================
-//                               ±¾µØº¯ÊýÉùÃ÷
+//                               æœ¬åœ°å˜é‡å£°æ˜Ž
 //========================================================================
 
-void IO_KeyScan(void);   //50ms call
+//========================================================================
+//                               æœ¬åœ°å‡½æ•°å£°æ˜Ž
+//========================================================================
+
+void IO_KeyScan(void);  // 50ms call
 void DisplayRTC(void);
 void ReadRTC(void);
 void WriteRTC(void);
 
 //========================================================================
-//                            Íâ²¿º¯ÊýºÍ±äÁ¿ÉùÃ÷
+//                            å¤–éƒ¨å‡½æ•°å’Œå˜é‡å£°æ˜Ž
 //========================================================================
 
-
 //========================================================================
-// º¯Êý: RTC_init
-// ÃèÊö: ÓÃ»§³õÊ¼»¯³ÌÐò.
-// ²ÎÊý: None.
-// ·µ»Ø: None.
-// °æ±¾: V1.0, 2020-09-25
+// å‡½æ•°: RTC_init
+// æè¿°: ç”¨æˆ·åˆå§‹åŒ–ç¨‹åº.
+// å‚æ•°: None.
+// è¿”å›ž: None.
+// ç‰ˆæœ¬: V1.0, 2020-09-25
 //========================================================================
 void RTC_init(void)
 {
-	u8  i;
+    u8 i;
 
-	I2C_InitTypeDef		I2C_InitStructure;
-	I2C_InitStructure.I2C_Mode      = I2C_Mode_Master;	//Ö÷´ÓÑ¡Ôñ   I2C_Mode_Master, I2C_Mode_Slave
-	I2C_InitStructure.I2C_Enable    = ENABLE;						//I2C¹¦ÄÜÊ¹ÄÜ,   ENABLE, DISABLE
-	I2C_InitStructure.I2C_MS_WDTA   = DISABLE;					//Ö÷»úÊ¹ÄÜ×Ô¶¯·¢ËÍ,  ENABLE, DISABLE
-	I2C_InitStructure.I2C_Speed     = 16;								//×ÜÏßËÙ¶È=Fosc/2/(Speed*2+4),      0~63
-	I2C_Init(&I2C_InitStructure);
-	NVIC_I2C_Init(I2C_Mode_Master,DISABLE,Priority_0);		//Ö÷´ÓÄ£Ê½, I2C_Mode_Master, I2C_Mode_Slave; ÖÐ¶ÏÊ¹ÄÜ, ENABLE/DISABLE; ÓÅÏÈ¼¶(µÍµ½¸ß) Priority_0,Priority_1,Priority_2,Priority_3
-	
-	P0_MODE_IO_PU(GPIO_Pin_All);		//P0 ÉèÖÃÎª×¼Ë«Ïò¿Ú
-	P1_MODE_IO_PU(GPIO_Pin_4 | GPIO_Pin_5);		//P1.4,P1.5 ÉèÖÃÎª×¼Ë«Ïò¿Ú
-	P6_MODE_IO_PU(GPIO_Pin_All);		//P6 ÉèÖÃÎª×¼Ë«Ïò¿Ú
-	P7_MODE_IO_PU(GPIO_Pin_All);		//P7 ÉèÖÃÎª×¼Ë«Ïò¿Ú
-	I2C_SW(I2C_P14_P15);					//I2C_P14_P15,I2C_P24_P25,I2C_P33_P32
-	display_index = 0;
-	
-	for(i=0; i<8; i++)  LED8[i] = 0x10; //ÉÏµçÏûÒþ
-    
-	ReadRTC();
-	F0 = 0;
-	if(second >= 60)    F0 = 1; //´íÎó
-	if(minute >= 60)    F0 = 1; //´íÎó
-	if(hour   >= 24)    F0 = 1; //´íÎó
-	if(F0)  //ÓÐ´íÎó, Ä¬ÈÏ12:00:00
-	{
-		second = 0;
-		minute = 0;
-		hour  = 12;
-		WriteRTC();
-	}
+    I2C_InitTypeDef I2C_InitStructure;
+    I2C_InitStructure.I2C_Mode    = I2C_Mode_Master;  //ä¸»ä»Žé€‰æ‹©   I2C_Mode_Master, I2C_Mode_Slave
+    I2C_InitStructure.I2C_Enable  = ENABLE;           // I2CåŠŸèƒ½ä½¿èƒ½,   ENABLE, DISABLE
+    I2C_InitStructure.I2C_MS_WDTA = DISABLE;          //ä¸»æœºä½¿èƒ½è‡ªåŠ¨å‘é€,  ENABLE, DISABLE
+    I2C_InitStructure.I2C_Speed   = 16;               //æ€»çº¿é€Ÿåº¦=Fosc/2/(Speed*2+4),      0~63
+    I2C_Init(&I2C_InitStructure);
+    NVIC_I2C_Init(I2C_Mode_Master, DISABLE, Priority_0);  //ä¸»ä»Žæ¨¡å¼, I2C_Mode_Master, I2C_Mode_Slave; ä¸­æ–­ä½¿èƒ½, ENABLE/DISABLE; ä¼˜å…ˆçº§(ä½Žåˆ°é«˜) Priority_0,Priority_1,Priority_2,Priority_3
 
-	DisplayRTC();
-	LED8[2] = DIS_;
-	LED8[5] = DIS_;
+    P0_MODE_IO_PU(GPIO_Pin_All);             // P0 è®¾ç½®ä¸ºå‡†åŒå‘å£
+    P1_MODE_IO_PU(GPIO_Pin_4 | GPIO_Pin_5);  // P1.4,P1.5 è®¾ç½®ä¸ºå‡†åŒå‘å£
+    P6_MODE_IO_PU(GPIO_Pin_All);             // P6 è®¾ç½®ä¸ºå‡†åŒå‘å£
+    P7_MODE_IO_PU(GPIO_Pin_All);             // P7 è®¾ç½®ä¸ºå‡†åŒå‘å£
+    I2C_SW(I2C_P14_P15);                     // I2C_P14_P15,I2C_P24_P25,I2C_P33_P32
+    display_index = 0;
 
-	KeyHoldCnt = 0; //¼ü°´ÏÂ¼ÆÊ±
-	KeyCode = 0;    //¸øÓÃ»§Ê¹ÓÃµÄ¼üÂë
+    for (i = 0; i < 8; i++)
+        LED8[i] = 0x10;  //ä¸Šç”µæ¶ˆéš
 
-	IO_KeyState = 0;
-	IO_KeyState1 = 0;
-	IO_KeyHoldCnt = 0;
-	cnt50ms = 0;
+    ReadRTC();
+    F0 = 0;
+    if (second >= 60)
+        F0 = 1;  //é”™è¯¯
+    if (minute >= 60)
+        F0 = 1;  //é”™è¯¯
+    if (hour >= 24)
+        F0 = 1;  //é”™è¯¯
+    if (F0)      //æœ‰é”™è¯¯, é»˜è®¤12:00:00
+    {
+        second = 0;
+        minute = 0;
+        hour   = 12;
+        WriteRTC();
+    }
+
+    DisplayRTC();
+    LED8[2] = DIS_;
+    LED8[5] = DIS_;
+
+    KeyHoldCnt = 0;  //é”®æŒ‰ä¸‹è®¡æ—¶
+    KeyCode    = 0;  //ç»™ç”¨æˆ·ä½¿ç”¨çš„é”®ç 
+
+    IO_KeyState   = 0;
+    IO_KeyState1  = 0;
+    IO_KeyHoldCnt = 0;
+    cnt50ms       = 0;
 }
 
 //========================================================================
-// º¯Êý: Sample_RTC
-// ÃèÊö: ÓÃ»§Ó¦ÓÃ³ÌÐò.
-// ²ÎÊý: None.
-// ·µ»Ø: None.
-// °æ±¾: V1.0, 2020-09-25
+// å‡½æ•°: Sample_RTC
+// æè¿°: ç”¨æˆ·åº”ç”¨ç¨‹åº.
+// å‚æ•°: None.
+// è¿”å›ž: None.
+// ç‰ˆæœ¬: V1.0, 2020-09-25
 //========================================================================
 void Sample_RTC(void)
 {
-	DisplayScan();
-	
-	if(++msecond >= 1000)   //1Ãëµ½
-	{
-		msecond = 0;
-		ReadRTC();
-		DisplayRTC();
-	}
+    DisplayScan();
 
-	if(++cnt50ms >= 50)     //50msÉ¨ÃèÒ»´ÎÐÐÁÐ¼üÅÌ
-	{
-		cnt50ms = 0;
-		IO_KeyScan();
-	}
-	
-	if(KeyCode != 0)        //ÓÐ¼ü°´ÏÂ
-	{
-		if(KeyCode == 17)   //hour +1
-		{
-			if(++hour >= 24)    hour = 0;
-			WriteRTC();
-			DisplayRTC();
-		}
-		if(KeyCode == 18)   //hour -1
-		{
-			if(--hour >= 24)    hour = 23;
-			WriteRTC();
-			DisplayRTC();
-		}
-		if(KeyCode == 19)   //minute +1
-		{
-			second = 0;
-			if(++minute >= 60)  minute = 0;
-			WriteRTC();
-			DisplayRTC();
-		}
-		if(KeyCode == 20)   //minute -1
-		{
-			second = 0;
-			if(--minute >= 60)  minute = 59;
-			WriteRTC();
-			DisplayRTC();
-		}
+    if (++msecond >= 1000)  // 1ç§’åˆ°
+    {
+        msecond = 0;
+        ReadRTC();
+        DisplayRTC();
+    }
 
-		KeyCode = 0;
-	}
+    if (++cnt50ms >= 50)  // 50msæ‰«æä¸€æ¬¡è¡Œåˆ—é”®ç›˜
+    {
+        cnt50ms = 0;
+        IO_KeyScan();
+    }
+
+    if (KeyCode != 0)  //æœ‰é”®æŒ‰ä¸‹
+    {
+        if (KeyCode == 17)  // hour +1
+        {
+            if (++hour >= 24)
+                hour = 0;
+            WriteRTC();
+            DisplayRTC();
+        }
+        if (KeyCode == 18)  // hour -1
+        {
+            if (--hour >= 24)
+                hour = 23;
+            WriteRTC();
+            DisplayRTC();
+        }
+        if (KeyCode == 19)  // minute +1
+        {
+            second = 0;
+            if (++minute >= 60)
+                minute = 0;
+            WriteRTC();
+            DisplayRTC();
+        }
+        if (KeyCode == 20)  // minute -1
+        {
+            second = 0;
+            if (--minute >= 60)
+                minute = 59;
+            WriteRTC();
+            DisplayRTC();
+        }
+
+        KeyCode = 0;
+    }
 }
 
 //========================================================================
-// º¯Êý: DisplayRTC
-// ÃèÊö: ÏÔÊ¾Ê±ÖÓº¯Êý.
-// ²ÎÊý: None.
-// ·µ»Ø: None.
-// °æ±¾: V1.0, 2020-09-25
+// å‡½æ•°: DisplayRTC
+// æè¿°: æ˜¾ç¤ºæ—¶é’Ÿå‡½æ•°.
+// å‚æ•°: None.
+// è¿”å›ž: None.
+// ç‰ˆæœ¬: V1.0, 2020-09-25
 //========================================================================
 void DisplayRTC(void)
 {
-    if(hour >= 10)  LED8[0] = hour / 10;
-    else            LED8[0] = DIS_BLACK;
+    if (hour >= 10)
+        LED8[0] = hour / 10;
+    else
+        LED8[0] = DIS_BLACK;
     LED8[1] = hour % 10;
     LED8[2] = DIS_;
     LED8[3] = minute / 10;
@@ -199,15 +206,15 @@ void DisplayRTC(void)
 }
 
 //========================================================================
-// º¯Êý: ReadRTC
-// ÃèÊö: ¶ÁRTCº¯Êý.
-// ²ÎÊý: None.
-// ·µ»Ø: None.
-// °æ±¾: V1.0, 2020-09-25
+// å‡½æ•°: ReadRTC
+// æè¿°: è¯»RTCå‡½æ•°.
+// å‚æ•°: None.
+// è¿”å›ž: None.
+// ç‰ˆæœ¬: V1.0, 2020-09-25
 //========================================================================
 void ReadRTC(void)
 {
-    u8  tmp[3];
+    u8 tmp[3];
 
     I2C_ReadNbyte(2, tmp, 3);
     second = ((tmp[0] >> 4) & 0x07) * 10 + (tmp[0] & 0x0f);
@@ -216,15 +223,15 @@ void ReadRTC(void)
 }
 
 //========================================================================
-// º¯Êý: WriteRTC
-// ÃèÊö: Ð´RTCº¯Êý.
-// ²ÎÊý: None.
-// ·µ»Ø: None.
-// °æ±¾: V1.0, 2020-09-25
+// å‡½æ•°: WriteRTC
+// æè¿°: å†™RTCå‡½æ•°.
+// å‚æ•°: None.
+// è¿”å›ž: None.
+// ç‰ˆæœ¬: V1.0, 2020-09-25
 //========================================================================
 void WriteRTC(void)
 {
-    u8  tmp[3];
+    u8 tmp[3];
 
     tmp[0] = ((second / 10) << 4) + (second % 10);
     tmp[1] = ((minute / 10) << 4) + (minute % 10);
@@ -232,10 +239,9 @@ void WriteRTC(void)
     I2C_WriteNbyte(2, tmp, 3);
 }
 
-
 /*****************************************************
-    ÐÐÁÐ¼üÉ¨Ãè³ÌÐò
-    Ê¹ÓÃXY²éÕÒ4x4¼üµÄ·½·¨£¬Ö»ÄÜµ¥¼ü£¬ËÙ¶È¿ì
+    è¡Œåˆ—é”®æ‰«æç¨‹åº
+    ä½¿ç”¨XYæŸ¥æ‰¾4x4é”®çš„æ–¹æ³•ï¼Œåªèƒ½å•é”®ï¼Œé€Ÿåº¦å¿«
 
    Y     P04      P05      P06      P07
           |        |        |        |
@@ -250,67 +256,66 @@ P03 ---- K12 ---- K13 ---- K14 ---- K15 ----
           |        |        |        |
 ******************************************************/
 
-
 //========================================================================
-// º¯Êý: IO_KeyDelay
-// ÃèÊö: °´¼üÉ¨ÃèÑÓ³Ù³ÌÐò.
-// ²ÎÊý: None.
-// ·µ»Ø: None.
-// °æ±¾: V1.0, 2020-09-25
+// å‡½æ•°: IO_KeyDelay
+// æè¿°: æŒ‰é”®æ‰«æå»¶è¿Ÿç¨‹åº.
+// å‚æ•°: None.
+// è¿”å›ž: None.
+// ç‰ˆæœ¬: V1.0, 2020-09-25
 //========================================================================
 void IO_KeyDelay(void)
 {
     u8 i;
     i = 60;
-    while(--i)  ;
+    while (--i)
+        ;
 }
 
 //========================================================================
-// º¯Êý: IO_KeyScan
-// ÃèÊö: °´¼üÉ¨Ãè³ÌÐò.
-// ²ÎÊý: None.
-// ·µ»Ø: None.
-// °æ±¾: V1.0, 2020-09-25
+// å‡½æ•°: IO_KeyScan
+// æè¿°: æŒ‰é”®æ‰«æç¨‹åº.
+// å‚æ•°: None.
+// è¿”å›ž: None.
+// ç‰ˆæœ¬: V1.0, 2020-09-25
 //========================================================================
-void IO_KeyScan(void)    //50ms call
+void IO_KeyScan(void)  // 50ms call
 {
-    u8  j;
+    u8 j;
 
-    j = IO_KeyState1;   //±£´æÉÏÒ»´Î×´Ì¬
+    j = IO_KeyState1;  //ä¿å­˜ä¸Šä¸€æ¬¡çŠ¶æ€
 
-    P0 = 0xf0;  //XµÍ£¬¶ÁY
+    P0 = 0xf0;  // Xä½Žï¼Œè¯»Y
     IO_KeyDelay();
     IO_KeyState1 = P0 & 0xf0;
 
-    P0 = 0x0f;  //YµÍ£¬¶ÁX
+    P0 = 0x0f;  // Yä½Žï¼Œè¯»X
     IO_KeyDelay();
     IO_KeyState1 |= (P0 & 0x0f);
-    IO_KeyState1 ^= 0xff;   //È¡·´
-    
-    if(j == IO_KeyState1)   //Á¬ÐøÁ½´Î¶ÁÏàµÈ
+    IO_KeyState1 ^= 0xff;  //å–å
+
+    if (j == IO_KeyState1)  //è¿žç»­ä¸¤æ¬¡è¯»ç›¸ç­‰
     {
-        j = IO_KeyState;
+        j           = IO_KeyState;
         IO_KeyState = IO_KeyState1;
-        if(IO_KeyState != 0)    //ÓÐ¼ü°´ÏÂ
+        if (IO_KeyState != 0)  //æœ‰é”®æŒ‰ä¸‹
         {
             F0 = 0;
-            if(j == 0)  F0 = 1; //µÚÒ»´Î°´ÏÂ
-            else if(j == IO_KeyState)
-            {
-                if(++IO_KeyHoldCnt >= 20)   //1ÃëºóÖØ¼ü
+            if (j == 0)
+                F0 = 1;  //ç¬¬ä¸€æ¬¡æŒ‰ä¸‹
+            else if (j == IO_KeyState) {
+                if (++IO_KeyHoldCnt >= 20)  // 1ç§’åŽé‡é”®
                 {
                     IO_KeyHoldCnt = 18;
-                    F0 = 1;
+                    F0            = 1;
                 }
             }
-            if(F0)
-            {
+            if (F0) {
                 j = T_KeyTable[IO_KeyState >> 4];
-                if((j != 0) && (T_KeyTable[IO_KeyState& 0x0f] != 0)) 
-                    KeyCode = (j - 1) * 4 + T_KeyTable[IO_KeyState & 0x0f] + 16;    //¼ÆËã¼üÂë£¬17~32
+                if ((j != 0) && (T_KeyTable[IO_KeyState & 0x0f] != 0))
+                    KeyCode = (j - 1) * 4 + T_KeyTable[IO_KeyState & 0x0f] + 16;  //è®¡ç®—é”®ç ï¼Œ17~32
             }
-        }
-        else    IO_KeyHoldCnt = 0;
+        } else
+            IO_KeyHoldCnt = 0;
     }
     P0 = 0xff;
 }

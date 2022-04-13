@@ -7,246 +7,245 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* Èç¹ûÒªÔÚ³ÌĞòÖĞÊ¹ÓÃ´Ë´úÂë,ÇëÔÚ³ÌĞòÖĞ×¢Ã÷Ê¹ÓÃÁËSTCµÄ×ÊÁÏ¼°³ÌĞò            */
+/* å¦‚æœè¦åœ¨ç¨‹åºä¸­ä½¿ç”¨æ­¤ä»£ç ,è¯·åœ¨ç¨‹åºä¸­æ³¨æ˜ä½¿ç”¨äº†STCçš„èµ„æ–™åŠç¨‹åº            */
 /*---------------------------------------------------------------------*/
 
-#include	"config.h"
-#include	"STC8G_H_GPIO.h"
-#include	"STC8H_PWM.h"
-#include	"STC8G_H_ADC.h"
-#include	"STC8G_PCA.h"
-#include	"STC8G_H_Exti.h"
-#include	"STC8G_H_I2C.h"
-#include	"STC8G_H_SPI.h"
-#include	"STC8G_H_Timer.h"
-#include	"STC8G_H_UART.h"
-#include	"STC8G_H_Compare.h"
-#include	"STC8G_PWM15bit.h"
-#include	"STC8G_H_Delay.h"
-#include	"STC8G_H_Switch.h"
-#include	"STC8G_H_WDT.h"
-#include	"STC8G_H_NVIC.h"
-#include	"app.h"
+#include "STC8G_H_ADC.h"
+#include "STC8G_H_Compare.h"
+#include "STC8G_H_Delay.h"
+#include "STC8G_H_Exti.h"
+#include "STC8G_H_GPIO.h"
+#include "STC8G_H_I2C.h"
+#include "STC8G_H_NVIC.h"
+#include "STC8G_H_SPI.h"
+#include "STC8G_H_Switch.h"
+#include "STC8G_H_Timer.h"
+#include "STC8G_H_UART.h"
+#include "STC8G_H_WDT.h"
+#include "STC8G_PCA.h"
+#include "STC8G_PWM15bit.h"
+#include "STC8H_PWM.h"
+#include "app.h"
+#include "config.h"
 
 //========================================================================
-//                                IO¿ÚÅäÖÃ
+//                                IOå£é…ç½®
 //========================================================================
-void	GPIO_config(void)
+void GPIO_config(void)
 {
-	P0_MODE_IO_PU(GPIO_Pin_All);		//P0 ÉèÖÃÎª×¼Ë«Ïò¿Ú
-	P1_MODE_IN_HIZ(GPIO_Pin_LOW);		//P1.0~P1.3 ÉèÖÃÎª¸ß×èÊäÈë
-	P1_MODE_OUT_OD(GPIO_Pin_4 | GPIO_Pin_5);		//P1.4,P1.5 ÉèÖÃÎªÂ©¼«¿ªÂ·
-	P2_MODE_IO_PU(GPIO_Pin_All);		//P2 ÉèÖÃÎª×¼Ë«Ïò¿Ú
-	P3_MODE_IO_PU(GPIO_Pin_LOW);		//P3.0~P3.3 ÉèÖÃÎª×¼Ë«Ïò¿Ú
-	P3_MODE_IO_PU(GPIO_Pin_HIGH);		//P3.4~P3.7 ÉèÖÃÎª×¼Ë«Ïò¿Ú
-//	P3_MODE_IN_HIZ(GPIO_Pin_6 | GPIO_Pin_7);		//P3.6,P3.7 ÉèÖÃÎª¸ß×èÊäÈë
-	P4_MODE_IO_PU(GPIO_Pin_0 | GPIO_Pin_6 | GPIO_Pin_7);	//P4.0,P4.6,P4.7 ÉèÖÃÎª×¼Ë«Ïò¿Ú
-	P6_MODE_IO_PU(GPIO_Pin_All);		//P6 ÉèÖÃÎª×¼Ë«Ïò¿Ú
-	P7_MODE_IO_PU(GPIO_Pin_All);		//P7 ÉèÖÃÎª×¼Ë«Ïò¿Ú
-	
-	P1_PULL_UP_ENABLE(GPIO_Pin_4 | GPIO_Pin_5);	//P1.4,P1.5 ¿ªÆôÄÚ²¿ÉÏÀ­
+    P0_MODE_IO_PU(GPIO_Pin_All);              // P0 è®¾ç½®ä¸ºå‡†åŒå‘å£
+    P1_MODE_IN_HIZ(GPIO_Pin_LOW);             // P1.0~P1.3 è®¾ç½®ä¸ºé«˜é˜»è¾“å…¥
+    P1_MODE_OUT_OD(GPIO_Pin_4 | GPIO_Pin_5);  // P1.4,P1.5 è®¾ç½®ä¸ºæ¼æå¼€è·¯
+    P2_MODE_IO_PU(GPIO_Pin_All);              // P2 è®¾ç½®ä¸ºå‡†åŒå‘å£
+    P3_MODE_IO_PU(GPIO_Pin_LOW);              // P3.0~P3.3 è®¾ç½®ä¸ºå‡†åŒå‘å£
+    P3_MODE_IO_PU(GPIO_Pin_HIGH);             // P3.4~P3.7 è®¾ç½®ä¸ºå‡†åŒå‘å£
+    //  P3_MODE_IN_HIZ(GPIO_Pin_6 | GPIO_Pin_7); //P3.6,P3.7 è®¾ç½®ä¸ºé«˜é˜»è¾“å…¥
+    P4_MODE_IO_PU(GPIO_Pin_0 | GPIO_Pin_6 | GPIO_Pin_7);  // P4.0,P4.6,P4.7 è®¾ç½®ä¸ºå‡†åŒå‘å£
+    P6_MODE_IO_PU(GPIO_Pin_All);                          // P6 è®¾ç½®ä¸ºå‡†åŒå‘å£
+    P7_MODE_IO_PU(GPIO_Pin_All);                          // P7 è®¾ç½®ä¸ºå‡†åŒå‘å£
+
+    P1_PULL_UP_ENABLE(GPIO_Pin_4 | GPIO_Pin_5);  // P1.4,P1.5 å¼€å¯å†…éƒ¨ä¸Šæ‹‰
 }
 
 //========================================================================
-//                               ¶¨Ê±Æ÷ÅäÖÃ
+//                               å®šæ—¶å™¨é…ç½®
 //========================================================================
-void	Timer_config(void)
+void Timer_config(void)
 {
-	TIM_InitTypeDef		TIM_InitStructure;						//½á¹¹¶¨Òå
-	TIM_InitStructure.TIM_Mode      = TIM_16BitAutoReload;	//Ö¸¶¨¹¤×÷Ä£Ê½,   TIM_16BitAutoReload,TIM_16Bit,TIM_8BitAutoReload,TIM_16BitAutoReloadNoMask
-	TIM_InitStructure.TIM_ClkSource = TIM_CLOCK_1T;		//Ö¸¶¨Ê±ÖÓÔ´,     TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_CLOCK_Ext
-	TIM_InitStructure.TIM_ClkOut    = DISABLE;				//ÊÇ·ñÊä³ö¸ßËÙÂö³å, ENABLE»òDISABLE
-	TIM_InitStructure.TIM_Value     = 65536UL - (MAIN_Fosc / 1000UL);		//³õÖµ,
-	TIM_InitStructure.TIM_Run       = ENABLE;					//ÊÇ·ñ³õÊ¼»¯ºóÆô¶¯¶¨Ê±Æ÷, ENABLE»òDISABLE
-	Timer_Inilize(Timer0,&TIM_InitStructure);					//³õÊ¼»¯Timer0	  Timer0,Timer1,Timer2,Timer3,Timer4
-	NVIC_Timer0_Init(ENABLE,Priority_0);		//ÖĞ¶ÏÊ¹ÄÜ, ENABLE/DISABLE; ÓÅÏÈ¼¶(µÍµ½¸ß) Priority_0,Priority_1,Priority_2,Priority_3
+    TIM_InitTypeDef TIM_InitStructure;                                 //ç»“æ„å®šä¹‰
+    TIM_InitStructure.TIM_Mode      = TIM_16BitAutoReload;             //æŒ‡å®šå·¥ä½œæ¨¡å¼,   TIM_16BitAutoReload,TIM_16Bit,TIM_8BitAutoReload,TIM_16BitAutoReloadNoMask
+    TIM_InitStructure.TIM_ClkSource = TIM_CLOCK_1T;                    //æŒ‡å®šæ—¶é’Ÿæº,     TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_CLOCK_Ext
+    TIM_InitStructure.TIM_ClkOut    = DISABLE;                         //æ˜¯å¦è¾“å‡ºé«˜é€Ÿè„‰å†², ENABLEæˆ–DISABLE
+    TIM_InitStructure.TIM_Value     = 65536UL - (MAIN_Fosc / 1000UL);  //åˆå€¼,
+    TIM_InitStructure.TIM_Run       = ENABLE;                          //æ˜¯å¦åˆå§‹åŒ–åå¯åŠ¨å®šæ—¶å™¨, ENABLEæˆ–DISABLE
+    Timer_Inilize(Timer0, &TIM_InitStructure);                         //åˆå§‹åŒ–Timer0    Timer0,Timer1,Timer2,Timer3,Timer4
+    NVIC_Timer0_Init(ENABLE, Priority_0);                              //ä¸­æ–­ä½¿èƒ½, ENABLE/DISABLE; ä¼˜å…ˆçº§(ä½åˆ°é«˜) Priority_0,Priority_1,Priority_2,Priority_3
 
-//	//¶¨Ê±Æ÷1×ö16Î»×Ô¶¯ÖØ×°, ÖĞ¶ÏÆµÂÊÎª20000HZ£¬ÖĞ¶Ïº¯Êı´ÓP6.6È¡·´Êä³ö10KHZ·½²¨ĞÅºÅ.
-//	TIM_InitStructure.TIM_Mode      = TIM_16BitAutoReload;	//Ö¸¶¨¹¤×÷Ä£Ê½,   TIM_16BitAutoReload,TIM_16Bit,TIM_8BitAutoReload,TIM_16BitAutoReloadNoMask
-//	TIM_InitStructure.TIM_ClkSource = TIM_CLOCK_1T;		//Ö¸¶¨Ê±ÖÓÔ´, TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_CLOCK_Ext
-//	TIM_InitStructure.TIM_ClkOut    = DISABLE;				//ÊÇ·ñÊä³ö¸ßËÙÂö³å, ENABLE»òDISABLE
-//	TIM_InitStructure.TIM_Value     = 65536UL - (MAIN_Fosc / 20000);			//³õÖµ,
-//	TIM_InitStructure.TIM_Run       = ENABLE;					//ÊÇ·ñ³õÊ¼»¯ºóÆô¶¯¶¨Ê±Æ÷, ENABLE»òDISABLE
-//	Timer_Inilize(Timer1,&TIM_InitStructure);					//³õÊ¼»¯Timer1	  Timer0,Timer1,Timer2,Timer3,Timer4
-//	NVIC_Timer1_Init(ENABLE,Priority_0);		//ÖĞ¶ÏÊ¹ÄÜ, ENABLE/DISABLE; ÓÅÏÈ¼¶(µÍµ½¸ß) Priority_0,Priority_1,Priority_2,Priority_3
+    //  //å®šæ—¶å™¨1åš16ä½è‡ªåŠ¨é‡è£…, ä¸­æ–­é¢‘ç‡ä¸º20000HZï¼Œä¸­æ–­å‡½æ•°ä»P6.6å–åè¾“å‡º10KHZæ–¹æ³¢ä¿¡å·.
+    //  TIM_InitStructure.TIM_Mode      = TIM_16BitAutoReload;  //æŒ‡å®šå·¥ä½œæ¨¡å¼,   TIM_16BitAutoReload,TIM_16Bit,TIM_8BitAutoReload,TIM_16BitAutoReloadNoMask
+    //  TIM_InitStructure.TIM_ClkSource = TIM_CLOCK_1T;    //æŒ‡å®šæ—¶é’Ÿæº, TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_CLOCK_Ext
+    //  TIM_InitStructure.TIM_ClkOut    = DISABLE;        //æ˜¯å¦è¾“å‡ºé«˜é€Ÿè„‰å†², ENABLEæˆ–DISABLE
+    //  TIM_InitStructure.TIM_Value     = 65536UL - (MAIN_Fosc / 20000);      //åˆå€¼,
+    //  TIM_InitStructure.TIM_Run       = ENABLE;          //æ˜¯å¦åˆå§‹åŒ–åå¯åŠ¨å®šæ—¶å™¨, ENABLEæˆ–DISABLE
+    //  Timer_Inilize(Timer1,&TIM_InitStructure);          //åˆå§‹åŒ–Timer1    Timer0,Timer1,Timer2,Timer3,Timer4
+    //  NVIC_Timer1_Init(ENABLE,Priority_0);    //ä¸­æ–­ä½¿èƒ½, ENABLE/DISABLE; ä¼˜å…ˆçº§(ä½åˆ°é«˜) Priority_0,Priority_1,Priority_2,Priority_3
 
-//	//¶¨Ê±Æ÷2×ö16Î»×Ô¶¯ÖØ×°, ÖĞ¶ÏÆµÂÊÎª10000HZ£¬ÖĞ¶Ïº¯Êı´ÓP6.5È¡·´Êä³ö5KHZ·½²¨ĞÅºÅ.
-//	TIM_InitStructure.TIM_ClkSource = TIM_CLOCK_1T;		//Ö¸¶¨Ê±ÖÓÔ´,     TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_CLOCK_Ext
-//	TIM_InitStructure.TIM_ClkOut    = DISABLE;				//ÊÇ·ñÊä³ö¸ßËÙÂö³å, ENABLE»òDISABLE
-//	TIM_InitStructure.TIM_Value     = 65536UL - (MAIN_Fosc / 10000);				//³õÖµ
-//	TIM_InitStructure.TIM_Run       = ENABLE;					//ÊÇ·ñ³õÊ¼»¯ºóÆô¶¯¶¨Ê±Æ÷, ENABLE»òDISABLE
-//	Timer_Inilize(Timer2,&TIM_InitStructure);					//³õÊ¼»¯Timer2	  Timer0,Timer1,Timer2,Timer3,Timer4
-//	NVIC_Timer2_Init(ENABLE,NULL);		//ÖĞ¶ÏÊ¹ÄÜ, ENABLE/DISABLE; ÎŞÓÅÏÈ¼¶
+    //  //å®šæ—¶å™¨2åš16ä½è‡ªåŠ¨é‡è£…, ä¸­æ–­é¢‘ç‡ä¸º10000HZï¼Œä¸­æ–­å‡½æ•°ä»P6.5å–åè¾“å‡º5KHZæ–¹æ³¢ä¿¡å·.
+    //  TIM_InitStructure.TIM_ClkSource = TIM_CLOCK_1T;    //æŒ‡å®šæ—¶é’Ÿæº,     TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_CLOCK_Ext
+    //  TIM_InitStructure.TIM_ClkOut    = DISABLE;        //æ˜¯å¦è¾“å‡ºé«˜é€Ÿè„‰å†², ENABLEæˆ–DISABLE
+    //  TIM_InitStructure.TIM_Value     = 65536UL - (MAIN_Fosc / 10000);        //åˆå€¼
+    //  TIM_InitStructure.TIM_Run       = ENABLE;          //æ˜¯å¦åˆå§‹åŒ–åå¯åŠ¨å®šæ—¶å™¨, ENABLEæˆ–DISABLE
+    //  Timer_Inilize(Timer2,&TIM_InitStructure);          //åˆå§‹åŒ–Timer2    Timer0,Timer1,Timer2,Timer3,Timer4
+    //  NVIC_Timer2_Init(ENABLE,NULL);    //ä¸­æ–­ä½¿èƒ½, ENABLE/DISABLE; æ— ä¼˜å…ˆçº§
 
-//	//¶¨Ê±Æ÷3×ö16Î»×Ô¶¯ÖØ×°, ÖĞ¶ÏÆµÂÊÎª100HZ£¬ÖĞ¶Ïº¯Êı´ÓP6.4È¡·´Êä³ö50HZ·½²¨ĞÅºÅ.
-//	TIM_InitStructure.TIM_ClkSource = TIM_CLOCK_12T;	//Ö¸¶¨Ê±ÖÓÔ´,     TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_CLOCK_Ext
-//	TIM_InitStructure.TIM_ClkOut    = ENABLE;					//ÊÇ·ñÊä³ö¸ßËÙÂö³å, ENABLE»òDISABLE
-//	TIM_InitStructure.TIM_Value     = 65536UL - (MAIN_Fosc / (100*12));		//³õÖµ
-//	TIM_InitStructure.TIM_Run       = ENABLE;					//ÊÇ·ñ³õÊ¼»¯ºóÆô¶¯¶¨Ê±Æ÷, ENABLE»òDISABLE
-//	Timer_Inilize(Timer3,&TIM_InitStructure);					//³õÊ¼»¯Timer3	  Timer0,Timer1,Timer2,Timer3,Timer4
-//	NVIC_Timer3_Init(ENABLE,NULL);		//ÖĞ¶ÏÊ¹ÄÜ, ENABLE/DISABLE; ÎŞÓÅÏÈ¼¶
+    //  //å®šæ—¶å™¨3åš16ä½è‡ªåŠ¨é‡è£…, ä¸­æ–­é¢‘ç‡ä¸º100HZï¼Œä¸­æ–­å‡½æ•°ä»P6.4å–åè¾“å‡º50HZæ–¹æ³¢ä¿¡å·.
+    //  TIM_InitStructure.TIM_ClkSource = TIM_CLOCK_12T;  //æŒ‡å®šæ—¶é’Ÿæº,     TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_CLOCK_Ext
+    //  TIM_InitStructure.TIM_ClkOut    = ENABLE;          //æ˜¯å¦è¾“å‡ºé«˜é€Ÿè„‰å†², ENABLEæˆ–DISABLE
+    //  TIM_InitStructure.TIM_Value     = 65536UL - (MAIN_Fosc / (100*12));    //åˆå€¼
+    //  TIM_InitStructure.TIM_Run       = ENABLE;          //æ˜¯å¦åˆå§‹åŒ–åå¯åŠ¨å®šæ—¶å™¨, ENABLEæˆ–DISABLE
+    //  Timer_Inilize(Timer3,&TIM_InitStructure);          //åˆå§‹åŒ–Timer3    Timer0,Timer1,Timer2,Timer3,Timer4
+    //  NVIC_Timer3_Init(ENABLE,NULL);    //ä¸­æ–­ä½¿èƒ½, ENABLE/DISABLE; æ— ä¼˜å…ˆçº§
 
-//	//¶¨Ê±Æ÷4×ö16Î»×Ô¶¯ÖØ×°, ÖĞ¶ÏÆµÂÊÎª50HZ£¬ÖĞ¶Ïº¯Êı´ÓP6.3È¡·´Êä³ö25HZ·½²¨ĞÅºÅ.
-//	TIM_InitStructure.TIM_ClkSource = TIM_CLOCK_12T;	//Ö¸¶¨Ê±ÖÓÔ´,     TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_CLOCK_Ext
-//	TIM_InitStructure.TIM_ClkOut    = ENABLE;					//ÊÇ·ñÊä³ö¸ßËÙÂö³å, ENABLE»òDISABLE
-//	TIM_InitStructure.TIM_Value     = 65536UL - (MAIN_Fosc / (50*12));		//³õÖµ
-//	TIM_InitStructure.TIM_Run       = ENABLE;					//ÊÇ·ñ³õÊ¼»¯ºóÆô¶¯¶¨Ê±Æ÷, ENABLE»òDISABLE
-//	Timer_Inilize(Timer4,&TIM_InitStructure);					//³õÊ¼»¯Timer4	  Timer0,Timer1,Timer2,Timer3,Timer4
-//	NVIC_Timer4_Init(ENABLE,NULL);		//ÖĞ¶ÏÊ¹ÄÜ, ENABLE/DISABLE; ÎŞÓÅÏÈ¼¶
+    //  //å®šæ—¶å™¨4åš16ä½è‡ªåŠ¨é‡è£…, ä¸­æ–­é¢‘ç‡ä¸º50HZï¼Œä¸­æ–­å‡½æ•°ä»P6.3å–åè¾“å‡º25HZæ–¹æ³¢ä¿¡å·.
+    //  TIM_InitStructure.TIM_ClkSource = TIM_CLOCK_12T;  //æŒ‡å®šæ—¶é’Ÿæº,     TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_CLOCK_Ext
+    //  TIM_InitStructure.TIM_ClkOut    = ENABLE;          //æ˜¯å¦è¾“å‡ºé«˜é€Ÿè„‰å†², ENABLEæˆ–DISABLE
+    //  TIM_InitStructure.TIM_Value     = 65536UL - (MAIN_Fosc / (50*12));    //åˆå€¼
+    //  TIM_InitStructure.TIM_Run       = ENABLE;          //æ˜¯å¦åˆå§‹åŒ–åå¯åŠ¨å®šæ—¶å™¨, ENABLEæˆ–DISABLE
+    //  Timer_Inilize(Timer4,&TIM_InitStructure);          //åˆå§‹åŒ–Timer4    Timer0,Timer1,Timer2,Timer3,Timer4
+    //  NVIC_Timer4_Init(ENABLE,NULL);    //ä¸­æ–­ä½¿èƒ½, ENABLE/DISABLE; æ— ä¼˜å…ˆçº§
 }
 
 //========================================================================
-//                              ADC³õÊ¼»¯
+//                              ADCåˆå§‹åŒ–
 //========================================================================
-void	ADC_config(void)
+void ADC_config(void)
 {
-	ADC_InitTypeDef		ADC_InitStructure;		//½á¹¹¶¨Òå
-	ADC_InitStructure.ADC_SMPduty   = 31;		//ADC Ä£ÄâĞÅºÅ²ÉÑùÊ±¼ä¿ØÖÆ, 0~31£¨×¢Òâ£º SMPDUTY Ò»¶¨²»ÄÜÉèÖÃĞ¡ÓÚ 10£©
-	ADC_InitStructure.ADC_CsSetup   = 0;		//ADC Í¨µÀÑ¡ÔñÊ±¼ä¿ØÖÆ 0(Ä¬ÈÏ),1
-	ADC_InitStructure.ADC_CsHold    = 1;		//ADC Í¨µÀÑ¡Ôñ±£³ÖÊ±¼ä¿ØÖÆ 0,1(Ä¬ÈÏ),2,3
-	ADC_InitStructure.ADC_Speed     = ADC_SPEED_2X1T;		//ÉèÖÃ ADC ¹¤×÷Ê±ÖÓÆµÂÊ	ADC_SPEED_2X1T~ADC_SPEED_2X16T
-	ADC_InitStructure.ADC_AdjResult = ADC_RIGHT_JUSTIFIED;	//ADC½á¹ûµ÷Õû,	ADC_LEFT_JUSTIFIED,ADC_RIGHT_JUSTIFIED
-	ADC_Inilize(&ADC_InitStructure);		//³õÊ¼»¯
-	ADC_PowerControl(ENABLE);						//ADCµçÔ´¿ª¹Ø, ENABLE»òDISABLE
-	NVIC_ADC_Init(DISABLE,Priority_0);		//ÖĞ¶ÏÊ¹ÄÜ, ENABLE/DISABLE; ÓÅÏÈ¼¶(µÍµ½¸ß) Priority_0,Priority_1,Priority_2,Priority_3
+    ADC_InitTypeDef ADC_InitStructure;                      //ç»“æ„å®šä¹‰
+    ADC_InitStructure.ADC_SMPduty   = 31;                   // ADC æ¨¡æ‹Ÿä¿¡å·é‡‡æ ·æ—¶é—´æ§åˆ¶, 0~31ï¼ˆæ³¨æ„ï¼š SMPDUTY ä¸€å®šä¸èƒ½è®¾ç½®å°äº 10ï¼‰
+    ADC_InitStructure.ADC_CsSetup   = 0;                    // ADC é€šé“é€‰æ‹©æ—¶é—´æ§åˆ¶ 0(é»˜è®¤),1
+    ADC_InitStructure.ADC_CsHold    = 1;                    // ADC é€šé“é€‰æ‹©ä¿æŒæ—¶é—´æ§åˆ¶ 0,1(é»˜è®¤),2,3
+    ADC_InitStructure.ADC_Speed     = ADC_SPEED_2X1T;       //è®¾ç½® ADC å·¥ä½œæ—¶é’Ÿé¢‘ç‡  ADC_SPEED_2X1T~ADC_SPEED_2X16T
+    ADC_InitStructure.ADC_AdjResult = ADC_RIGHT_JUSTIFIED;  // ADCç»“æœè°ƒæ•´,  ADC_LEFT_JUSTIFIED,ADC_RIGHT_JUSTIFIED
+    ADC_Inilize(&ADC_InitStructure);                        //åˆå§‹åŒ–
+    ADC_PowerControl(ENABLE);                               // ADCç”µæºå¼€å…³, ENABLEæˆ–DISABLE
+    NVIC_ADC_Init(DISABLE, Priority_0);                     //ä¸­æ–­ä½¿èƒ½, ENABLE/DISABLE; ä¼˜å…ˆçº§(ä½åˆ°é«˜) Priority_0,Priority_1,Priority_2,Priority_3
 }
 
 //========================================================================
-//                              ´®¿Ú³õÊ¼»¯
+//                              ä¸²å£åˆå§‹åŒ–
 //========================================================================
-void	UART_config(void)
+void UART_config(void)
 {
-	COMx_InitDefine		COMx_InitStructure;					//½á¹¹¶¨Òå
+    COMx_InitDefine COMx_InitStructure;  //ç»“æ„å®šä¹‰
 
-	COMx_InitStructure.UART_Mode      = UART_8bit_BRTx;	//Ä£Ê½, UART_ShiftRight,UART_8bit_BRTx,UART_9bit,UART_9bit_BRTx
-	COMx_InitStructure.UART_BRT_Use   = BRT_Timer1;			//Ñ¡Ôñ²¨ÌØÂÊ·¢ÉúÆ÷, BRT_Timer1, BRT_Timer2 (×¢Òâ: ´®¿Ú2¹Ì¶¨Ê¹ÓÃBRT_Timer2)
-	COMx_InitStructure.UART_BaudRate  = 115200ul;			//²¨ÌØÂÊ, Ò»°ã 110 ~ 115200
-	COMx_InitStructure.UART_RxEnable  = ENABLE;				//½ÓÊÕÔÊĞí,   ENABLE»òDISABLE
-	COMx_InitStructure.BaudRateDouble = DISABLE;			//²¨ÌØÂÊ¼Ó±¶, ENABLE»òDISABLE
-	UART_Configuration(UART1, &COMx_InitStructure);		//³õÊ¼»¯´®¿Ú1 UART1,UART2,UART3,UART4
-	NVIC_UART1_Init(ENABLE,Priority_1);		//ÖĞ¶ÏÊ¹ÄÜ, ENABLE/DISABLE; ÓÅÏÈ¼¶(µÍµ½¸ß) Priority_0,Priority_1,Priority_2,Priority_3
+    COMx_InitStructure.UART_Mode      = UART_8bit_BRTx;  //æ¨¡å¼, UART_ShiftRight,UART_8bit_BRTx,UART_9bit,UART_9bit_BRTx
+    COMx_InitStructure.UART_BRT_Use   = BRT_Timer1;      //é€‰æ‹©æ³¢ç‰¹ç‡å‘ç”Ÿå™¨, BRT_Timer1, BRT_Timer2 (æ³¨æ„: ä¸²å£2å›ºå®šä½¿ç”¨BRT_Timer2)
+    COMx_InitStructure.UART_BaudRate  = 115200ul;        //æ³¢ç‰¹ç‡, ä¸€èˆ¬ 110 ~ 115200
+    COMx_InitStructure.UART_RxEnable  = ENABLE;          //æ¥æ”¶å…è®¸,   ENABLEæˆ–DISABLE
+    COMx_InitStructure.BaudRateDouble = DISABLE;         //æ³¢ç‰¹ç‡åŠ å€, ENABLEæˆ–DISABLE
+    UART_Configuration(UART1, &COMx_InitStructure);      //åˆå§‹åŒ–ä¸²å£1 UART1,UART2,UART3,UART4
+    NVIC_UART1_Init(ENABLE, Priority_1);                 //ä¸­æ–­ä½¿èƒ½, ENABLE/DISABLE; ä¼˜å…ˆçº§(ä½åˆ°é«˜) Priority_0,Priority_1,Priority_2,Priority_3
 
-//	COMx_InitStructure.UART_Mode      = UART_8bit_BRTx;		//Ä£Ê½,   UART_ShiftRight,UART_8bit_BRTx,UART_9bit,UART_9bit_BRTx
-////	COMx_InitStructure.UART_BRT_Use   = BRT_Timer2;			//Ñ¡Ôñ²¨ÌØÂÊ·¢ÉúÆ÷, BRT_Timer2 (×¢Òâ: ´®¿Ú2¹Ì¶¨Ê¹ÓÃBRT_Timer2, ËùÒÔ²»ÓÃÑ¡Ôñ)
-//	COMx_InitStructure.UART_BaudRate  = 115200ul;			//²¨ÌØÂÊ,     110 ~ 115200
-//	COMx_InitStructure.UART_RxEnable  = ENABLE;				//½ÓÊÕÔÊĞí,   ENABLE»òDISABLE
-//	UART_Configuration(UART2, &COMx_InitStructure);		//³õÊ¼»¯´®¿Ú2 USART1,USART2,USART3,USART4
-//	NVIC_UART2_Init(ENABLE,Priority_1);		//ÖĞ¶ÏÊ¹ÄÜ, ENABLE/DISABLE; ÓÅÏÈ¼¶(µÍµ½¸ß) Priority_0,Priority_1,Priority_2,Priority_3
+    //  COMx_InitStructure.UART_Mode      = UART_8bit_BRTx;    //æ¨¡å¼,   UART_ShiftRight,UART_8bit_BRTx,UART_9bit,UART_9bit_BRTx
+    ////  COMx_InitStructure.UART_BRT_Use   = BRT_Timer2;      //é€‰æ‹©æ³¢ç‰¹ç‡å‘ç”Ÿå™¨, BRT_Timer2 (æ³¨æ„: ä¸²å£2å›ºå®šä½¿ç”¨BRT_Timer2, æ‰€ä»¥ä¸ç”¨é€‰æ‹©)
+    //  COMx_InitStructure.UART_BaudRate  = 115200ul;      //æ³¢ç‰¹ç‡,     110 ~ 115200
+    //  COMx_InitStructure.UART_RxEnable  = ENABLE;        //æ¥æ”¶å…è®¸,   ENABLEæˆ–DISABLE
+    //  UART_Configuration(UART2, &COMx_InitStructure);    //åˆå§‹åŒ–ä¸²å£2 USART1,USART2,USART3,USART4
+    //  NVIC_UART2_Init(ENABLE,Priority_1);    //ä¸­æ–­ä½¿èƒ½, ENABLE/DISABLE; ä¼˜å…ˆçº§(ä½åˆ°é«˜) Priority_0,Priority_1,Priority_2,Priority_3
 }
 
 //========================================================================
-//                               I2C³õÊ¼»¯
+//                               I2Cåˆå§‹åŒ–
 //========================================================================
-void	I2C_config(void)
+void I2C_config(void)
 {
-	I2C_InitTypeDef		I2C_InitStructure;
-	I2C_InitStructure.I2C_Mode      = I2C_Mode_Master;	//Ö÷´ÓÑ¡Ôñ   I2C_Mode_Master, I2C_Mode_Slave
-	I2C_InitStructure.I2C_Enable    = ENABLE;						//I2C¹¦ÄÜÊ¹ÄÜ,   ENABLE, DISABLE
-	I2C_InitStructure.I2C_MS_WDTA   = DISABLE;					//Ö÷»úÊ¹ÄÜ×Ô¶¯·¢ËÍ,  ENABLE, DISABLE
-	I2C_InitStructure.I2C_Speed     = 16;								//×ÜÏßËÙ¶È=Fosc/2/(Speed*2+4),      0~63
-	I2C_Init(&I2C_InitStructure);
-	NVIC_I2C_Init(I2C_Mode_Master,DISABLE,Priority_0);		//Ö÷´ÓÄ£Ê½, I2C_Mode_Master, I2C_Mode_Slave; ÖĞ¶ÏÊ¹ÄÜ, ENABLE/DISABLE; ÓÅÏÈ¼¶(µÍµ½¸ß) Priority_0,Priority_1,Priority_2,Priority_3
+    I2C_InitTypeDef I2C_InitStructure;
+    I2C_InitStructure.I2C_Mode    = I2C_Mode_Master;  //ä¸»ä»é€‰æ‹©   I2C_Mode_Master, I2C_Mode_Slave
+    I2C_InitStructure.I2C_Enable  = ENABLE;           // I2CåŠŸèƒ½ä½¿èƒ½,   ENABLE, DISABLE
+    I2C_InitStructure.I2C_MS_WDTA = DISABLE;          //ä¸»æœºä½¿èƒ½è‡ªåŠ¨å‘é€,  ENABLE, DISABLE
+    I2C_InitStructure.I2C_Speed   = 16;               //æ€»çº¿é€Ÿåº¦=Fosc/2/(Speed*2+4),      0~63
+    I2C_Init(&I2C_InitStructure);
+    NVIC_I2C_Init(I2C_Mode_Master, DISABLE, Priority_0);  //ä¸»ä»æ¨¡å¼, I2C_Mode_Master, I2C_Mode_Slave; ä¸­æ–­ä½¿èƒ½, ENABLE/DISABLE; ä¼˜å…ˆçº§(ä½åˆ°é«˜) Priority_0,Priority_1,Priority_2,Priority_3
 }
 
 //========================================================================
-//                               SPI³õÊ¼»¯
+//                               SPIåˆå§‹åŒ–
 //========================================================================
-void	SPI_config(void)
+void SPI_config(void)
 {
-	SPI_InitTypeDef		SPI_InitStructure;
-	SPI_InitStructure.SPI_Enable    = ENABLE;						//SPIÆô¶¯    ENABLE, DISABLE
-	SPI_InitStructure.SPI_SSIG      = ENABLE;						//Æ¬Ñ¡Î»     ENABLE, DISABLE
-	SPI_InitStructure.SPI_FirstBit  = SPI_MSB;					//ÒÆÎ»·½Ïò   SPI_MSB, SPI_LSB
-	SPI_InitStructure.SPI_Mode      = SPI_Mode_Slave;		//Ö÷´ÓÑ¡Ôñ   SPI_Mode_Master, SPI_Mode_Slave
-	SPI_InitStructure.SPI_CPOL      = SPI_CPOL_Low;			//Ê±ÖÓÏàÎ»   SPI_CPOL_High,   SPI_CPOL_Low
-	SPI_InitStructure.SPI_CPHA      = SPI_CPHA_2Edge;		//Êı¾İ±ßÑØ   SPI_CPHA_1Edge,  SPI_CPHA_2Edge
-	SPI_InitStructure.SPI_Speed     = SPI_Speed_4;			//SPIËÙ¶È    SPI_Speed_4, SPI_Speed_16, SPI_Speed_64, SPI_Speed_128
-	SPI_Init(&SPI_InitStructure);
-	NVIC_SPI_Init(ENABLE,Priority_3);		//ÖĞ¶ÏÊ¹ÄÜ, ENABLE/DISABLE; ÓÅÏÈ¼¶(µÍµ½¸ß) Priority_0,Priority_1,Priority_2,Priority_3
+    SPI_InitTypeDef SPI_InitStructure;
+    SPI_InitStructure.SPI_Enable   = ENABLE;          // SPIå¯åŠ¨    ENABLE, DISABLE
+    SPI_InitStructure.SPI_SSIG     = ENABLE;          //ç‰‡é€‰ä½     ENABLE, DISABLE
+    SPI_InitStructure.SPI_FirstBit = SPI_MSB;         //ç§»ä½æ–¹å‘   SPI_MSB, SPI_LSB
+    SPI_InitStructure.SPI_Mode     = SPI_Mode_Slave;  //ä¸»ä»é€‰æ‹©   SPI_Mode_Master, SPI_Mode_Slave
+    SPI_InitStructure.SPI_CPOL     = SPI_CPOL_Low;    //æ—¶é’Ÿç›¸ä½   SPI_CPOL_High,   SPI_CPOL_Low
+    SPI_InitStructure.SPI_CPHA     = SPI_CPHA_2Edge;  //æ•°æ®è¾¹æ²¿   SPI_CPHA_1Edge,  SPI_CPHA_2Edge
+    SPI_InitStructure.SPI_Speed    = SPI_Speed_4;     // SPIé€Ÿåº¦    SPI_Speed_4, SPI_Speed_16, SPI_Speed_64, SPI_Speed_128
+    SPI_Init(&SPI_InitStructure);
+    NVIC_SPI_Init(ENABLE, Priority_3);  //ä¸­æ–­ä½¿èƒ½, ENABLE/DISABLE; ä¼˜å…ˆçº§(ä½åˆ°é«˜) Priority_0,Priority_1,Priority_2,Priority_3
 }
 
 //========================================================================
-//                             ±È½ÏÆ÷³õÊ¼»¯
+//                             æ¯”è¾ƒå™¨åˆå§‹åŒ–
 //========================================================================
-void	CMP_config(void)
+void CMP_config(void)
 {
-	CMP_InitDefine CMP_InitStructure;						//½á¹¹¶¨Òå
-	CMP_InitStructure.CMP_EN = ENABLE;								//ÔÊĞí±È½ÏÆ÷		ENABLE,DISABLE
-	CMP_InitStructure.CMP_P_Select     = CMP_P_P37;		//±È½ÏÆ÷ÊäÈëÕı¼«Ñ¡Ôñ, CMP_P_P37: Ñ¡ÔñP3.7×öÕıÊäÈë, CMP_P_ADC: ÓÉADCÄ£ÄâÊäÈë¶Ë×öÕıÊäÈë.
-	CMP_InitStructure.CMP_N_Select     = CMP_N_GAP;		//±È½ÏÆ÷ÊäÈë¸º¼«Ñ¡Ôñ, CMP_N_GAP: Ñ¡ÔñÄÚ²¿BandGap¾­¹ıOPºóµÄµçÑ¹×ö¸ºÊäÈë, CMP_N_P36: Ñ¡ÔñP3.6×ö¸ºÊäÈë.
-	CMP_InitStructure.CMP_InvCMPO      = DISABLE;			//±È½ÏÆ÷Êä³öÈ¡·´, 	ENABLE,DISABLE
-	CMP_InitStructure.CMP_100nsFilter  = ENABLE;			//ÄÚ²¿0.1uFÂË²¨,  	ENABLE,DISABLE
-	CMP_InitStructure.CMP_Outpt_En     = ENABLE;			//ÔÊĞí±È½Ï½á¹ûÊä³ö,ENABLE,DISABLE
-	CMP_InitStructure.CMP_OutDelayDuty = 16;					//±È½Ï½á¹û±ä»¯ÑÓÊ±ÖÜÆÚÊı, 0~63
-	CMP_Inilize(&CMP_InitStructure);				//³õÊ¼»¯±È½ÏÆ÷
-	NVIC_CMP_Init(RISING_EDGE|FALLING_EDGE,Priority_0);	//ÖĞ¶ÏÊ¹ÄÜ, RISING_EDGE/FALLING_EDGE/DISABLE; ÓÅÏÈ¼¶(µÍµ½¸ß) Priority_0,Priority_1,Priority_2,Priority_3
+    CMP_InitDefine CMP_InitStructure;                       //ç»“æ„å®šä¹‰
+    CMP_InitStructure.CMP_EN           = ENABLE;            //å…è®¸æ¯”è¾ƒå™¨    ENABLE,DISABLE
+    CMP_InitStructure.CMP_P_Select     = CMP_P_P37;         //æ¯”è¾ƒå™¨è¾“å…¥æ­£æé€‰æ‹©, CMP_P_P37: é€‰æ‹©P3.7åšæ­£è¾“å…¥, CMP_P_ADC: ç”±ADCæ¨¡æ‹Ÿè¾“å…¥ç«¯åšæ­£è¾“å…¥.
+    CMP_InitStructure.CMP_N_Select     = CMP_N_GAP;         //æ¯”è¾ƒå™¨è¾“å…¥è´Ÿæé€‰æ‹©, CMP_N_GAP: é€‰æ‹©å†…éƒ¨BandGapç»è¿‡OPåçš„ç”µå‹åšè´Ÿè¾“å…¥, CMP_N_P36: é€‰æ‹©P3.6åšè´Ÿè¾“å…¥.
+    CMP_InitStructure.CMP_InvCMPO      = DISABLE;           //æ¯”è¾ƒå™¨è¾“å‡ºå–å,   ENABLE,DISABLE
+    CMP_InitStructure.CMP_100nsFilter  = ENABLE;            //å†…éƒ¨0.1uFæ»¤æ³¢,    ENABLE,DISABLE
+    CMP_InitStructure.CMP_Outpt_En     = ENABLE;            //å…è®¸æ¯”è¾ƒç»“æœè¾“å‡º,ENABLE,DISABLE
+    CMP_InitStructure.CMP_OutDelayDuty = 16;                //æ¯”è¾ƒç»“æœå˜åŒ–å»¶æ—¶å‘¨æœŸæ•°, 0~63
+    CMP_Inilize(&CMP_InitStructure);                        //åˆå§‹åŒ–æ¯”è¾ƒå™¨
+    NVIC_CMP_Init(RISING_EDGE | FALLING_EDGE, Priority_0);  //ä¸­æ–­ä½¿èƒ½, RISING_EDGE/FALLING_EDGE/DISABLE; ä¼˜å…ˆçº§(ä½åˆ°é«˜) Priority_0,Priority_1,Priority_2,Priority_3
 }
 //========================================================================
-//                             Íâ²¿ÖĞ¶Ï³õÊ¼»¯
+//                             å¤–éƒ¨ä¸­æ–­åˆå§‹åŒ–
 //========================================================================
-void	Exti_config(void)
+void Exti_config(void)
 {
-	EXTI_InitTypeDef	Exti_InitStructure;							//½á¹¹¶¨Òå
+    EXTI_InitTypeDef Exti_InitStructure;  //ç»“æ„å®šä¹‰
 
-	Exti_InitStructure.EXTI_Mode      = EXT_MODE_Fall;//ÖĞ¶ÏÄ£Ê½,   EXT_MODE_RiseFall,EXT_MODE_Fall
-	Ext_Inilize(EXT_INT0,&Exti_InitStructure);				//³õÊ¼»¯
-	NVIC_INT0_Init(ENABLE,Priority_0);		//ÖĞ¶ÏÊ¹ÄÜ, ENABLE/DISABLE; ÓÅÏÈ¼¶(µÍµ½¸ß) Priority_0,Priority_1,Priority_2,Priority_3
+    Exti_InitStructure.EXTI_Mode = EXT_MODE_Fall;  //ä¸­æ–­æ¨¡å¼,   EXT_MODE_RiseFall,EXT_MODE_Fall
+    Ext_Inilize(EXT_INT0, &Exti_InitStructure);    //åˆå§‹åŒ–
+    NVIC_INT0_Init(ENABLE, Priority_0);            //ä¸­æ–­ä½¿èƒ½, ENABLE/DISABLE; ä¼˜å…ˆçº§(ä½åˆ°é«˜) Priority_0,Priority_1,Priority_2,Priority_3
 
-	Exti_InitStructure.EXTI_Mode      = EXT_MODE_Fall;//ÖĞ¶ÏÄ£Ê½,   EXT_MODE_RiseFall,EXT_MODE_Fall
-	Ext_Inilize(EXT_INT1,&Exti_InitStructure);				//³õÊ¼»¯
-	NVIC_INT1_Init(ENABLE,Priority_0);		//ÖĞ¶ÏÊ¹ÄÜ, ENABLE/DISABLE; ÓÅÏÈ¼¶(µÍµ½¸ß) Priority_0,Priority_1,Priority_2,Priority_3
+    Exti_InitStructure.EXTI_Mode = EXT_MODE_Fall;  //ä¸­æ–­æ¨¡å¼,   EXT_MODE_RiseFall,EXT_MODE_Fall
+    Ext_Inilize(EXT_INT1, &Exti_InitStructure);    //åˆå§‹åŒ–
+    NVIC_INT1_Init(ENABLE, Priority_0);            //ä¸­æ–­ä½¿èƒ½, ENABLE/DISABLE; ä¼˜å…ˆçº§(ä½åˆ°é«˜) Priority_0,Priority_1,Priority_2,Priority_3
 
-	NVIC_INT2_Init(ENABLE,NULL);		//ÖĞ¶ÏÊ¹ÄÜ, ENABLE/DISABLE; ÎŞÓÅÏÈ¼¶
-	NVIC_INT3_Init(ENABLE,NULL);		//ÖĞ¶ÏÊ¹ÄÜ, ENABLE/DISABLE; ÎŞÓÅÏÈ¼¶
-	NVIC_INT4_Init(ENABLE,NULL);		//ÖĞ¶ÏÊ¹ÄÜ, ENABLE/DISABLE; ÎŞÓÅÏÈ¼¶
-}
-
-//========================================================================
-//                             Íâ²¿ÖĞ¶Ï³õÊ¼»¯
-//========================================================================
-
-//========================================================================
-//                               ¹¦ÄÜ½ÅÇĞ»»
-//========================================================================
-void	Switch_config(void)
-{
-	UART1_SW(UART1_SW_P30_P31);		//UART1_SW_P30_P31,UART1_SW_P36_P37,UART1_SW_P16_P17,UART1_SW_P43_P44
-	UART2_SW(UART2_SW_P46_P47);		//UART2_SW_P10_P11,UART2_SW_P46_P47
-//	UART3_SW(UART3_SW_P00_P01);		//UART3_SW_P00_P01,UART3_SW_P50_P51
-//	UART4_SW(UART4_SW_P02_P03);		//UART4_SW_P02_P03,UART4_SW_P52_P53
-//	I2C_SW(I2C_P14_P15);					//I2C_P14_P15,I2C_P24_P25,I2C_P33_P32
-//	COMP_SW(CMP_OUT_P34);					//CMP_OUT_P34,CMP_OUT_P41
-	SPI_SW(SPI_P22_P23_P24_P25);	//SPI_P12_P13_P14_P15,SPI_P22_P23_P24_P25,SPI_P54_P40_P41_P43,SPI_P35_P34_P33_P32
-
-	PWM1_SW(PWM1_SW_P60_P61);			//PWM1_SW_P10_P11,PWM1_SW_P20_P21,PWM1_SW_P60_P61
-	PWM2_SW(PWM2_SW_P62_P63);			//PWM2_SW_P12_P13,PWM2_SW_P22_P23,PWM2_SW_P62_P63
-	PWM3_SW(PWM3_SW_P64_P65);			//PWM3_SW_P14_P15,PWM3_SW_P24_P25,PWM3_SW_P64_P65
-	PWM4_SW(PWM4_SW_P66_P67);			//PWM4_SW_P16_P17,PWM4_SW_P26_P27,PWM4_SW_P66_P67,PWM4_SW_P34_P33
-
-	PWM5_SW(PWM5_SW_P00);					//PWM5_SW_P20,PWM5_SW_P17,PWM5_SW_P00,PWM5_SW_P74
-	PWM6_SW(PWM6_SW_P01);					//PWM6_SW_P21,PWM6_SW_P54,PWM6_SW_P01,PWM6_SW_P75
-	PWM7_SW(PWM7_SW_P02);					//PWM7_SW_P22,PWM7_SW_P33,PWM7_SW_P02,PWM7_SW_P76
-	PWM8_SW(PWM8_SW_P03);					//PWM8_SW_P23,PWM8_SW_P34,PWM8_SW_P03,PWM8_SW_P77
-
-//	PCA_SW(PCA_P12_P11_P10_P37);	//PCA_P12_P11_P10_P37,PCA_P34_P35_P36_P37,PCA_P24_P25_P26_P27
+    NVIC_INT2_Init(ENABLE, NULL);  //ä¸­æ–­ä½¿èƒ½, ENABLE/DISABLE; æ— ä¼˜å…ˆçº§
+    NVIC_INT3_Init(ENABLE, NULL);  //ä¸­æ–­ä½¿èƒ½, ENABLE/DISABLE; æ— ä¼˜å…ˆçº§
+    NVIC_INT4_Init(ENABLE, NULL);  //ä¸­æ–­ä½¿èƒ½, ENABLE/DISABLE; æ— ä¼˜å…ˆçº§
 }
 
 //========================================================================
-//                                ÏµÍ³³õÊ¼»¯
+//                             å¤–éƒ¨ä¸­æ–­åˆå§‹åŒ–
 //========================================================================
-void	SYS_Init(void)
+
+//========================================================================
+//                               åŠŸèƒ½è„šåˆ‡æ¢
+//========================================================================
+void Switch_config(void)
 {
-//	GPIO_config();
-	Timer_config();
-//	ADC_config();
-//	UART_config();
-//	Exti_config();
-//	I2C_config();
-//	SPI_config();
-//	CMP_config();
-	Switch_config();
-	EA = 1;
-	
-	APP_config();
+    UART1_SW(UART1_SW_P30_P31);  // UART1_SW_P30_P31,UART1_SW_P36_P37,UART1_SW_P16_P17,UART1_SW_P43_P44
+    UART2_SW(UART2_SW_P46_P47);  // UART2_SW_P10_P11,UART2_SW_P46_P47
+    //  UART3_SW(UART3_SW_P00_P01);    //UART3_SW_P00_P01,UART3_SW_P50_P51
+    //  UART4_SW(UART4_SW_P02_P03);    //UART4_SW_P02_P03,UART4_SW_P52_P53
+    //  I2C_SW(I2C_P14_P15);          //I2C_P14_P15,I2C_P24_P25,I2C_P33_P32
+    //  COMP_SW(CMP_OUT_P34);          //CMP_OUT_P34,CMP_OUT_P41
+    SPI_SW(SPI_P22_P23_P24_P25);  // SPI_P12_P13_P14_P15,SPI_P22_P23_P24_P25,SPI_P54_P40_P41_P43,SPI_P35_P34_P33_P32
+
+    PWM1_SW(PWM1_SW_P60_P61);  // PWM1_SW_P10_P11,PWM1_SW_P20_P21,PWM1_SW_P60_P61
+    PWM2_SW(PWM2_SW_P62_P63);  // PWM2_SW_P12_P13,PWM2_SW_P22_P23,PWM2_SW_P62_P63
+    PWM3_SW(PWM3_SW_P64_P65);  // PWM3_SW_P14_P15,PWM3_SW_P24_P25,PWM3_SW_P64_P65
+    PWM4_SW(PWM4_SW_P66_P67);  // PWM4_SW_P16_P17,PWM4_SW_P26_P27,PWM4_SW_P66_P67,PWM4_SW_P34_P33
+
+    PWM5_SW(PWM5_SW_P00);  // PWM5_SW_P20,PWM5_SW_P17,PWM5_SW_P00,PWM5_SW_P74
+    PWM6_SW(PWM6_SW_P01);  // PWM6_SW_P21,PWM6_SW_P54,PWM6_SW_P01,PWM6_SW_P75
+    PWM7_SW(PWM7_SW_P02);  // PWM7_SW_P22,PWM7_SW_P33,PWM7_SW_P02,PWM7_SW_P76
+    PWM8_SW(PWM8_SW_P03);  // PWM8_SW_P23,PWM8_SW_P34,PWM8_SW_P03,PWM8_SW_P77
+
+    //  PCA_SW(PCA_P12_P11_P10_P37);  //PCA_P12_P11_P10_P37,PCA_P34_P35_P36_P37,PCA_P24_P25_P26_P27
 }
 
+//========================================================================
+//                                ç³»ç»Ÿåˆå§‹åŒ–
+//========================================================================
+void SYS_Init(void)
+{
+    //  GPIO_config();
+    Timer_config();
+    //  ADC_config();
+    //  UART_config();
+    //  Exti_config();
+    //  I2C_config();
+    //  SPI_config();
+    //  CMP_config();
+    Switch_config();
+    EA = 1;
+
+    APP_config();
+}

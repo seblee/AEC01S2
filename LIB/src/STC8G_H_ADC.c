@@ -7,86 +7,86 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* Èç¹ûÒªÔÚ³ÌĞòÖĞÊ¹ÓÃ´Ë´úÂë,ÇëÔÚ³ÌĞòÖĞ×¢Ã÷Ê¹ÓÃÁËSTCµÄ×ÊÁÏ¼°³ÌĞò            */
+/* å¦‚æœè¦åœ¨ç¨‹åºä¸­ä½¿ç”¨æ­¤ä»£ç ,è¯·åœ¨ç¨‹åºä¸­æ³¨æ˜ä½¿ç”¨äº†STCçš„èµ„æ–™åŠç¨‹åº            */
 /*---------------------------------------------------------------------*/
 
-#include	"STC8G_H_ADC.h"
+#include "STC8G_H_ADC.h"
 
 //========================================================================
-// º¯Êı: void	ADC_Inilize(ADC_InitTypeDef *ADCx)
-// ÃèÊö: ADC³õÊ¼»¯³ÌĞò.
-// ²ÎÊı: ADCx: ½á¹¹²ÎÊı,Çë²Î¿¼adc.hÀïµÄ¶¨Òå.
-// ·µ»Ø: none.
-// °æ±¾: V1.0, 2012-10-22
+// å‡½æ•°: void	ADC_Inilize(ADC_InitTypeDef *ADCx)
+// æè¿°: ADCåˆå§‹åŒ–ç¨‹åº.
+// å‚æ•°: ADCx: ç»“æ„å‚æ•°,è¯·å‚è€ƒadc.hé‡Œçš„å®šä¹‰.
+// è¿”å›: none.
+// ç‰ˆæœ¬: V1.0, 2012-10-22
 //========================================================================
-void	ADC_Inilize(ADC_InitTypeDef *ADCx)
+void ADC_Inilize(ADC_InitTypeDef *ADCx)
 {
-	ADCCFG = (ADCCFG & ~ADC_SPEED_2X16T) | ADCx->ADC_Speed;	//ÉèÖÃADC¹¤×÷Ê±ÖÓÆµÂÊ
-	ADC_Justify(ADCx->ADC_AdjResult);		//AD×ª»»½á¹û¶ÔÆë·½Ê½
+    ADCCFG = (ADCCFG & ~ADC_SPEED_2X16T) | ADCx->ADC_Speed;  //è®¾ç½®ADCå·¥ä½œæ—¶é’Ÿé¢‘ç‡
+    ADC_Justify(ADCx->ADC_AdjResult);                        // ADè½¬æ¢ç»“æœå¯¹é½æ–¹å¼
 
-	if(ADCx->ADC_SMPduty > 31)	return;	//´íÎó
-	if(ADCx->ADC_CsSetup > 1)	return;	//´íÎó
-	if(ADCx->ADC_CsHold > 3)	return;	//´íÎó
+    if (ADCx->ADC_SMPduty > 31)
+        return;  //é”™è¯¯
+    if (ADCx->ADC_CsSetup > 1)
+        return;  //é”™è¯¯
+    if (ADCx->ADC_CsHold > 3)
+        return;  //é”™è¯¯
 
-	EAXSFR();		/* MOVX A,@DPTR/MOVX @DPTR,AÖ¸ÁîµÄ²Ù×÷¶ÔÏóÎªÀ©Õ¹SFR(XSFR) */
-	ADCTIM = (ADCx->ADC_CsSetup << 7) | (ADCx->ADC_CsHold << 5) | ADCx->ADC_SMPduty ;		//ÉèÖÃ ADC ÄÚ²¿Ê±Ğò£¬ADC²ÉÑùÊ±¼ä½¨ÒéÉè×î´óÖµ
-	EAXRAM();		/* MOVX A,@DPTR/MOVX @DPTR,AÖ¸ÁîµÄ²Ù×÷¶ÔÏóÎªÀ©Õ¹RAM(XRAM) */
-}
-
-
-//========================================================================
-// º¯Êı: void	ADC_PowerControl(u8 pwr)
-// ÃèÊö: ADCµçÔ´¿ØÖÆ³ÌĞò.
-// ²ÎÊı: pwr: µçÔ´¿ØÖÆ,ENABLE»òDISABLE.
-// ·µ»Ø: none.
-// °æ±¾: V1.0, 2012-10-22
-//========================================================================
-void	ADC_PowerControl(u8 pwr)
-{
-	if(pwr == ENABLE)	ADC_CONTR |= 0x80;
-	else				ADC_CONTR &= 0x7f;
+    EAXSFR();                                                                         /* MOVX A,@DPTR/MOVX @DPTR,AæŒ‡ä»¤çš„æ“ä½œå¯¹è±¡ä¸ºæ‰©å±•SFR(XSFR) */
+    ADCTIM = (ADCx->ADC_CsSetup << 7) | (ADCx->ADC_CsHold << 5) | ADCx->ADC_SMPduty;  //è®¾ç½® ADC å†…éƒ¨æ—¶åºï¼ŒADCé‡‡æ ·æ—¶é—´å»ºè®®è®¾æœ€å¤§å€¼
+    EAXRAM();                                                                         /* MOVX A,@DPTR/MOVX @DPTR,AæŒ‡ä»¤çš„æ“ä½œå¯¹è±¡ä¸ºæ‰©å±•RAM(XRAM) */
 }
 
 //========================================================================
-// º¯Êı: u16	Get_ADCResult(u8 channel)
-// ÃèÊö: ²éÑ¯·¨¶ÁÒ»´ÎADC×ª»»½á¹û.
-// ²ÎÊı: channel: Ñ¡ÔñÒª×ª»»µÄADCÍ¨µÀ.
-// ·µ»Ø: ADC×ª»»½á¹û.
-// °æ±¾: V1.0, 2012-10-22
+// å‡½æ•°: void	ADC_PowerControl(u8 pwr)
+// æè¿°: ADCç”µæºæ§åˆ¶ç¨‹åº.
+// å‚æ•°: pwr: ç”µæºæ§åˆ¶,ENABLEæˆ–DISABLE.
+// è¿”å›: none.
+// ç‰ˆæœ¬: V1.0, 2012-10-22
 //========================================================================
-u16	Get_ADCResult(u8 channel)	//channel = 0~15
+void ADC_PowerControl(u8 pwr)
 {
-	u16	adc;
-	u8	i;
+    if (pwr == ENABLE)
+        ADC_CONTR |= 0x80;
+    else
+        ADC_CONTR &= 0x7f;
+}
 
-	if(channel > ADC_CH15)	return	4096;	//´íÎó,·µ»Ø4096,µ÷ÓÃµÄ³ÌĞòÅĞ¶Ï	
-	ADC_RES = 0;
-	ADC_RESL = 0;
+//========================================================================
+// å‡½æ•°: u16	Get_ADCResult(u8 channel)
+// æè¿°: æŸ¥è¯¢æ³•è¯»ä¸€æ¬¡ADCè½¬æ¢ç»“æœ.
+// å‚æ•°: channel: é€‰æ‹©è¦è½¬æ¢çš„ADCé€šé“.
+// è¿”å›: ADCè½¬æ¢ç»“æœ.
+// ç‰ˆæœ¬: V1.0, 2012-10-22
+//========================================================================
+u16 Get_ADCResult(u8 channel)  // channel = 0~15
+{
+    u16 adc;
+    u8  i;
 
-	ADC_CONTR = (ADC_CONTR & 0xf0) | ADC_START | channel; 
-	NOP(10);			//¶ÔADC_CONTR²Ù×÷ºóµÈ´ı»á¶ùÔÙ·ÃÎÊ
+    if (channel > ADC_CH15)
+        return 4096;  //é”™è¯¯,è¿”å›4096,è°ƒç”¨çš„ç¨‹åºåˆ¤æ–­
+    ADC_RES  = 0;
+    ADC_RESL = 0;
 
-	for(i=0; i<250; i++)		//³¬Ê±·µ»Ø£¬Õı³£iµÈÓÚ10ÒÔÄÚ¾Í¿ÉÒÔ×ª»»Íê³É
-	{
-		if(ADC_CONTR & ADC_FLAG)
-		{
-			ADC_CONTR &= ~ADC_FLAG;
-			if(ADCCFG &  (1<<5))		//×ª»»½á¹ûÓÒ¶ÔÆë¡£ 
-			{
-				adc = ((u16)ADC_RES << 8) | ADC_RESL;
-			}
-			else		//×ª»»½á¹û×ó¶ÔÆë¡£ 
-			{
-				#if ADC_RES_12BIT==1
-					adc = (u16)ADC_RES;
-					adc = (adc << 4) | ((ADC_RESL >> 4)&0x0f);
-				#else
-					adc = (u16)ADC_RES;
-					adc = (adc << 2) | ((ADC_RESL >> 6)&0x03);
-				#endif
-			}
-			return	adc;
-		}
-	}
-	return	4096;	//´íÎó,·µ»Ø4096,µ÷ÓÃµÄ³ÌĞòÅĞ¶Ï
+    ADC_CONTR = (ADC_CONTR & 0xf0) | ADC_START | channel;
+    NOP(10);  //å¯¹ADC_CONTRæ“ä½œåç­‰å¾…ä¼šå„¿å†è®¿é—®
+
+    for (i = 0; i < 250; i++) {  //è¶…æ—¶è¿”å›ï¼Œæ­£å¸¸iç­‰äº10ä»¥å†…å°±å¯ä»¥è½¬æ¢å®Œæˆ
+        if (ADC_CONTR & ADC_FLAG) {
+            ADC_CONTR &= ~ADC_FLAG;
+            if (ADCCFG & (1 << 5)) {  //è½¬æ¢ç»“æœå³å¯¹é½ã€‚
+                adc = ((u16)ADC_RES << 8) | ADC_RESL;
+            } else {  //è½¬æ¢ç»“æœå·¦å¯¹é½ã€‚
+#if ADC_RES_12BIT == 1
+                adc = (u16)ADC_RES;
+                adc = (adc << 4) | ((ADC_RESL >> 4) & 0x0f);
+#else
+                adc = (u16)ADC_RES;
+                adc = (adc << 2) | ((ADC_RESL >> 6) & 0x03);
+#endif
+            }
+            return adc;
+        }
+    }
+    return 4096;  //é”™è¯¯,è¿”å›4096,è°ƒç”¨çš„ç¨‹åºåˆ¤æ–­
 }

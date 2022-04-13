@@ -7,394 +7,427 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* Èç¹ûÒªÔÚ³ÌÐòÖÐÊ¹ÓÃ´Ë´úÂë,ÇëÔÚ³ÌÐòÖÐ×¢Ã÷Ê¹ÓÃÁËSTCµÄ×ÊÁÏ¼°³ÌÐò            */
+/* å¦‚æžœè¦åœ¨ç¨‹åºä¸­ä½¿ç”¨æ­¤ä»£ç ,è¯·åœ¨ç¨‹åºä¸­æ³¨æ˜Žä½¿ç”¨äº†STCçš„èµ„æ–™åŠç¨‹åº            */
 /*---------------------------------------------------------------------*/
 
-#include	"STC8G_H_NVIC.h"
+#include "STC8G_H_NVIC.h"
 
 //========================================================================
-// º¯Êý: NVIC_Timer0_Init
-// ÃèÊö: Timer0Ç¶Ì×ÏòÁ¿ÖÐ¶Ï¿ØÖÆÆ÷³õÊ¼»¯.
-// ²ÎÊý: State:    ÖÐ¶ÏÊ¹ÄÜ×´Ì¬, ENABLE/DISABLE.
-// ²ÎÊý: Priority: ÖÐ¶ÏÓÅÏÈ¼¶, Priority_0,Priority_1,Priority_2,Priority_3.
-// ·µ»Ø: Ö´ÐÐ½á¹û SUCCESS/FAIL.
-// °æ±¾: V1.0, 2020-09-29
+// å‡½æ•°: NVIC_Timer0_Init
+// æè¿°: Timer0åµŒå¥—å‘é‡ä¸­æ–­æŽ§åˆ¶å™¨åˆå§‹åŒ–.
+// å‚æ•°: State:    ä¸­æ–­ä½¿èƒ½çŠ¶æ€, ENABLE/DISABLE.
+// å‚æ•°: Priority: ä¸­æ–­ä¼˜å…ˆçº§, Priority_0,Priority_1,Priority_2,Priority_3.
+// è¿”å›ž: æ‰§è¡Œç»“æžœ SUCCESS/FAIL.
+// ç‰ˆæœ¬: V1.0, 2020-09-29
 //========================================================================
 u8 NVIC_Timer0_Init(u8 State, u8 Priority)
 {
-	if(State > ENABLE) return FAIL;
-	if(Priority > Priority_3) return FAIL;
-	Timer0_Interrupt(State);
-	Timer0_Priority(Priority);
-	return SUCCESS;
+    if (State > ENABLE)
+        return FAIL;
+    if (Priority > Priority_3)
+        return FAIL;
+    Timer0_Interrupt(State);
+    Timer0_Priority(Priority);
+    return SUCCESS;
 }
 
 //========================================================================
-// º¯Êý: NVIC_Timer1_Init
-// ÃèÊö: Timer1Ç¶Ì×ÏòÁ¿ÖÐ¶Ï¿ØÖÆÆ÷³õÊ¼»¯.
-// ²ÎÊý: State:    ÖÐ¶ÏÊ¹ÄÜ×´Ì¬, ENABLE/DISABLE.
-// ²ÎÊý: Priority: ÖÐ¶ÏÓÅÏÈ¼¶, Priority_0,Priority_1,Priority_2,Priority_3.
-// ·µ»Ø: Ö´ÐÐ½á¹û SUCCESS/FAIL.
-// °æ±¾: V1.0, 2020-09-29
+// å‡½æ•°: NVIC_Timer1_Init
+// æè¿°: Timer1åµŒå¥—å‘é‡ä¸­æ–­æŽ§åˆ¶å™¨åˆå§‹åŒ–.
+// å‚æ•°: State:    ä¸­æ–­ä½¿èƒ½çŠ¶æ€, ENABLE/DISABLE.
+// å‚æ•°: Priority: ä¸­æ–­ä¼˜å…ˆçº§, Priority_0,Priority_1,Priority_2,Priority_3.
+// è¿”å›ž: æ‰§è¡Œç»“æžœ SUCCESS/FAIL.
+// ç‰ˆæœ¬: V1.0, 2020-09-29
 //========================================================================
 u8 NVIC_Timer1_Init(u8 State, u8 Priority)
 {
-	if(State > ENABLE) return FAIL;
-	if(Priority > Priority_3) return FAIL;
-	Timer1_Interrupt(State);
-	Timer1_Priority(Priority);
-	return SUCCESS;
+    if (State > ENABLE)
+        return FAIL;
+    if (Priority > Priority_3)
+        return FAIL;
+    Timer1_Interrupt(State);
+    Timer1_Priority(Priority);
+    return SUCCESS;
 }
 
 //========================================================================
-// º¯Êý: NVIC_Timer2_Init
-// ÃèÊö: Timer2Ç¶Ì×ÏòÁ¿ÖÐ¶Ï¿ØÖÆÆ÷³õÊ¼»¯.
-// ²ÎÊý: State:    ÖÐ¶ÏÊ¹ÄÜ×´Ì¬, ENABLE/DISABLE.
-// ²ÎÊý: Priority: ÖÐ¶ÏÓÅÏÈ¼¶, NULL.
-// ·µ»Ø: Ö´ÐÐ½á¹û SUCCESS/FAIL.
-// °æ±¾: V1.0, 2020-09-29
+// å‡½æ•°: NVIC_Timer2_Init
+// æè¿°: Timer2åµŒå¥—å‘é‡ä¸­æ–­æŽ§åˆ¶å™¨åˆå§‹åŒ–.
+// å‚æ•°: State:    ä¸­æ–­ä½¿èƒ½çŠ¶æ€, ENABLE/DISABLE.
+// å‚æ•°: Priority: ä¸­æ–­ä¼˜å…ˆçº§, NULL.
+// è¿”å›ž: æ‰§è¡Œç»“æžœ SUCCESS/FAIL.
+// ç‰ˆæœ¬: V1.0, 2020-09-29
 //========================================================================
 u8 NVIC_Timer2_Init(u8 State, u8 Priority)
 {
-	if(State > ENABLE) return FAIL;
-	if(Priority > Priority_3) return FAIL;
-	Timer2_Interrupt(State);
-	Priority = NULL;
-	return SUCCESS;
+    if (State > ENABLE)
+        return FAIL;
+    if (Priority > Priority_3)
+        return FAIL;
+    Timer2_Interrupt(State);
+    Priority = NULL;
+    return SUCCESS;
 }
 
 //========================================================================
-// º¯Êý: NVIC_Timer3_Init
-// ÃèÊö: Timer3Ç¶Ì×ÏòÁ¿ÖÐ¶Ï¿ØÖÆÆ÷³õÊ¼»¯.
-// ²ÎÊý: State:    ÖÐ¶ÏÊ¹ÄÜ×´Ì¬, ENABLE/DISABLE.
-// ²ÎÊý: Priority: ÖÐ¶ÏÓÅÏÈ¼¶, NULL.
-// ·µ»Ø: Ö´ÐÐ½á¹û SUCCESS/FAIL.
-// °æ±¾: V1.0, 2020-09-29
+// å‡½æ•°: NVIC_Timer3_Init
+// æè¿°: Timer3åµŒå¥—å‘é‡ä¸­æ–­æŽ§åˆ¶å™¨åˆå§‹åŒ–.
+// å‚æ•°: State:    ä¸­æ–­ä½¿èƒ½çŠ¶æ€, ENABLE/DISABLE.
+// å‚æ•°: Priority: ä¸­æ–­ä¼˜å…ˆçº§, NULL.
+// è¿”å›ž: æ‰§è¡Œç»“æžœ SUCCESS/FAIL.
+// ç‰ˆæœ¬: V1.0, 2020-09-29
 //========================================================================
 u8 NVIC_Timer3_Init(u8 State, u8 Priority)
 {
-	if(State > ENABLE) return FAIL;
-	if(Priority > Priority_3) return FAIL;
-	Timer3_Interrupt(State);
-	Priority = NULL;
-	return SUCCESS;
+    if (State > ENABLE)
+        return FAIL;
+    if (Priority > Priority_3)
+        return FAIL;
+    Timer3_Interrupt(State);
+    Priority = NULL;
+    return SUCCESS;
 }
 
 //========================================================================
-// º¯Êý: NVIC_Timer4_Init
-// ÃèÊö: Timer4Ç¶Ì×ÏòÁ¿ÖÐ¶Ï¿ØÖÆÆ÷³õÊ¼»¯.
-// ²ÎÊý: State:    ÖÐ¶ÏÊ¹ÄÜ×´Ì¬, ENABLE/DISABLE.
-// ²ÎÊý: Priority: ÖÐ¶ÏÓÅÏÈ¼¶, NULL.
-// ·µ»Ø: Ö´ÐÐ½á¹û SUCCESS/FAIL.
-// °æ±¾: V1.0, 2020-09-29
+// å‡½æ•°: NVIC_Timer4_Init
+// æè¿°: Timer4åµŒå¥—å‘é‡ä¸­æ–­æŽ§åˆ¶å™¨åˆå§‹åŒ–.
+// å‚æ•°: State:    ä¸­æ–­ä½¿èƒ½çŠ¶æ€, ENABLE/DISABLE.
+// å‚æ•°: Priority: ä¸­æ–­ä¼˜å…ˆçº§, NULL.
+// è¿”å›ž: æ‰§è¡Œç»“æžœ SUCCESS/FAIL.
+// ç‰ˆæœ¬: V1.0, 2020-09-29
 //========================================================================
 u8 NVIC_Timer4_Init(u8 State, u8 Priority)
 {
-	if(State > ENABLE) return FAIL;
-	if(Priority > Priority_3) return FAIL;
-	Timer4_Interrupt(State);
-	Priority = NULL;
-	return SUCCESS;
+    if (State > ENABLE)
+        return FAIL;
+    if (Priority > Priority_3)
+        return FAIL;
+    Timer4_Interrupt(State);
+    Priority = NULL;
+    return SUCCESS;
 }
 
 //========================================================================
-// º¯Êý: NVIC_INT0_Init
-// ÃèÊö: INT0Ç¶Ì×ÏòÁ¿ÖÐ¶Ï¿ØÖÆÆ÷³õÊ¼»¯.
-// ²ÎÊý: State:    ÖÐ¶ÏÊ¹ÄÜ×´Ì¬, ENABLE/DISABLE.
-// ²ÎÊý: Priority: ÖÐ¶ÏÓÅÏÈ¼¶, Priority_0,Priority_1,Priority_2,Priority_3.
-// ·µ»Ø: Ö´ÐÐ½á¹û SUCCESS/FAIL.
-// °æ±¾: V1.0, 2020-09-29
+// å‡½æ•°: NVIC_INT0_Init
+// æè¿°: INT0åµŒå¥—å‘é‡ä¸­æ–­æŽ§åˆ¶å™¨åˆå§‹åŒ–.
+// å‚æ•°: State:    ä¸­æ–­ä½¿èƒ½çŠ¶æ€, ENABLE/DISABLE.
+// å‚æ•°: Priority: ä¸­æ–­ä¼˜å…ˆçº§, Priority_0,Priority_1,Priority_2,Priority_3.
+// è¿”å›ž: æ‰§è¡Œç»“æžœ SUCCESS/FAIL.
+// ç‰ˆæœ¬: V1.0, 2020-09-29
 //========================================================================
 u8 NVIC_INT0_Init(u8 State, u8 Priority)
 {
-	if(State > ENABLE) return FAIL;
-	if(Priority > Priority_3) return FAIL;
-	INT0_Interrupt(State);
-	INT0_Priority(Priority);
-	return SUCCESS;
+    if (State > ENABLE)
+        return FAIL;
+    if (Priority > Priority_3)
+        return FAIL;
+    INT0_Interrupt(State);
+    INT0_Priority(Priority);
+    return SUCCESS;
 }
 
 //========================================================================
-// º¯Êý: NVIC_INT1_Init
-// ÃèÊö: INT1Ç¶Ì×ÏòÁ¿ÖÐ¶Ï¿ØÖÆÆ÷³õÊ¼»¯.
-// ²ÎÊý: State:    ÖÐ¶ÏÊ¹ÄÜ×´Ì¬, ENABLE/DISABLE.
-// ²ÎÊý: Priority: ÖÐ¶ÏÓÅÏÈ¼¶, Priority_0,Priority_1,Priority_2,Priority_3.
-// ·µ»Ø: Ö´ÐÐ½á¹û SUCCESS/FAIL.
-// °æ±¾: V1.0, 2020-09-29
+// å‡½æ•°: NVIC_INT1_Init
+// æè¿°: INT1åµŒå¥—å‘é‡ä¸­æ–­æŽ§åˆ¶å™¨åˆå§‹åŒ–.
+// å‚æ•°: State:    ä¸­æ–­ä½¿èƒ½çŠ¶æ€, ENABLE/DISABLE.
+// å‚æ•°: Priority: ä¸­æ–­ä¼˜å…ˆçº§, Priority_0,Priority_1,Priority_2,Priority_3.
+// è¿”å›ž: æ‰§è¡Œç»“æžœ SUCCESS/FAIL.
+// ç‰ˆæœ¬: V1.0, 2020-09-29
 //========================================================================
 u8 NVIC_INT1_Init(u8 State, u8 Priority)
 {
-	if(State > ENABLE) return FAIL;
-	if(Priority > Priority_3) return FAIL;
-	INT1_Interrupt(State);
-	INT1_Priority(Priority);
-	return SUCCESS;
+    if (State > ENABLE)
+        return FAIL;
+    if (Priority > Priority_3)
+        return FAIL;
+    INT1_Interrupt(State);
+    INT1_Priority(Priority);
+    return SUCCESS;
 }
 
 //========================================================================
-// º¯Êý: NVIC_INT2_Init
-// ÃèÊö: INT2Ç¶Ì×ÏòÁ¿ÖÐ¶Ï¿ØÖÆÆ÷³õÊ¼»¯.
-// ²ÎÊý: State:    ÖÐ¶ÏÊ¹ÄÜ×´Ì¬, ENABLE/DISABLE.
-// ²ÎÊý: Priority: ÖÐ¶ÏÓÅÏÈ¼¶, NULL.
-// ·µ»Ø: Ö´ÐÐ½á¹û SUCCESS/FAIL.
-// °æ±¾: V1.0, 2020-09-29
+// å‡½æ•°: NVIC_INT2_Init
+// æè¿°: INT2åµŒå¥—å‘é‡ä¸­æ–­æŽ§åˆ¶å™¨åˆå§‹åŒ–.
+// å‚æ•°: State:    ä¸­æ–­ä½¿èƒ½çŠ¶æ€, ENABLE/DISABLE.
+// å‚æ•°: Priority: ä¸­æ–­ä¼˜å…ˆçº§, NULL.
+// è¿”å›ž: æ‰§è¡Œç»“æžœ SUCCESS/FAIL.
+// ç‰ˆæœ¬: V1.0, 2020-09-29
 //========================================================================
 u8 NVIC_INT2_Init(u8 State, u8 Priority)
 {
-	if(State > ENABLE) return FAIL;
-	INT2_Interrupt(State);
-	Priority = NULL;
-	return SUCCESS;
+    if (State > ENABLE)
+        return FAIL;
+    INT2_Interrupt(State);
+    Priority = NULL;
+    return SUCCESS;
 }
 
 //========================================================================
-// º¯Êý: NVIC_INT3_Init
-// ÃèÊö: INT3Ç¶Ì×ÏòÁ¿ÖÐ¶Ï¿ØÖÆÆ÷³õÊ¼»¯.
-// ²ÎÊý: State:    ÖÐ¶ÏÊ¹ÄÜ×´Ì¬, ENABLE/DISABLE.
-// ²ÎÊý: Priority: ÖÐ¶ÏÓÅÏÈ¼¶, NULL.
-// ·µ»Ø: Ö´ÐÐ½á¹û SUCCESS/FAIL.
-// °æ±¾: V1.0, 2020-09-29
+// å‡½æ•°: NVIC_INT3_Init
+// æè¿°: INT3åµŒå¥—å‘é‡ä¸­æ–­æŽ§åˆ¶å™¨åˆå§‹åŒ–.
+// å‚æ•°: State:    ä¸­æ–­ä½¿èƒ½çŠ¶æ€, ENABLE/DISABLE.
+// å‚æ•°: Priority: ä¸­æ–­ä¼˜å…ˆçº§, NULL.
+// è¿”å›ž: æ‰§è¡Œç»“æžœ SUCCESS/FAIL.
+// ç‰ˆæœ¬: V1.0, 2020-09-29
 //========================================================================
 u8 NVIC_INT3_Init(u8 State, u8 Priority)
 {
-	if(State > ENABLE) return FAIL;
-	INT3_Interrupt(State);
-	Priority = NULL;
-	return SUCCESS;
+    if (State > ENABLE)
+        return FAIL;
+    INT3_Interrupt(State);
+    Priority = NULL;
+    return SUCCESS;
 }
 
 //========================================================================
-// º¯Êý: NVIC_INT4_Init
-// ÃèÊö: INT4Ç¶Ì×ÏòÁ¿ÖÐ¶Ï¿ØÖÆÆ÷³õÊ¼»¯.
-// ²ÎÊý: State:    ÖÐ¶ÏÊ¹ÄÜ×´Ì¬, ENABLE/DISABLE.
-// ²ÎÊý: Priority: ÖÐ¶ÏÓÅÏÈ¼¶, NULL.
-// ·µ»Ø: Ö´ÐÐ½á¹û SUCCESS/FAIL.
-// °æ±¾: V1.0, 2020-09-29
+// å‡½æ•°: NVIC_INT4_Init
+// æè¿°: INT4åµŒå¥—å‘é‡ä¸­æ–­æŽ§åˆ¶å™¨åˆå§‹åŒ–.
+// å‚æ•°: State:    ä¸­æ–­ä½¿èƒ½çŠ¶æ€, ENABLE/DISABLE.
+// å‚æ•°: Priority: ä¸­æ–­ä¼˜å…ˆçº§, NULL.
+// è¿”å›ž: æ‰§è¡Œç»“æžœ SUCCESS/FAIL.
+// ç‰ˆæœ¬: V1.0, 2020-09-29
 //========================================================================
 u8 NVIC_INT4_Init(u8 State, u8 Priority)
 {
-	if(State > ENABLE) return FAIL;
-	INT4_Interrupt(State);
-	Priority = NULL;
-	return SUCCESS;
+    if (State > ENABLE)
+        return FAIL;
+    INT4_Interrupt(State);
+    Priority = NULL;
+    return SUCCESS;
 }
 
 //========================================================================
-// º¯Êý: NVIC_ADC_Init
-// ÃèÊö: ADCÇ¶Ì×ÏòÁ¿ÖÐ¶Ï¿ØÖÆÆ÷³õÊ¼»¯.
-// ²ÎÊý: State:    ÖÐ¶ÏÊ¹ÄÜ×´Ì¬, ENABLE/DISABLE.
-// ²ÎÊý: Priority: ÖÐ¶ÏÓÅÏÈ¼¶, Priority_0,Priority_1,Priority_2,Priority_3.
-// ·µ»Ø: Ö´ÐÐ½á¹û SUCCESS/FAIL.
-// °æ±¾: V1.0, 2020-09-29
+// å‡½æ•°: NVIC_ADC_Init
+// æè¿°: ADCåµŒå¥—å‘é‡ä¸­æ–­æŽ§åˆ¶å™¨åˆå§‹åŒ–.
+// å‚æ•°: State:    ä¸­æ–­ä½¿èƒ½çŠ¶æ€, ENABLE/DISABLE.
+// å‚æ•°: Priority: ä¸­æ–­ä¼˜å…ˆçº§, Priority_0,Priority_1,Priority_2,Priority_3.
+// è¿”å›ž: æ‰§è¡Œç»“æžœ SUCCESS/FAIL.
+// ç‰ˆæœ¬: V1.0, 2020-09-29
 //========================================================================
 u8 NVIC_ADC_Init(u8 State, u8 Priority)
 {
-	if(State > ENABLE) return FAIL;
-	if(Priority > Priority_3) return FAIL;
-	ADC_Interrupt(State);
-	ADC_Priority(Priority);
-	return SUCCESS;
+    if (State > ENABLE)
+        return FAIL;
+    if (Priority > Priority_3)
+        return FAIL;
+    ADC_Interrupt(State);
+    ADC_Priority(Priority);
+    return SUCCESS;
 }
 
 //========================================================================
-// º¯Êý: NVIC_CMP_Init
-// ÃèÊö: ±È½ÏÆ÷Ç¶Ì×ÏòÁ¿ÖÐ¶Ï¿ØÖÆÆ÷³õÊ¼»¯.
-// ²ÎÊý: State:    ÖÐ¶ÏÊ¹ÄÜ×´Ì¬, RISING_EDGE/FALLING_EDGE/DISABLE.
-// ²ÎÊý: Priority: ÖÐ¶ÏÓÅÏÈ¼¶, Priority_0,Priority_1,Priority_2,Priority_3.
-// ·µ»Ø: Ö´ÐÐ½á¹û SUCCESS/FAIL.
-// °æ±¾: V1.0, 2020-09-29
+// å‡½æ•°: NVIC_CMP_Init
+// æè¿°: æ¯”è¾ƒå™¨åµŒå¥—å‘é‡ä¸­æ–­æŽ§åˆ¶å™¨åˆå§‹åŒ–.
+// å‚æ•°: State:    ä¸­æ–­ä½¿èƒ½çŠ¶æ€, RISING_EDGE/FALLING_EDGE/DISABLE.
+// å‚æ•°: Priority: ä¸­æ–­ä¼˜å…ˆçº§, Priority_0,Priority_1,Priority_2,Priority_3.
+// è¿”å›ž: æ‰§è¡Œç»“æžœ SUCCESS/FAIL.
+// ç‰ˆæœ¬: V1.0, 2020-09-29
 //========================================================================
 u8 NVIC_CMP_Init(u8 State, u8 Priority)
 {
-	if(Priority > Priority_3) return FAIL;
-	if(State & RISING_EDGE)	CMPCR1 |= PIE;			//ÔÊÐíÉÏÉýÑØÖÐ¶Ï
-	else	CMPCR1 &= ~PIE;			//½ûÖ¹ÉÏÉýÑØÖÐ¶Ï
-	if(State & FALLING_EDGE)	CMPCR1 |= NIE;		//ÔÊÐíÏÂ½µÑØÖÐ¶Ï
-	else	CMPCR1 &= ~NIE;			//½ûÖ¹ÉÏÉýÑØÖÐ¶Ï
-	CMP_Priority(Priority);
-	return SUCCESS;
+    if (Priority > Priority_3)
+        return FAIL;
+    if (State & RISING_EDGE)
+        CMPCR1 |= PIE;  //å…è®¸ä¸Šå‡æ²¿ä¸­æ–­
+    else
+        CMPCR1 &= ~PIE;  //ç¦æ­¢ä¸Šå‡æ²¿ä¸­æ–­
+    if (State & FALLING_EDGE)
+        CMPCR1 |= NIE;  //å…è®¸ä¸‹é™æ²¿ä¸­æ–­
+    else
+        CMPCR1 &= ~NIE;  //ç¦æ­¢ä¸Šå‡æ²¿ä¸­æ–­
+    CMP_Priority(Priority);
+    return SUCCESS;
 }
 
 //========================================================================
-// º¯Êý: NVIC_I2C_Init
-// ÃèÊö: I2CÇ¶Ì×ÏòÁ¿ÖÐ¶Ï¿ØÖÆÆ÷³õÊ¼»¯.
-// ²ÎÊý: Mode:     Ä£Ê½, I2C_Mode_Master/I2C_Mode_Slave.
-// ²ÎÊý: State:    ÖÐ¶ÏÊ¹ÄÜ×´Ì¬, I2C_Mode_Master: ENABLE/DISABLE.
+// å‡½æ•°: NVIC_I2C_Init
+// æè¿°: I2CåµŒå¥—å‘é‡ä¸­æ–­æŽ§åˆ¶å™¨åˆå§‹åŒ–.
+// å‚æ•°: Mode:     æ¨¡å¼, I2C_Mode_Master/I2C_Mode_Slave.
+// å‚æ•°: State:    ä¸­æ–­ä½¿èƒ½çŠ¶æ€, I2C_Mode_Master: ENABLE/DISABLE.
 //                              I2C_Mode_Slave: I2C_ESTAI/I2C_ERXI/I2C_ETXI/I2C_ESTOI/DISABLE.
-// ²ÎÊý: Priority: ÖÐ¶ÏÓÅÏÈ¼¶, Priority_0,Priority_1,Priority_2,Priority_3.
-// ·µ»Ø: Ö´ÐÐ½á¹û SUCCESS/FAIL.
-// °æ±¾: V1.0, 2020-09-29
+// å‚æ•°: Priority: ä¸­æ–­ä¼˜å…ˆçº§, Priority_0,Priority_1,Priority_2,Priority_3.
+// è¿”å›ž: æ‰§è¡Œç»“æžœ SUCCESS/FAIL.
+// ç‰ˆæœ¬: V1.0, 2020-09-29
 //========================================================================
 u8 NVIC_I2C_Init(u8 Mode, u8 State, u8 Priority)
 {
-	if(Mode > I2C_Mode_Master) return FAIL;
-	if(Priority > Priority_3) return FAIL;
-	EAXSFR();		/* MOVX A,@DPTR/MOVX @DPTR,AÖ¸ÁîµÄ²Ù×÷¶ÔÏóÎªÀ©Õ¹SFR(XSFR) */
-	if(Mode == I2C_Mode_Master)
-	{
-		I2C_Master_Inturrupt(State);
-	}
-	else if(Mode == I2C_Mode_Slave)
-	{
-		I2CSLCR = (I2CSLCR & ~0x78) | State;
-	}
-	EAXRAM();		/* MOVX A,@DPTR/MOVX @DPTR,AÖ¸ÁîµÄ²Ù×÷¶ÔÏóÎªÀ©Õ¹RAM(XRAM) */
-	CMP_Priority(Priority);
-	return SUCCESS;
+    if (Mode > I2C_Mode_Master)
+        return FAIL;
+    if (Priority > Priority_3)
+        return FAIL;
+    EAXSFR(); /* MOVX A,@DPTR/MOVX @DPTR,AæŒ‡ä»¤çš„æ“ä½œå¯¹è±¡ä¸ºæ‰©å±•SFR(XSFR) */
+    if (Mode == I2C_Mode_Master) {
+        I2C_Master_Inturrupt(State);
+    } else if (Mode == I2C_Mode_Slave) {
+        I2CSLCR = (I2CSLCR & ~0x78) | State;
+    }
+    EAXRAM(); /* MOVX A,@DPTR/MOVX @DPTR,AæŒ‡ä»¤çš„æ“ä½œå¯¹è±¡ä¸ºæ‰©å±•RAM(XRAM) */
+    CMP_Priority(Priority);
+    return SUCCESS;
 }
 
 //========================================================================
-// º¯Êý: NVIC_UART1_Init
-// ÃèÊö: UART1Ç¶Ì×ÏòÁ¿ÖÐ¶Ï¿ØÖÆÆ÷³õÊ¼»¯.
-// ²ÎÊý: State:    ÖÐ¶ÏÊ¹ÄÜ×´Ì¬, ENABLE/DISABLE.
-// ²ÎÊý: Priority: ÖÐ¶ÏÓÅÏÈ¼¶, Priority_0,Priority_1,Priority_2,Priority_3.
-// ·µ»Ø: Ö´ÐÐ½á¹û SUCCESS/FAIL.
-// °æ±¾: V1.0, 2020-09-29
+// å‡½æ•°: NVIC_UART1_Init
+// æè¿°: UART1åµŒå¥—å‘é‡ä¸­æ–­æŽ§åˆ¶å™¨åˆå§‹åŒ–.
+// å‚æ•°: State:    ä¸­æ–­ä½¿èƒ½çŠ¶æ€, ENABLE/DISABLE.
+// å‚æ•°: Priority: ä¸­æ–­ä¼˜å…ˆçº§, Priority_0,Priority_1,Priority_2,Priority_3.
+// è¿”å›ž: æ‰§è¡Œç»“æžœ SUCCESS/FAIL.
+// ç‰ˆæœ¬: V1.0, 2020-09-29
 //========================================================================
 u8 NVIC_UART1_Init(u8 State, u8 Priority)
 {
-	if(State > ENABLE) return FAIL;
-	if(Priority > Priority_3) return FAIL;
-	UART1_Interrupt(State);
-	UART1_Priority(Priority);
-	return SUCCESS;
+    if (State > ENABLE)
+        return FAIL;
+    if (Priority > Priority_3)
+        return FAIL;
+    UART1_Interrupt(State);
+    UART1_Priority(Priority);
+    return SUCCESS;
 }
 
 //========================================================================
-// º¯Êý: NVIC_UART2_Init
-// ÃèÊö: UART2Ç¶Ì×ÏòÁ¿ÖÐ¶Ï¿ØÖÆÆ÷³õÊ¼»¯.
-// ²ÎÊý: State:    ÖÐ¶ÏÊ¹ÄÜ×´Ì¬, ENABLE/DISABLE.
-// ²ÎÊý: Priority: ÖÐ¶ÏÓÅÏÈ¼¶, Priority_0,Priority_1,Priority_2,Priority_3.
-// ·µ»Ø: Ö´ÐÐ½á¹û SUCCESS/FAIL.
-// °æ±¾: V1.0, 2020-09-29
+// å‡½æ•°: NVIC_UART2_Init
+// æè¿°: UART2åµŒå¥—å‘é‡ä¸­æ–­æŽ§åˆ¶å™¨åˆå§‹åŒ–.
+// å‚æ•°: State:    ä¸­æ–­ä½¿èƒ½çŠ¶æ€, ENABLE/DISABLE.
+// å‚æ•°: Priority: ä¸­æ–­ä¼˜å…ˆçº§, Priority_0,Priority_1,Priority_2,Priority_3.
+// è¿”å›ž: æ‰§è¡Œç»“æžœ SUCCESS/FAIL.
+// ç‰ˆæœ¬: V1.0, 2020-09-29
 //========================================================================
 u8 NVIC_UART2_Init(u8 State, u8 Priority)
 {
-	if(State > ENABLE) return FAIL;
-	if(Priority > Priority_3) return FAIL;
-	UART2_Interrupt(State);
-	UART2_Priority(Priority);
-	return SUCCESS;
+    if (State > ENABLE)
+        return FAIL;
+    if (Priority > Priority_3)
+        return FAIL;
+    UART2_Interrupt(State);
+    UART2_Priority(Priority);
+    return SUCCESS;
 }
 
 //========================================================================
-// º¯Êý: NVIC_UART3_Init
-// ÃèÊö: UART3Ç¶Ì×ÏòÁ¿ÖÐ¶Ï¿ØÖÆÆ÷³õÊ¼»¯.
-// ²ÎÊý: State:    ÖÐ¶ÏÊ¹ÄÜ×´Ì¬, ENABLE/DISABLE.
-// ²ÎÊý: Priority: ÖÐ¶ÏÓÅÏÈ¼¶, Priority_0,Priority_1,Priority_2,Priority_3.
-// ·µ»Ø: Ö´ÐÐ½á¹û SUCCESS/FAIL.
-// °æ±¾: V1.0, 2020-09-29
+// å‡½æ•°: NVIC_UART3_Init
+// æè¿°: UART3åµŒå¥—å‘é‡ä¸­æ–­æŽ§åˆ¶å™¨åˆå§‹åŒ–.
+// å‚æ•°: State:    ä¸­æ–­ä½¿èƒ½çŠ¶æ€, ENABLE/DISABLE.
+// å‚æ•°: Priority: ä¸­æ–­ä¼˜å…ˆçº§, Priority_0,Priority_1,Priority_2,Priority_3.
+// è¿”å›ž: æ‰§è¡Œç»“æžœ SUCCESS/FAIL.
+// ç‰ˆæœ¬: V1.0, 2020-09-29
 //========================================================================
 u8 NVIC_UART3_Init(u8 State, u8 Priority)
 {
-	if(State > ENABLE) return FAIL;
-	if(Priority > Priority_3) return FAIL;
-	UART3_Interrupt(State);
-	UART3_Priority(Priority);
-	return SUCCESS;
+    if (State > ENABLE)
+        return FAIL;
+    if (Priority > Priority_3)
+        return FAIL;
+    UART3_Interrupt(State);
+    UART3_Priority(Priority);
+    return SUCCESS;
 }
 
 //========================================================================
-// º¯Êý: NVIC_UART4_Init
-// ÃèÊö: UART4Ç¶Ì×ÏòÁ¿ÖÐ¶Ï¿ØÖÆÆ÷³õÊ¼»¯.
-// ²ÎÊý: State:    ÖÐ¶ÏÊ¹ÄÜ×´Ì¬, ENABLE/DISABLE.
-// ²ÎÊý: Priority: ÖÐ¶ÏÓÅÏÈ¼¶, Priority_0,Priority_1,Priority_2,Priority_3.
-// ·µ»Ø: Ö´ÐÐ½á¹û SUCCESS/FAIL.
-// °æ±¾: V1.0, 2020-09-29
+// å‡½æ•°: NVIC_UART4_Init
+// æè¿°: UART4åµŒå¥—å‘é‡ä¸­æ–­æŽ§åˆ¶å™¨åˆå§‹åŒ–.
+// å‚æ•°: State:    ä¸­æ–­ä½¿èƒ½çŠ¶æ€, ENABLE/DISABLE.
+// å‚æ•°: Priority: ä¸­æ–­ä¼˜å…ˆçº§, Priority_0,Priority_1,Priority_2,Priority_3.
+// è¿”å›ž: æ‰§è¡Œç»“æžœ SUCCESS/FAIL.
+// ç‰ˆæœ¬: V1.0, 2020-09-29
 //========================================================================
 u8 NVIC_UART4_Init(u8 State, u8 Priority)
 {
-	if(State > ENABLE) return FAIL;
-	if(Priority > Priority_3) return FAIL;
-	UART4_Interrupt(State);
-	UART4_Priority(Priority);
-	return SUCCESS;
+    if (State > ENABLE)
+        return FAIL;
+    if (Priority > Priority_3)
+        return FAIL;
+    UART4_Interrupt(State);
+    UART4_Priority(Priority);
+    return SUCCESS;
 }
 
 //========================================================================
-// º¯Êý: NVIC_SPI_Init
-// ÃèÊö: SPIÇ¶Ì×ÏòÁ¿ÖÐ¶Ï¿ØÖÆÆ÷³õÊ¼»¯.
-// ²ÎÊý: State:    ÖÐ¶ÏÊ¹ÄÜ×´Ì¬, ENABLE/DISABLE.
-// ²ÎÊý: Priority: ÖÐ¶ÏÓÅÏÈ¼¶, Priority_0,Priority_1,Priority_2,Priority_3.
-// ·µ»Ø: Ö´ÐÐ½á¹û SUCCESS/FAIL.
-// °æ±¾: V1.0, 2020-09-29
+// å‡½æ•°: NVIC_SPI_Init
+// æè¿°: SPIåµŒå¥—å‘é‡ä¸­æ–­æŽ§åˆ¶å™¨åˆå§‹åŒ–.
+// å‚æ•°: State:    ä¸­æ–­ä½¿èƒ½çŠ¶æ€, ENABLE/DISABLE.
+// å‚æ•°: Priority: ä¸­æ–­ä¼˜å…ˆçº§, Priority_0,Priority_1,Priority_2,Priority_3.
+// è¿”å›ž: æ‰§è¡Œç»“æžœ SUCCESS/FAIL.
+// ç‰ˆæœ¬: V1.0, 2020-09-29
 //========================================================================
 u8 NVIC_SPI_Init(u8 State, u8 Priority)
 {
-	if(State > ENABLE) return FAIL;
-	if(Priority > Priority_3) return FAIL;
-	SPI_Interrupt(State);
-	SPI_Priority(Priority);
-	return SUCCESS;
+    if (State > ENABLE)
+        return FAIL;
+    if (Priority > Priority_3)
+        return FAIL;
+    SPI_Interrupt(State);
+    SPI_Priority(Priority);
+    return SUCCESS;
 }
 
 //========================================================================
-// º¯Êý: NVIC_PWM_Init
-// ÃèÊö: PWMÇ¶Ì×ÏòÁ¿ÖÐ¶Ï¿ØÖÆÆ÷³õÊ¼»¯.
-// ²ÎÊý: Channel:  Í¨µÀ, PWMA/PWMB.
-// ²ÎÊý: State:    ÖÐ¶ÏÊ¹ÄÜ×´Ì¬, PWM_BIE/PWM_TIE/PWM_COMIE/PWM_CC8IE~PWM_CC1IE/PWM_UIE/DISABLE.
-// ²ÎÊý: Priority: ÖÐ¶ÏÓÅÏÈ¼¶, Priority_0,Priority_1,Priority_2,Priority_3.
-// ·µ»Ø: Ö´ÐÐ½á¹û SUCCESS/FAIL.
-// °æ±¾: V1.0, 2020-09-29
+// å‡½æ•°: NVIC_PWM_Init
+// æè¿°: PWMåµŒå¥—å‘é‡ä¸­æ–­æŽ§åˆ¶å™¨åˆå§‹åŒ–.
+// å‚æ•°: Channel:  é€šé“, PWMA/PWMB.
+// å‚æ•°: State:    ä¸­æ–­ä½¿èƒ½çŠ¶æ€, PWM_BIE/PWM_TIE/PWM_COMIE/PWM_CC8IE~PWM_CC1IE/PWM_UIE/DISABLE.
+// å‚æ•°: Priority: ä¸­æ–­ä¼˜å…ˆçº§, Priority_0,Priority_1,Priority_2,Priority_3.
+// è¿”å›ž: æ‰§è¡Œç»“æžœ SUCCESS/FAIL.
+// ç‰ˆæœ¬: V1.0, 2020-09-29
 //========================================================================
 u8 NVIC_PWM_Init(u8 Channel, u8 State, u8 Priority)
 {
-	if(Channel > PWMB) return FAIL;
-	if(Priority > Priority_3) return FAIL;
-	EAXSFR();		/* MOVX A,@DPTR/MOVX @DPTR,AÖ¸ÁîµÄ²Ù×÷¶ÔÏóÎªÀ©Õ¹SFR(XSFR) */
-	switch(Channel)
-	{
-		case PWMA:
-			PWMA_IER = State;
-			PWMA_Priority(Priority);
-		break;
+    if (Channel > PWMB)
+        return FAIL;
+    if (Priority > Priority_3)
+        return FAIL;
+    EAXSFR(); /* MOVX A,@DPTR/MOVX @DPTR,AæŒ‡ä»¤çš„æ“ä½œå¯¹è±¡ä¸ºæ‰©å±•SFR(XSFR) */
+    switch (Channel) {
+        case PWMA:
+            PWMA_IER = State;
+            PWMA_Priority(Priority);
+            break;
 
-		case PWMB:
-			PWMB_IER = State;
-			PWMB_Priority(Priority);
-		break;
+        case PWMB:
+            PWMB_IER = State;
+            PWMB_Priority(Priority);
+            break;
 
-		default:
-			PWMB_IER = State;
-			Priority = NULL;
-		break;
-	}
-	EAXRAM();		/* MOVX A,@DPTR/MOVX @DPTR,AÖ¸ÁîµÄ²Ù×÷¶ÔÏóÎªÀ©Õ¹RAM(XRAM) */
-	return SUCCESS;
+        default:
+            PWMB_IER = State;
+            Priority = NULL;
+            break;
+    }
+    EAXRAM(); /* MOVX A,@DPTR/MOVX @DPTR,AæŒ‡ä»¤çš„æ“ä½œå¯¹è±¡ä¸ºæ‰©å±•RAM(XRAM) */
+    return SUCCESS;
 }
 
 //========================================================================
-// º¯Êý: NVIC_PCA_Init
-// ÃèÊö: PCAÇ¶Ì×ÏòÁ¿ÖÐ¶Ï¿ØÖÆÆ÷³õÊ¼»¯.
-// ²ÎÊý: Channel:  Í¨µÀ, PCA0/PCA1/PCA2/PCA_Counter.
-// ²ÎÊý: State:    ÖÐ¶ÏÊ¹ÄÜ×´Ì¬, PCA_ECOM/PCA_CCAPP/PCA_CCAPN/PCA_MAT/PCA_TOG/PCA_PWM/PCA_ECCF/DISABLE.
-// ²ÎÊý: Priority: ÖÐ¶ÏÓÅÏÈ¼¶, Priority_0,Priority_1,Priority_2,Priority_3.
-// ·µ»Ø: Ö´ÐÐ½á¹û SUCCESS/FAIL.
-// °æ±¾: V1.0, 2020-09-29
+// å‡½æ•°: NVIC_PCA_Init
+// æè¿°: PCAåµŒå¥—å‘é‡ä¸­æ–­æŽ§åˆ¶å™¨åˆå§‹åŒ–.
+// å‚æ•°: Channel:  é€šé“, PCA0/PCA1/PCA2/PCA_Counter.
+// å‚æ•°: State:    ä¸­æ–­ä½¿èƒ½çŠ¶æ€, PCA_ECOM/PCA_CCAPP/PCA_CCAPN/PCA_MAT/PCA_TOG/PCA_PWM/PCA_ECCF/DISABLE.
+// å‚æ•°: Priority: ä¸­æ–­ä¼˜å…ˆçº§, Priority_0,Priority_1,Priority_2,Priority_3.
+// è¿”å›ž: æ‰§è¡Œç»“æžœ SUCCESS/FAIL.
+// ç‰ˆæœ¬: V1.0, 2020-09-29
 //========================================================================
 u8 NVIC_PCA_Init(u8 Channel, u8 State, u8 Priority)
 {
-//	if(Channel > PCA_Counter) return FAIL;
-	if(Priority > Priority_3) return FAIL;
-	PCA_Priority(Priority);
-	switch(Channel)
-	{
-		case PCA0:
-			CCAPM0 = State;
-		break;
+    //	if(Channel > PCA_Counter) return FAIL;
+    if (Priority > Priority_3)
+        return FAIL;
+    PCA_Priority(Priority);
+    switch (Channel) {
+        case PCA0:
+            CCAPM0 = State;
+            break;
 
-		case PCA1:
-			CCAPM1 = State;
-		break;
+        case PCA1:
+            CCAPM1 = State;
+            break;
 
-		case PCA2:
-			CCAPM2 = State;
-		break;
+        case PCA2:
+            CCAPM2 = State;
+            break;
 
-		case PCA_Counter:
-			CMOD = (CMOD  & ~1) | (State & 1);
-		break;
-	}
-	return SUCCESS;
+        case PCA_Counter:
+            CMOD = (CMOD & ~1) | (State & 1);
+            break;
+    }
+    return SUCCESS;
 }
-

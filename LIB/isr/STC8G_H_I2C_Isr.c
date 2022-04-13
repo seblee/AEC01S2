@@ -7,80 +7,63 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* Èç¹ûÒªÔÚ³ÌĞòÖĞÊ¹ÓÃ´Ë´úÂë,ÇëÔÚ³ÌĞòÖĞ×¢Ã÷Ê¹ÓÃÁËSTCµÄ×ÊÁÏ¼°³ÌĞò            */
+/* å¦‚æœè¦åœ¨ç¨‹åºä¸­ä½¿ç”¨æ­¤ä»£ç ,è¯·åœ¨ç¨‹åºä¸­æ³¨æ˜ä½¿ç”¨äº†STCçš„èµ„æ–™åŠç¨‹åº            */
 /*---------------------------------------------------------------------*/
 
-#include	"STC8G_H_I2C.h"
+#include "STC8G_H_I2C.h"
 
 //========================================================================
-//                               ±¾µØ±äÁ¿ÉùÃ÷
+//                               æœ¬åœ°å˜é‡å£°æ˜
 //========================================================================
 
 I2C_IsrTypeDef I2CIsr;
-bit DisplayFlag;
+bit            DisplayFlag;
 
 //========================================================================
-//                            Íâ²¿º¯ÊıºÍ±äÁ¿ÉùÃ÷
+//                            å¤–éƒ¨å‡½æ•°å’Œå˜é‡å£°æ˜
 //========================================================================
 
-
 //========================================================================
-// º¯Êı: I2C_ISR_Handler
-// ÃèÊö: I2CÖĞ¶Ïº¯Êı.
-// ²ÎÊı: none.
-// ·µ»Ø: none.
-// °æ±¾: V1.0, 2020-09-23
+// å‡½æ•°: I2C_ISR_Handler
+// æè¿°: I2Cä¸­æ–­å‡½æ•°.
+// å‚æ•°: none.
+// è¿”å›: none.
+// ç‰ˆæœ¬: V1.0, 2020-09-23
 //========================================================================
 void I2C_ISR_Handler() interrupt I2C_VECTOR
 {
-	char store;
-	
-	store = P_SW2;
-	P_SW2 |= 0x80;
+    char store;
 
-	// TODO: ÔÚ´Ë´¦Ìí¼ÓÓÃ»§´úÂë
-	if (I2CSLST & 0x40)
-	{
-		I2CSLST &= ~0x40;                       //´¦ÀíSTARTÊÂ¼ş
-	}
-	else if (I2CSLST & 0x20)
-	{
-		I2CSLST &= ~0x20;                       //´¦ÀíRECVÊÂ¼ş£¬SLACKOÉèÖÃÎª0
-		if (I2CIsr.isda)
-		{
-			I2CIsr.isda = 0;                           //´¦ÀíRECVÊÂ¼ş£¨RECV DEVICE ADDR£©
-		}
-		else if (I2CIsr.isma)
-		{
-			I2CIsr.isma = 0;                           //´¦ÀíRECVÊÂ¼ş£¨RECV MEMORY ADDR£©
-			I2CIsr.addr = I2CRXD;
-			I2CTXD = I2C_Buffer[I2CIsr.addr];
-		}
-		else
-		{
-			I2C_Buffer[I2CIsr.addr++] = I2CRXD;            //´¦ÀíRECVÊÂ¼ş£¨RECV DATA£©
-		}
-	}
-	else if (I2CSLST & 0x10)
-	{
-		I2CSLST &= ~0x10;                       //´¦ÀíSENDÊÂ¼ş
-		if (I2CSLST & 0x02)
-		{
-			I2CTXD = 0xff;
-		}
-		else
-		{
-			I2CTXD = I2C_Buffer[++I2CIsr.addr];
-		}
-	}
-	else if (I2CSLST & 0x08)
-	{
-		I2CSLST &= ~0x08;                       //´¦ÀíSTOPÊÂ¼ş
-		I2CIsr.isda = 1;
-		I2CIsr.isma = 1;
-		DisplayFlag = 1;
-	}
+    store = P_SW2;
+    P_SW2 |= 0x80;
 
-	P_SW2 = store;
+    // TODO: åœ¨æ­¤å¤„æ·»åŠ ç”¨æˆ·ä»£ç 
+    if (I2CSLST & 0x40) {
+        I2CSLST &= ~0x40;  //å¤„ç†STARTäº‹ä»¶
+    } else if (I2CSLST & 0x20) {
+        I2CSLST &= ~0x20;  //å¤„ç†RECVäº‹ä»¶ï¼ŒSLACKOè®¾ç½®ä¸º0
+        if (I2CIsr.isda) {
+            I2CIsr.isda = 0;  //å¤„ç†RECVäº‹ä»¶ï¼ˆRECV DEVICE ADDRï¼‰
+        } else if (I2CIsr.isma) {
+            I2CIsr.isma = 0;  //å¤„ç†RECVäº‹ä»¶ï¼ˆRECV MEMORY ADDRï¼‰
+            I2CIsr.addr = I2CRXD;
+            I2CTXD      = I2C_Buffer[I2CIsr.addr];
+        } else {
+            I2C_Buffer[I2CIsr.addr++] = I2CRXD;  //å¤„ç†RECVäº‹ä»¶ï¼ˆRECV DATAï¼‰
+        }
+    } else if (I2CSLST & 0x10) {
+        I2CSLST &= ~0x10;  //å¤„ç†SENDäº‹ä»¶
+        if (I2CSLST & 0x02) {
+            I2CTXD = 0xff;
+        } else {
+            I2CTXD = I2C_Buffer[++I2CIsr.addr];
+        }
+    } else if (I2CSLST & 0x08) {
+        I2CSLST &= ~0x08;  //å¤„ç†STOPäº‹ä»¶
+        I2CIsr.isda = 1;
+        I2CIsr.isma = 1;
+        DisplayFlag = 1;
+    }
+
+    P_SW2 = store;
 }
-

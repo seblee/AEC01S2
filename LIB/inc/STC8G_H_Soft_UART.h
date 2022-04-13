@@ -1,10 +1,10 @@
 
-#ifndef	__SOFT_UART_H
-#define	__SOFT_UART_H
+#ifndef __SOFT_UART_H
+#define __SOFT_UART_H
 
-#include	"config.h"
+#include "config.h"
 
-void	TxSend(u8 dat);
-void 	PrintString(unsigned char code *puts);
+void TxSend(u8 dat);
+void PrintString(unsigned char code *puts);
 
 #endif

@@ -7,82 +7,79 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* Èç¹ûÒªÔÚ³ÌĞòÖĞÊ¹ÓÃ´Ë´úÂë,ÇëÔÚ³ÌĞòÖĞ×¢Ã÷Ê¹ÓÃÁËSTCµÄ×ÊÁÏ¼°³ÌĞò            */
+/* å¦‚æœè¦åœ¨ç¨‹åºä¸­ä½¿ç”¨æ­¤ä»£ç ,è¯·åœ¨ç¨‹åºä¸­æ³¨æ˜ä½¿ç”¨äº†STCçš„èµ„æ–™åŠç¨‹åº            */
 /*---------------------------------------------------------------------*/
 
 #ifndef __PWM_H
-#define __PWM_H	 
+#define __PWM_H
 
-#include	"config.h"
+#include "config.h"
 
-#define ENO1P       0x01
-#define ENO1N       0x02
-#define ENO2P       0x04
-#define ENO2N       0x08
-#define ENO3P       0x10
-#define ENO3N       0x20
-#define ENO4P       0x40
-#define ENO4N       0x80
+#define ENO1P 0x01
+#define ENO1N 0x02
+#define ENO2P 0x04
+#define ENO2N 0x08
+#define ENO3P 0x10
+#define ENO3N 0x20
+#define ENO4P 0x40
+#define ENO4N 0x80
 
-#define ENO5P       0x01
-#define ENO6P       0x04
-#define ENO7P       0x10
-#define ENO8P       0x40
+#define ENO5P 0x01
+#define ENO6P 0x04
+#define ENO7P 0x10
+#define ENO8P 0x40
 
-#define	PWM1	1
-#define	PWM2	2
-#define	PWM3	3
-#define	PWM4	4
-#define	PWM5	5
-#define	PWM6	6
-#define	PWM7	7
-#define	PWM8	8
+#define PWM1 1
+#define PWM2 2
+#define PWM3 3
+#define PWM4 4
+#define PWM5 5
+#define PWM6 6
+#define PWM7 7
+#define PWM8 8
 
-#define	PWMA	128
-#define	PWMB	129
+#define PWMA 128
+#define PWMB 129
 
-#define PWM_BIE     0x80
-#define PWM_TIE     0x40
-#define PWM_COMIE   0x20
-#define PWM_CC4IE   0x10
-#define PWM_CC3IE   0x08
-#define PWM_CC2IE   0x04
-#define PWM_CC1IE   0x02
-#define PWM_CC8IE   0x10
-#define PWM_CC7IE   0x08
-#define PWM_CC6IE   0x04
-#define PWM_CC5IE   0x02
-#define PWM_UIE     0x01
+#define PWM_BIE   0x80
+#define PWM_TIE   0x40
+#define PWM_COMIE 0x20
+#define PWM_CC4IE 0x10
+#define PWM_CC3IE 0x08
+#define PWM_CC2IE 0x04
+#define PWM_CC1IE 0x02
+#define PWM_CC8IE 0x10
+#define PWM_CC7IE 0x08
+#define PWM_CC6IE 0x04
+#define PWM_CC5IE 0x02
+#define PWM_UIE   0x01
 
-typedef struct
-{ 
-	u8	PWM_Mode;			//Ä£Ê½,   CCMRn_FREEZE,CCMRn_MATCH_VALID,CCMRn_MATCH_INVALID,CCMRn_ROLLOVER,CCMRn_FORCE_INVALID,CCMRn_FORCE_VALID,CCMRn_PWM_MODE1,CCMRn_PWM_MODE2
-	u16	PWM_Period;		//ÖÜÆÚÊ±¼ä,   0~65535
-	u16	PWM_Duty;			//Õ¼¿Õ±ÈÊ±¼ä, 0~Period
-	u8	PWM_DeadTime;	//ËÀÇø·¢ÉúÆ÷ÉèÖÃ, 0~255
-//	u8	PWM_Reload;				//Êä³ö±È½ÏµÄÔ¤×°ÔØÊ¹ÄÜ,   ENABLE,DISABLE
-//	u8	PWM_Fast;					//Êä³ö±È½Ï¿ìËÙ¹¦ÄÜÊ¹ÄÜ,   ENABLE,DISABLE
-//	u8	PWM_PreLoad;			//Ô¤×°ÔØ,     ENABLE,DISABLE
-//	u8	PWM_BrakeEnable;	//É²³µÊäÈëÊ¹ÄÜ,  ENABLE,DISABLE
-	u8	PWM_EnoSelect;		//Êä³öÍ¨µÀÑ¡Ôñ,	ENO1P,ENO1N,ENO2P,ENO2N,ENO3P,ENO3N,ENO4P,ENO4N / ENO5P,ENO6P,ENO7P,ENO8P
-	u8	PWM_CEN_Enable;		//Ê¹ÄÜ¼ÆÊıÆ÷, ENABLE,DISABLE
-	u8	PWM_MainOutEnable;//Ö÷Êä³öÊ¹ÄÜ,  ENABLE,DISABLE
-} PWMx_InitDefine; 
+typedef struct {
+    u8  PWM_Mode;      //æ¨¡å¼,   CCMRn_FREEZE,CCMRn_MATCH_VALID,CCMRn_MATCH_INVALID,CCMRn_ROLLOVER,CCMRn_FORCE_INVALID,CCMRn_FORCE_VALID,CCMRn_PWM_MODE1,CCMRn_PWM_MODE2
+    u16 PWM_Period;    //å‘¨æœŸæ—¶é—´,   0~65535
+    u16 PWM_Duty;      //å ç©ºæ¯”æ—¶é—´, 0~Period
+    u8  PWM_DeadTime;  //æ­»åŒºå‘ç”Ÿå™¨è®¾ç½®, 0~255
+    // u8  PWM_Reload;         //è¾“å‡ºæ¯”è¾ƒçš„é¢„è£…è½½ä½¿èƒ½,   ENABLE,DISABLE
+    // u8  PWM_Fast;           //è¾“å‡ºæ¯”è¾ƒå¿«é€ŸåŠŸèƒ½ä½¿èƒ½,   ENABLE,DISABLE
+    // u8  PWM_PreLoad;        //é¢„è£…è½½,     ENABLE,DISABLE
+    // u8  PWM_BrakeEnable;    //åˆ¹è½¦è¾“å…¥ä½¿èƒ½,  ENABLE,DISABLE
+    u8 PWM_EnoSelect;      //è¾“å‡ºé€šé“é€‰æ‹©,	ENO1P,ENO1N,ENO2P,ENO2N,ENO3P,ENO3N,ENO4P,ENO4N / ENO5P,ENO6P,ENO7P,ENO8P
+    u8 PWM_CEN_Enable;     //ä½¿èƒ½è®¡æ•°å™¨, ENABLE,DISABLE
+    u8 PWM_MainOutEnable;  //ä¸»è¾“å‡ºä½¿èƒ½,  ENABLE,DISABLE
+} PWMx_InitDefine;
 
-typedef struct
-{ 
-	u16	PWM1_Duty;			//PWM1Õ¼¿Õ±ÈÊ±¼ä, 0~Period
-	u16	PWM2_Duty;			//PWM2Õ¼¿Õ±ÈÊ±¼ä, 0~Period
-	u16	PWM3_Duty;			//PWM3Õ¼¿Õ±ÈÊ±¼ä, 0~Period
-	u16	PWM4_Duty;			//PWM4Õ¼¿Õ±ÈÊ±¼ä, 0~Period
-	u16	PWM5_Duty;			//PWM5Õ¼¿Õ±ÈÊ±¼ä, 0~Period
-	u16	PWM6_Duty;			//PWM6Õ¼¿Õ±ÈÊ±¼ä, 0~Period
-	u16	PWM7_Duty;			//PWM7Õ¼¿Õ±ÈÊ±¼ä, 0~Period
-	u16	PWM8_Duty;			//PWM8Õ¼¿Õ±ÈÊ±¼ä, 0~Period
-} PWMx_Duty; 
+typedef struct {
+    u16 PWM1_Duty;  // PWM1å ç©ºæ¯”æ—¶é—´, 0~Period
+    u16 PWM2_Duty;  // PWM2å ç©ºæ¯”æ—¶é—´, 0~Period
+    u16 PWM3_Duty;  // PWM3å ç©ºæ¯”æ—¶é—´, 0~Period
+    u16 PWM4_Duty;  // PWM4å ç©ºæ¯”æ—¶é—´, 0~Period
+    u16 PWM5_Duty;  // PWM5å ç©ºæ¯”æ—¶é—´, 0~Period
+    u16 PWM6_Duty;  // PWM6å ç©ºæ¯”æ—¶é—´, 0~Period
+    u16 PWM7_Duty;  // PWM7å ç©ºæ¯”æ—¶é—´, 0~Period
+    u16 PWM8_Duty;  // PWM8å ç©ºæ¯”æ—¶é—´, 0~Period
+} PWMx_Duty;
 
-u8	PWM_Configuration(u8 PWM, PWMx_InitDefine *PWMx);
+u8   PWM_Configuration(u8 PWM, PWMx_InitDefine *PWMx);
 void UpdatePwm(u8 PWM, PWMx_Duty *PWMx);
 
 #endif
-

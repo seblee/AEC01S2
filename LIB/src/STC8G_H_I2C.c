@@ -7,212 +7,211 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* Èç¹ûÒªÔÚ³ÌĞòÖĞÊ¹ÓÃ´Ë´úÂë,ÇëÔÚ³ÌĞòÖĞ×¢Ã÷Ê¹ÓÃÁËSTCµÄ×ÊÁÏ¼°³ÌĞò            */
+/* å¦‚æœè¦åœ¨ç¨‹åºä¸­ä½¿ç”¨æ­¤ä»£ç ,è¯·åœ¨ç¨‹åºä¸­æ³¨æ˜ä½¿ç”¨äº†STCçš„èµ„æ–™åŠç¨‹åº            */
 /*---------------------------------------------------------------------*/
 
-#include	"STC8G_H_I2C.h"
+#include "STC8G_H_I2C.h"
 
 u8 xdata I2C_Buffer[I2C_BUF_LENTH];
-//u8 xdata *I2C_Buffer;
+// u8 xdata *I2C_Buffer;
 
-#define SLAW    0xA2
-#define SLAR    0xA3
+#define SLAW 0xA2
+#define SLAR 0xA3
 
 //========================================================================
-// º¯Êı: void	I2C_Init(I2C_InitTypeDef *I2Cx)
-// ÃèÊö: I2C³õÊ¼»¯³ÌĞò.
-// ²ÎÊı: I2Cx: ½á¹¹²ÎÊı,Çë²Î¿¼I2C.hÀïµÄ¶¨Òå.
-// ·µ»Ø: none.
-// °æ±¾: V1.0, 2012-11-22
+// å‡½æ•°: void	I2C_Init(I2C_InitTypeDef *I2Cx)
+// æè¿°: I2Cåˆå§‹åŒ–ç¨‹åº.
+// å‚æ•°: I2Cx: ç»“æ„å‚æ•°,è¯·å‚è€ƒI2C.hé‡Œçš„å®šä¹‰.
+// è¿”å›: none.
+// ç‰ˆæœ¬: V1.0, 2012-11-22
 //========================================================================
-void	I2C_Init(I2C_InitTypeDef *I2Cx)
+void I2C_Init(I2C_InitTypeDef *I2Cx)
 {
-	EAXSFR();		/* MOVX A,@DPTR/MOVX @DPTR,AÖ¸ÁîµÄ²Ù×÷¶ÔÏóÎªÀ©Õ¹SFR(XSFR) */
-	
-	if(I2Cx->I2C_Mode == I2C_Mode_Master)
-	{
-		I2C_Master();			//ÉèÎªÖ÷»ú	
-		I2CMSST = 0x00;		//Çå³ıI2CÖ÷»ú×´Ì¬¼Ä´æÆ÷
-		I2C_SetSpeed(I2Cx->I2C_Speed);
-		if(I2Cx->I2C_MS_WDTA == ENABLE)		I2C_WDTA_EN();	//Ê¹ÄÜ×Ô¶¯·¢ËÍ
-		else									I2C_WDTA_DIS();	//½ûÖ¹×Ô¶¯·¢ËÍ
-	}
-	else
-	{
-		I2C_Slave();	//ÉèÎª´Ó»ú
-		I2CSLST = 0x00;		//Çå³ıI2C´Ó»ú×´Ì¬¼Ä´æÆ÷
-		I2C_Address(I2Cx->I2C_SL_ADR);
-		if(I2Cx->I2C_SL_MA == ENABLE)		I2C_MATCH_EN();	//´Ó»úµØÖ·±È½Ï¹¦ÄÜ£¬Ö»½ÓÊÜÏàÆ¥ÅäµØÖ·
-		else									I2C_MATCH_DIS();	//½ûÖ¹´Ó»úµØÖ·±È½Ï¹¦ÄÜ£¬½ÓÊÜËùÓĞÉè±¸µØÖ·
-	}
-	
-	I2C_Function(I2Cx->I2C_Enable);
-	
-//	if(I2C_Buffer){free(I2C_Buffer);I2C_Buffer = NULL;}	//free memory
-//	I2C_Buffer = (u8*)malloc(sizeof(u8)*I2C_BUF_LENTH);
+    EAXSFR(); /* MOVX A,@DPTR/MOVX @DPTR,AæŒ‡ä»¤çš„æ“ä½œå¯¹è±¡ä¸ºæ‰©å±•SFR(XSFR) */
 
-	EAXRAM();		/* MOVX A,@DPTR/MOVX @DPTR,AÖ¸ÁîµÄ²Ù×÷¶ÔÏóÎªÀ©Õ¹RAM(XRAM) */
+    if (I2Cx->I2C_Mode == I2C_Mode_Master) {
+        I2C_Master();    //è®¾ä¸ºä¸»æœº
+        I2CMSST = 0x00;  //æ¸…é™¤I2Cä¸»æœºçŠ¶æ€å¯„å­˜å™¨
+        I2C_SetSpeed(I2Cx->I2C_Speed);
+        if (I2Cx->I2C_MS_WDTA == ENABLE)
+            I2C_WDTA_EN();  //ä½¿èƒ½è‡ªåŠ¨å‘é€
+        else
+            I2C_WDTA_DIS();  //ç¦æ­¢è‡ªåŠ¨å‘é€
+    } else {
+        I2C_Slave();     //è®¾ä¸ºä»æœº
+        I2CSLST = 0x00;  //æ¸…é™¤I2Cä»æœºçŠ¶æ€å¯„å­˜å™¨
+        I2C_Address(I2Cx->I2C_SL_ADR);
+        if (I2Cx->I2C_SL_MA == ENABLE)
+            I2C_MATCH_EN();  //ä»æœºåœ°å€æ¯”è¾ƒåŠŸèƒ½ï¼Œåªæ¥å—ç›¸åŒ¹é…åœ°å€
+        else
+            I2C_MATCH_DIS();  //ç¦æ­¢ä»æœºåœ°å€æ¯”è¾ƒåŠŸèƒ½ï¼Œæ¥å—æ‰€æœ‰è®¾å¤‡åœ°å€
+    }
+
+    I2C_Function(I2Cx->I2C_Enable);
+
+    //	if(I2C_Buffer){free(I2C_Buffer);I2C_Buffer = NULL;}	//free memory
+    //	I2C_Buffer = (u8*)malloc(sizeof(u8)*I2C_BUF_LENTH);
+
+    EAXRAM(); /* MOVX A,@DPTR/MOVX @DPTR,AæŒ‡ä»¤çš„æ“ä½œå¯¹è±¡ä¸ºæ‰©å±•RAM(XRAM) */
 }
 
 //========================================================================
-// º¯Êı: void	Wait (void)
-// ÃèÊö: µÈ´ıÖ÷»úÄ£Ê½I2C¿ØÖÆÆ÷Ö´ĞĞÍê³ÉI2CMSCR.
-// ²ÎÊı: mode: Ö¸¶¨Ä£Ê½, È¡Öµ I2C_Mode_Master »ò I2C_Mode_Slave.
-// ·µ»Ø: none.
-// °æ±¾: V1.0, 2012-11-22
+// å‡½æ•°: void	Wait (void)
+// æè¿°: ç­‰å¾…ä¸»æœºæ¨¡å¼I2Cæ§åˆ¶å™¨æ‰§è¡Œå®ŒæˆI2CMSCR.
+// å‚æ•°: mode: æŒ‡å®šæ¨¡å¼, å–å€¼ I2C_Mode_Master æˆ– I2C_Mode_Slave.
+// è¿”å›: none.
+// ç‰ˆæœ¬: V1.0, 2012-11-22
 //========================================================================
 void Wait()
 {
-	while (!(I2CMSST & 0x40));
-	I2CMSST &= ~0x40;
+    while (!(I2CMSST & 0x40))
+        ;
+    I2CMSST &= ~0x40;
 }
 
 //========================================================================
-// º¯Êı: void Start (void)
-// ÃèÊö: I2C×ÜÏßÆğÊ¼º¯Êı.
-// ²ÎÊı: none.
-// ·µ»Ø: none.
-// °æ±¾: V1.0, 2020-09-15
+// å‡½æ•°: void Start (void)
+// æè¿°: I2Cæ€»çº¿èµ·å§‹å‡½æ•°.
+// å‚æ•°: none.
+// è¿”å›: none.
+// ç‰ˆæœ¬: V1.0, 2020-09-15
 //========================================================================
 void Start()
 {
-	I2CMSCR = 0x01;                         //·¢ËÍSTARTÃüÁî
-	Wait();
+    I2CMSCR = 0x01;  //å‘é€STARTå‘½ä»¤
+    Wait();
 }
 
 //========================================================================
-// º¯Êı: void SendData (char dat)
-// ÃèÊö: I2C·¢ËÍÒ»¸ö×Ö½ÚÊı¾İº¯Êı.
-// ²ÎÊı: ·¢ËÍµÄÊı¾İ.
-// ·µ»Ø: none.
-// °æ±¾: V1.0, 2020-09-15
+// å‡½æ•°: void SendData (char dat)
+// æè¿°: I2Cå‘é€ä¸€ä¸ªå­—èŠ‚æ•°æ®å‡½æ•°.
+// å‚æ•°: å‘é€çš„æ•°æ®.
+// è¿”å›: none.
+// ç‰ˆæœ¬: V1.0, 2020-09-15
 //========================================================================
 void SendData(char dat)
 {
-	I2CTXD = dat;                           //Ğ´Êı¾İµ½Êı¾İ»º³åÇø
-	I2CMSCR = 0x02;                         //·¢ËÍSENDÃüÁî
-	Wait();
+    I2CTXD  = dat;   //å†™æ•°æ®åˆ°æ•°æ®ç¼“å†²åŒº
+    I2CMSCR = 0x02;  //å‘é€SENDå‘½ä»¤
+    Wait();
 }
 
 //========================================================================
-// º¯Êı: void RecvACK (void)
-// ÃèÊö: I2C»ñÈ¡ACKº¯Êı.
-// ²ÎÊı: none.
-// ·µ»Ø: none.
-// °æ±¾: V1.0, 2020-09-15
+// å‡½æ•°: void RecvACK (void)
+// æè¿°: I2Cè·å–ACKå‡½æ•°.
+// å‚æ•°: none.
+// è¿”å›: none.
+// ç‰ˆæœ¬: V1.0, 2020-09-15
 //========================================================================
 void RecvACK()
 {
-	I2CMSCR = 0x03;                         //·¢ËÍ¶ÁACKÃüÁî
-	Wait();
+    I2CMSCR = 0x03;  //å‘é€è¯»ACKå‘½ä»¤
+    Wait();
 }
 
 //========================================================================
-// º¯Êı: char RecvData (void)
-// ÃèÊö: I2C¶ÁÈ¡Ò»¸ö×Ö½ÚÊı¾İº¯Êı.
-// ²ÎÊı: none.
-// ·µ»Ø: ¶ÁÈ¡Êı¾İ.
-// °æ±¾: V1.0, 2020-09-15
+// å‡½æ•°: char RecvData (void)
+// æè¿°: I2Cè¯»å–ä¸€ä¸ªå­—èŠ‚æ•°æ®å‡½æ•°.
+// å‚æ•°: none.
+// è¿”å›: è¯»å–æ•°æ®.
+// ç‰ˆæœ¬: V1.0, 2020-09-15
 //========================================================================
 char RecvData()
 {
-	I2CMSCR = 0x04;                         //·¢ËÍRECVÃüÁî
-	Wait();
-	return I2CRXD;
+    I2CMSCR = 0x04;  //å‘é€RECVå‘½ä»¤
+    Wait();
+    return I2CRXD;
 }
 
 //========================================================================
-// º¯Êı: void SendACK (void)
-// ÃèÊö: I2C·¢ËÍACKº¯Êı.
-// ²ÎÊı: none.
-// ·µ»Ø: none.
-// °æ±¾: V1.0, 2020-09-15
+// å‡½æ•°: void SendACK (void)
+// æè¿°: I2Cå‘é€ACKå‡½æ•°.
+// å‚æ•°: none.
+// è¿”å›: none.
+// ç‰ˆæœ¬: V1.0, 2020-09-15
 //========================================================================
 void SendACK()
 {
-	I2CMSST = 0x00;                         //ÉèÖÃACKĞÅºÅ
-	I2CMSCR = 0x05;                         //·¢ËÍACKÃüÁî
-	Wait();
+    I2CMSST = 0x00;  //è®¾ç½®ACKä¿¡å·
+    I2CMSCR = 0x05;  //å‘é€ACKå‘½ä»¤
+    Wait();
 }
 
 //========================================================================
-// º¯Êı: void SendNAK (void)
-// ÃèÊö: I2C·¢ËÍNAKº¯Êı.
-// ²ÎÊı: none.
-// ·µ»Ø: none.
-// °æ±¾: V1.0, 2020-09-15
+// å‡½æ•°: void SendNAK (void)
+// æè¿°: I2Cå‘é€NAKå‡½æ•°.
+// å‚æ•°: none.
+// è¿”å›: none.
+// ç‰ˆæœ¬: V1.0, 2020-09-15
 //========================================================================
 void SendNAK()
 {
-	I2CMSST = 0x01;                         //ÉèÖÃNAKĞÅºÅ
-	I2CMSCR = 0x05;                         //·¢ËÍACKÃüÁî
-	Wait();
+    I2CMSST = 0x01;  //è®¾ç½®NAKä¿¡å·
+    I2CMSCR = 0x05;  //å‘é€ACKå‘½ä»¤
+    Wait();
 }
 
 //========================================================================
-// º¯Êı: void Stop (void)
-// ÃèÊö: I2C×ÜÏßÍ£Ö¹º¯Êı.
-// ²ÎÊı: none.
-// ·µ»Ø: none.
-// °æ±¾: V1.0, 2020-09-15
+// å‡½æ•°: void Stop (void)
+// æè¿°: I2Cæ€»çº¿åœæ­¢å‡½æ•°.
+// å‚æ•°: none.
+// è¿”å›: none.
+// ç‰ˆæœ¬: V1.0, 2020-09-15
 //========================================================================
 void Stop()
 {
-	I2CMSCR = 0x06;                         //·¢ËÍSTOPÃüÁî
-	Wait();
+    I2CMSCR = 0x06;  //å‘é€STOPå‘½ä»¤
+    Wait();
 }
 
 //========================================================================
-// º¯Êı: void	I2C_WriteNbyte(u8 addr, u8 *p, u8 number)
-// ÃèÊö: I2CĞ´ÈëÊı¾İº¯Êı.
-// ²ÎÊı: addr: Ö¸¶¨µØÖ·, *pĞ´ÈëÊı¾İ´æ´¢Î»ÖÃ, numberĞ´ÈëÊı¾İ¸öÊı.
-// ·µ»Ø: none.
-// °æ±¾: V1.0, 2020-09-15
+// å‡½æ•°: void	I2C_WriteNbyte(u8 addr, u8 *p, u8 number)
+// æè¿°: I2Cå†™å…¥æ•°æ®å‡½æ•°.
+// å‚æ•°: addr: æŒ‡å®šåœ°å€, *på†™å…¥æ•°æ®å­˜å‚¨ä½ç½®, numberå†™å…¥æ•°æ®ä¸ªæ•°.
+// è¿”å›: none.
+// ç‰ˆæœ¬: V1.0, 2020-09-15
 //========================================================================
-void I2C_WriteNbyte(u8 addr, u8 *p, u8 number)  /*  WordAddress,First Data Address,Byte lenth   */
+void I2C_WriteNbyte(u8 addr, u8 *p, u8 number) /*  WordAddress,First Data Address,Byte lenth   */
 {
-	EAXSFR();		/* MOVX A,@DPTR/MOVX @DPTR,AÖ¸ÁîµÄ²Ù×÷¶ÔÏóÎªÀ©Õ¹SFR(XSFR) */
-	Start();                                //·¢ËÍÆğÊ¼ÃüÁî
-	SendData(SLAW);                         //·¢ËÍÉè±¸µØÖ·+Ğ´ÃüÁî
-	RecvACK();
-	SendData(addr);                         //·¢ËÍ´æ´¢µØÖ·
-	RecvACK();
-	do
-	{
-		SendData(*p++);
-		RecvACK();
-	}
-	while(--number);
-	Stop();                                 //·¢ËÍÍ£Ö¹ÃüÁî
-	EAXRAM();		/* MOVX A,@DPTR/MOVX @DPTR,AÖ¸ÁîµÄ²Ù×÷¶ÔÏóÎªÀ©Õ¹RAM(XRAM) */
+    EAXSFR();        /* MOVX A,@DPTR/MOVX @DPTR,AæŒ‡ä»¤çš„æ“ä½œå¯¹è±¡ä¸ºæ‰©å±•SFR(XSFR) */
+    Start();         //å‘é€èµ·å§‹å‘½ä»¤
+    SendData(SLAW);  //å‘é€è®¾å¤‡åœ°å€+å†™å‘½ä»¤
+    RecvACK();
+    SendData(addr);  //å‘é€å­˜å‚¨åœ°å€
+    RecvACK();
+    do {
+        SendData(*p++);
+        RecvACK();
+    } while (--number);
+    Stop();   //å‘é€åœæ­¢å‘½ä»¤
+    EAXRAM(); /* MOVX A,@DPTR/MOVX @DPTR,AæŒ‡ä»¤çš„æ“ä½œå¯¹è±¡ä¸ºæ‰©å±•RAM(XRAM) */
 }
 
 //========================================================================
-// º¯Êı: void	I2C_ReadNbyte(u8 addr, u8 *p, u8 number)
-// ÃèÊö: I2C¶ÁÈ¡Êı¾İº¯Êı.
-// ²ÎÊı: addr: Ö¸¶¨µØÖ·, *p¶ÁÈ¡Êı¾İ´æ´¢Î»ÖÃ, number¶ÁÈ¡Êı¾İ¸öÊı.
-// ·µ»Ø: none.
-// °æ±¾: V1.0, 2020-09-15
+// å‡½æ•°: void	I2C_ReadNbyte(u8 addr, u8 *p, u8 number)
+// æè¿°: I2Cè¯»å–æ•°æ®å‡½æ•°.
+// å‚æ•°: addr: æŒ‡å®šåœ°å€, *pè¯»å–æ•°æ®å­˜å‚¨ä½ç½®, numberè¯»å–æ•°æ®ä¸ªæ•°.
+// è¿”å›: none.
+// ç‰ˆæœ¬: V1.0, 2020-09-15
 //========================================================================
-void I2C_ReadNbyte(u8 addr, u8 *p, u8 number)   /*  WordAddress,First Data Address,Byte lenth   */
+void I2C_ReadNbyte(u8 addr, u8 *p, u8 number) /*  WordAddress,First Data Address,Byte lenth   */
 {
-	EAXSFR();		/* MOVX A,@DPTR/MOVX @DPTR,AÖ¸ÁîµÄ²Ù×÷¶ÔÏóÎªÀ©Õ¹SFR(XSFR) */
-	Start();                                //·¢ËÍÆğÊ¼ÃüÁî
-	SendData(SLAW);                         //·¢ËÍÉè±¸µØÖ·+Ğ´ÃüÁî
-	RecvACK();
-	SendData(addr);                         //·¢ËÍ´æ´¢µØÖ·
-	RecvACK();
-	Start();                                //·¢ËÍÆğÊ¼ÃüÁî
-	SendData(SLAR);                         //·¢ËÍÉè±¸µØÖ·+¶ÁÃüÁî
-	RecvACK();
-	do
-	{
-		*p = RecvData();
-		p++;
-		if(number != 1) SendACK();          //send ACK
-	}
-	while(--number);
-	SendNAK();                              //send no ACK	
-	Stop();                                 //·¢ËÍÍ£Ö¹ÃüÁî
-	EAXRAM();		/* MOVX A,@DPTR/MOVX @DPTR,AÖ¸ÁîµÄ²Ù×÷¶ÔÏóÎªÀ©Õ¹RAM(XRAM) */
+    EAXSFR();        /* MOVX A,@DPTR/MOVX @DPTR,AæŒ‡ä»¤çš„æ“ä½œå¯¹è±¡ä¸ºæ‰©å±•SFR(XSFR) */
+    Start();         //å‘é€èµ·å§‹å‘½ä»¤
+    SendData(SLAW);  //å‘é€è®¾å¤‡åœ°å€+å†™å‘½ä»¤
+    RecvACK();
+    SendData(addr);  //å‘é€å­˜å‚¨åœ°å€
+    RecvACK();
+    Start();         //å‘é€èµ·å§‹å‘½ä»¤
+    SendData(SLAR);  //å‘é€è®¾å¤‡åœ°å€+è¯»å‘½ä»¤
+    RecvACK();
+    do {
+        *p = RecvData();
+        p++;
+        if (number != 1)
+            SendACK();  // send ACK
+    } while (--number);
+    SendNAK();  // send no ACK
+    Stop();     //å‘é€åœæ­¢å‘½ä»¤
+    EAXRAM();   /* MOVX A,@DPTR/MOVX @DPTR,AæŒ‡ä»¤çš„æ“ä½œå¯¹è±¡ä¸ºæ‰©å±•RAM(XRAM) */
 }

@@ -7,64 +7,60 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* ���Ҫ�ڳ�����ʹ�ô˴���,���ڳ�����ע��ʹ����STC�����ϼ�����            */
+/* 如果要在程序中使用此代码,请在程序中注明使用了STC的资料及程序            */
 /*---------------------------------------------------------------------*/
 
-#ifndef	__I2C_H
-#define	__I2C_H
+#ifndef __I2C_H
+#define __I2C_H
 
-#include	"config.h"
-
-//========================================================================
-//                               I2C����
-//========================================================================
-
-#define		I2C_ESTAI_EN(n)		I2CSLCR = (I2CSLCR & ~0x40) | (n << 6)		/* ʹ�ܴӻ�����START�ź��ж� */
-#define		I2C_ERXI_EN(n)		I2CSLCR = (I2CSLCR & ~0x20) | (n << 5)		/* ʹ�ܴӻ�����1�ֽ������ж� */
-#define		I2C_ETXI_EN(n)		I2CSLCR = (I2CSLCR & ~0x10) | (n << 4)		/* ʹ�ܴӻ�����1�ֽ������ж� */
-#define		I2C_ESTOI_EN(n)		I2CSLCR = (I2CSLCR & ~0x08) | (n << 3)		/* ʹ�ܴӻ�����STOP�ź��ж� */
-#define		I2C_SLRET()				I2CSLCR |= 0x01			/* ��λ�ӻ�ģʽ */
+#include "config.h"
 
 //========================================================================
-//                              ��������
+//                               I2C设置
 //========================================================================
 
-#define	I2C_BUF_LENTH	8
+#define I2C_ESTAI_EN(n) I2CSLCR = (I2CSLCR & ~0x40) | (n << 6) /* 使能从机接收START信号中断 */
+#define I2C_ERXI_EN(n)  I2CSLCR = (I2CSLCR & ~0x20) | (n << 5) /* 使能从机接收1字节数据中断 */
+#define I2C_ETXI_EN(n)  I2CSLCR = (I2CSLCR & ~0x10) | (n << 4) /* 使能从机发送1字节数据中断 */
+#define I2C_ESTOI_EN(n) I2CSLCR = (I2CSLCR & ~0x08) | (n << 3) /* 使能从机接收STOP信号中断 */
+#define I2C_SLRET()     I2CSLCR |= 0x01                        /* 复位从机模式 */
 
-#define	I2C_Mode_Master			1
-#define	I2C_Mode_Slave			0
+//========================================================================
+//                              定义声明
+//========================================================================
 
-#define		I2C_ESTAI					0x40		/* �ӻ�����START�ź��ж� */
-#define		I2C_ERXI					0x20		/* �ӻ�����1�ֽ������ж� */
-#define		I2C_ETXI					0x10		/* �ӻ�����1�ֽ������ж� */
-#define		I2C_ESTOI					0x08		/* �ӻ�����STOP�ź��ж� */
+#define I2C_BUF_LENTH 8
 
-typedef struct
-{
-	u8	I2C_Speed;				//�����ٶ�=Fosc/2/(Speed*2+4),      0~63
-	u8	I2C_Enable;				//I2C����ʹ��,   ENABLE, DISABLE
-	u8	I2C_Mode;					//����ģʽѡ��,  I2C_Mode_Master,I2C_Mode_Slave
-	u8	I2C_MS_WDTA;				//����ʹ���Զ�����,  ENABLE, DISABLE
+#define I2C_Mode_Master 1
+#define I2C_Mode_Slave  0
 
-	u8	I2C_SL_ADR;				//�ӻ��豸��ַ,  0~127
-	u8	I2C_SL_MA;				//�ӻ��豸��ַ�Ƚ�ʹ��,  ENABLE, DISABLE
+#define I2C_ESTAI 0x40 /* 从机接收START信号中断 */
+#define I2C_ERXI  0x20 /* 从机接收1字节数据中断 */
+#define I2C_ETXI  0x10 /* 从机发送1字节数据中断 */
+#define I2C_ESTOI 0x08 /* 从机接收STOP信号中断 */
+
+typedef struct {
+    u8 I2C_Speed;    //总线速度=Fosc/2/(Speed*2+4),      0~63
+    u8 I2C_Enable;   // I2C功能使能,   ENABLE, DISABLE
+    u8 I2C_Mode;     //主从模式选择,  I2C_Mode_Master,I2C_Mode_Slave
+    u8 I2C_MS_WDTA;  //主机使能自动发送,  ENABLE, DISABLE
+
+    u8 I2C_SL_ADR;  //从机设备地址,  0~127
+    u8 I2C_SL_MA;   //从机设备地址比较使能,  ENABLE, DISABLE
 } I2C_InitTypeDef;
 
-typedef struct
-{
-	u8	isma;				//MEMORY ADDRESS �����жϱ�־
-	u8	isda;				//DEVICE ADDRESS �����жϱ�־
-	u8	addr;				//ADDRESS ����
+typedef struct {
+    u8 isma;  // MEMORY ADDRESS 接收判断标志
+    u8 isda;  // DEVICE ADDRESS 接收判断标志
+    u8 addr;  // ADDRESS 缓存
 } I2C_IsrTypeDef;
 
-
 extern u8 xdata I2C_Buffer[I2C_BUF_LENTH];
-//extern u8 xdata *I2C_Buffer;
+// extern u8 xdata *I2C_Buffer;
 extern bit DisplayFlag;
 
-void	I2C_Init(I2C_InitTypeDef *I2Cx);
-void	I2C_WriteNbyte(u8 addr, u8 *p, u8 number);
-void	I2C_ReadNbyte( u8 addr, u8 *p, u8 number);
+void I2C_Init(I2C_InitTypeDef *I2Cx);
+void I2C_WriteNbyte(u8 addr, u8 *p, u8 number);
+void I2C_ReadNbyte(u8 addr, u8 *p, u8 number);
 
 #endif
-

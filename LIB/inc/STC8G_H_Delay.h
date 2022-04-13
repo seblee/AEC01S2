@@ -7,14 +7,14 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* 如果要在程序中使用此代码,请在程序中注明使用了STC的资料及程序        */
+/* 濡傛灉瑕佸湪绋嬪簭涓娇鐢ㄦ浠ｇ爜,璇峰湪绋嬪簭涓敞鏄庝娇鐢ㄤ簡STC鐨勮祫鏂欏強绋嬪簭        */
 /*---------------------------------------------------------------------*/
 
-#ifndef	__DELAY_H
-#define	__DELAY_H
+#ifndef __DELAY_H
+#define __DELAY_H
 
-#include	"config.h"
+#include "config.h"
 
-void  delay_ms(unsigned char ms);
+void delay_ms(unsigned char ms);
 
 #endif

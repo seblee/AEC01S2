@@ -7,27 +7,26 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* 如果要在程序中使用此代码,请在程序中注明使用了STC的资料及程序            */
+/* 濡傛灉瑕佸湪绋嬪簭涓娇鐢ㄦ浠ｇ爜,璇峰湪绋嬪簭涓敞鏄庝娇鐢ㄤ簡STC鐨勮祫鏂欏強绋嬪簭            */
 /*---------------------------------------------------------------------*/
 
-#ifndef		__TYPE_DEF_H
-#define		__TYPE_DEF_H
+#ifndef __TYPE_DEF_H
+#define __TYPE_DEF_H
 
 //========================================================================
-//                               类型定义
+//                               绫诲瀷瀹氫箟
 //========================================================================
 
-typedef unsigned char   u8;     //  8 bits 
-typedef unsigned int    u16;    // 16 bits 
-typedef unsigned long   u32;    // 32 bits 
+typedef unsigned char u8;   //  8 bits
+typedef unsigned int  u16;  // 16 bits
+typedef unsigned long u32;  // 32 bits
 
-typedef signed char     int8;   //  8 bits 
-typedef signed int      int16;  // 16 bits 
-typedef signed long     int32;  // 32 bits 
+typedef signed char int8;   //  8 bits
+typedef signed int  int16;  // 16 bits
+typedef signed long int32;  // 32 bits
 
-typedef unsigned char   uint8;  //  8 bits 
-typedef unsigned int    uint16; // 16 bits 
-typedef unsigned long   uint32; // 32 bits 
-
+typedef unsigned char uint8;   //  8 bits
+typedef unsigned int  uint16;  // 16 bits
+typedef unsigned long uint32;  // 32 bits
 
 #endif

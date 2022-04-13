@@ -7,55 +7,55 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* Èç¹ûÒªÔÚ³ÌĞòÖĞÊ¹ÓÃ´Ë´úÂë,ÇëÔÚ³ÌĞòÖĞ×¢Ã÷Ê¹ÓÃÁËSTCµÄ×ÊÁÏ¼°³ÌĞò            */
+/* å¦‚æœè¦åœ¨ç¨‹åºä¸­ä½¿ç”¨æ­¤ä»£ç ,è¯·åœ¨ç¨‹åºä¸­æ³¨æ˜ä½¿ç”¨äº†STCçš„èµ„æ–™åŠç¨‹åº            */
 /*---------------------------------------------------------------------*/
 
 #ifndef __APP_H_
 #define __APP_H_
 
 //========================================================================
-//                                Í·ÎÄ¼ş
+//                                å¤´æ–‡ä»¶
 //========================================================================
 
-#include	"APP_Lamp.h"
-#include	"APP_AD_UART2.h"
-#include	"APP_INT_UART1.h"
-#include	"APP_RTC.h"
-#include	"APP_I2C_PS.h"
-#include	"APP_SPI_PS.h"
-#include	"APP_WDT.h"
-#include	"APP_EEPROM.h"
-#include	"APP_PWM.h"
-#include	"APP_PCA.h"
-#include	"APP_PWM15bit.h"
+#include "APP_AD_UART2.h"
+#include "APP_EEPROM.h"
+#include "APP_I2C_PS.h"
+#include "APP_INT_UART1.h"
+#include "APP_Lamp.h"
+#include "APP_PCA.h"
+#include "APP_PWM.h"
+#include "APP_PWM15bit.h"
+#include "APP_RTC.h"
+#include "APP_SPI_PS.h"
+#include "APP_WDT.h"
 
 //========================================================================
-//                               ±¾µØ³£Á¿ÉùÃ÷	
+//                               æœ¬åœ°å¸¸é‡å£°æ˜
 //========================================================================
 
-#define DIS_DOT     0x20
-#define DIS_BLACK   0x10
-#define DIS_        0x11
+#define DIS_DOT   0x20
+#define DIS_BLACK 0x10
+#define DIS_      0x11
 
 extern u8 code t_display[];
 
-extern u8 code T_COM[];      //Î»Âë
+extern u8 code T_COM[];  //ä½ç 
 
 extern u8 code T_KeyTable[16];
 
 //========================================================================
-//                            Íâ²¿º¯ÊıºÍ±äÁ¿ÉùÃ÷
+//                            å¤–éƒ¨å‡½æ•°å’Œå˜é‡å£°æ˜
 //========================================================================
 
-extern u8  LED8[8];        //ÏÔÊ¾»º³å
-extern u8  display_index;  //ÏÔÊ¾Î»Ë÷Òı
+extern u8 LED8[8];        //æ˜¾ç¤ºç¼“å†²
+extern u8 display_index;  //æ˜¾ç¤ºä½ç´¢å¼•
 
-extern u8  IO_KeyState, IO_KeyState1, IO_KeyHoldCnt;    //ĞĞÁĞ¼üÅÌ±äÁ¿
-extern u8  KeyHoldCnt; //¼ü°´ÏÂ¼ÆÊ±
-extern u8  KeyCode;    //¸øÓÃ»§Ê¹ÓÃµÄ¼üÂë
-extern u8  cnt50ms;
+extern u8 IO_KeyState, IO_KeyState1, IO_KeyHoldCnt;  //è¡Œåˆ—é”®ç›˜å˜é‡
+extern u8 KeyHoldCnt;                                //é”®æŒ‰ä¸‹è®¡æ—¶
+extern u8 KeyCode;                                   //ç»™ç”¨æˆ·ä½¿ç”¨çš„é”®ç 
+extern u8 cnt50ms;
 
-extern u8  hour,minute,second; //RTC±äÁ¿
+extern u8  hour, minute, second;  // RTCå˜é‡
 extern u16 msecond;
 
 void APP_config(void);

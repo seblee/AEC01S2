@@ -7,91 +7,77 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* »Áπ˚“™‘⁄≥Ã–Ú÷– π”√¥À¥˙¬Î,«Î‘⁄≥Ã–Ú÷–◊¢√˜ π”√¡ÀSTCµƒ◊ ¡œº∞≥Ã–Ú            */
+/* Â¶ÇÊûúË¶ÅÂú®Á®ãÂ∫è‰∏≠‰ΩøÁî®Ê≠§‰ª£Á†Å,ËØ∑Âú®Á®ãÂ∫è‰∏≠Ê≥®Êòé‰ΩøÁî®‰∫ÜSTCÁöÑËµÑÊñôÂèäÁ®ãÂ∫è            */
 /*---------------------------------------------------------------------*/
 
-#include	"STC8G_PCA.h"
+#include "STC8G_PCA.h"
 
 //========================================================================
-//                               ±æµÿ±‰¡ø…˘√˜
+//                               Êú¨Âú∞ÂèòÈáèÂ£∞Êòé
 //========================================================================
 
-u16		CAP0_Old,CAP1_Old,CAP2_Old;       //º«¬º…œ“ª¥Œµƒ≤∂ªÒ÷µ
-u16		CAP0_New,CAP1_New,CAP2_New;       //º«¬º±æ¥Œµƒ≤∂ªÒ÷µ
+u16 CAP0_Old, CAP1_Old, CAP2_Old;  //ËÆ∞ÂΩï‰∏ä‰∏ÄÊ¨°ÁöÑÊçïËé∑ÂÄº
+u16 CAP0_New, CAP1_New, CAP2_New;  //ËÆ∞ÂΩïÊú¨Ê¨°ÁöÑÊçïËé∑ÂÄº
 
 //========================================================================
-// ∫Ø ˝: PCA_ISR_Handler
-// √Ë ˆ: PCA÷–∂œ∫Ø ˝.
-// ≤Œ ˝: none.
-// ∑µªÿ: none.
-// ∞Ê±æ: V1.0, 2020-09-23
+// ÂáΩÊï∞: PCA_ISR_Handler
+// ÊèèËø∞: PCA‰∏≠Êñ≠ÂáΩÊï∞.
+// ÂèÇÊï∞: none.
+// ËøîÂõû: none.
+// ÁâàÊú¨: V1.0, 2020-09-23
 //========================================================================
-void	PCA_ISR_Handler (void) interrupt PCA_VECTOR
+void PCA_ISR_Handler(void) interrupt PCA_VECTOR
 {
-	if(CCF0)		//PCAƒ£øÈ0÷–∂œ
-	{
-		CCF0 = 0;		//«ÂPCAƒ£øÈ0÷–∂œ±Í÷æ
-		// TODO: ‘⁄¥À¥¶ÃÌº””√ªß¥˙¬Î
-		if(CCAPM0 >= PCA_Mode_SoftTimer)		//PCA_Mode_SoftTimer and PCA_Mode_HighPulseOutput
-		{
-			CCAP0_tmp += PCA_Timer0;
-			CCAP0L = (u8)CCAP0_tmp;			//Ω´”∞…‰ºƒ¥Ê∆˜–¥»Î≤∂ªÒºƒ¥Ê∆˜£¨œ»–¥CCAP0L
-			CCAP0H = (u8)(CCAP0_tmp >> 8);	//∫Û–¥CCAP0H
-		}
-		else if(CCAPM0 & PCA_Mode_Capture)
-		{
-			CAP0_Old = CAP0_New;
-			CAP0_New = CCAP0H;	//∂¡CCAP0H
-			CAP0_New = (CAP0_New << 8) + CCAP0L;
-			CCAP0_tmp = CAP0_New - CAP0_Old;
-			B_Capture0 = 1;
-		}
-	}
+    if (CCF0) {    // PCAÊ®°Âùó0‰∏≠Êñ≠
+        CCF0 = 0;  //Ê∏ÖPCAÊ®°Âùó0‰∏≠Êñ≠Ê†áÂøó
+        // TODO: Âú®Ê≠§Â§ÑÊ∑ªÂä†Áî®Êà∑‰ª£Á†Å
+        if (CCAPM0 >= PCA_Mode_SoftTimer) {  // PCA_Mode_SoftTimer and PCA_Mode_HighPulseOutput
+            CCAP0_tmp += PCA_Timer0;
+            CCAP0L = (u8)CCAP0_tmp;         //Â∞ÜÂΩ±Â∞ÑÂØÑÂ≠òÂô®ÂÜôÂÖ•ÊçïËé∑ÂØÑÂ≠òÂô®ÔºåÂÖàÂÜôCCAP0L
+            CCAP0H = (u8)(CCAP0_tmp >> 8);  //ÂêéÂÜôCCAP0H
+        } else if (CCAPM0 & PCA_Mode_Capture) {
+            CAP0_Old   = CAP0_New;
+            CAP0_New   = CCAP0H;  //ËØªCCAP0H
+            CAP0_New   = (CAP0_New << 8) + CCAP0L;
+            CCAP0_tmp  = CAP0_New - CAP0_Old;
+            B_Capture0 = 1;
+        }
+    }
 
-	if(CCF1)	//PCAƒ£øÈ1÷–∂œ
-	{
-		CCF1 = 0;		//«ÂPCAƒ£øÈ1÷–∂œ±Í÷æ
-		// TODO: ‘⁄¥À¥¶ÃÌº””√ªß¥˙¬Î
-		if(CCAPM1 >= PCA_Mode_SoftTimer)		//PCA_Mode_SoftTimer and PCA_Mode_HighPulseOutput
-		{
-			CCAP1_tmp += PCA_Timer1;
-			CCAP1L = (u8)CCAP1_tmp;			//Ω´”∞…‰ºƒ¥Ê∆˜–¥»Î≤∂ªÒºƒ¥Ê∆˜£¨œ»–¥CCAP0L
-			CCAP1H = (u8)(CCAP1_tmp >> 8);	//∫Û–¥CCAP0H
-		}
-		else if(CCAPM1 & PCA_Mode_Capture)
-		{
-			CAP1_Old = CAP1_New;
-			CAP1_New = CCAP1H;	//∂¡CCAP1H
-			CAP1_New = (CAP1_New << 8) + CCAP1L;
-			CCAP1_tmp = CAP1_New - CAP1_Old;
-			B_Capture1 = 1;
-		}
-	}
+    if (CCF1) {    // PCAÊ®°Âùó1‰∏≠Êñ≠
+        CCF1 = 0;  //Ê∏ÖPCAÊ®°Âùó1‰∏≠Êñ≠Ê†áÂøó
+        // TODO: Âú®Ê≠§Â§ÑÊ∑ªÂä†Áî®Êà∑‰ª£Á†Å
+        if (CCAPM1 >= PCA_Mode_SoftTimer) {  // PCA_Mode_SoftTimer and PCA_Mode_HighPulseOutput
+            CCAP1_tmp += PCA_Timer1;
+            CCAP1L = (u8)CCAP1_tmp;         //Â∞ÜÂΩ±Â∞ÑÂØÑÂ≠òÂô®ÂÜôÂÖ•ÊçïËé∑ÂØÑÂ≠òÂô®ÔºåÂÖàÂÜôCCAP0L
+            CCAP1H = (u8)(CCAP1_tmp >> 8);  //ÂêéÂÜôCCAP0H
+        } else if (CCAPM1 & PCA_Mode_Capture) {
+            CAP1_Old   = CAP1_New;
+            CAP1_New   = CCAP1H;  //ËØªCCAP1H
+            CAP1_New   = (CAP1_New << 8) + CCAP1L;
+            CCAP1_tmp  = CAP1_New - CAP1_Old;
+            B_Capture1 = 1;
+        }
+    }
 
-	if(CCF2)	//PCAƒ£øÈ2÷–∂œ
-	{
-		CCF2 = 0;		//«ÂPCAƒ£øÈ1÷–∂œ±Í÷æ
-		// TODO: ‘⁄¥À¥¶ÃÌº””√ªß¥˙¬Î
-		if(CCAPM2 >= PCA_Mode_SoftTimer)		//PCA_Mode_SoftTimer and PCA_Mode_HighPulseOutput
-		{
-			CCAP2_tmp += PCA_Timer2;
-			CCAP2L = (u8)CCAP2_tmp;			//Ω´”∞…‰ºƒ¥Ê∆˜–¥»Î≤∂ªÒºƒ¥Ê∆˜£¨œ»–¥CCAP0L
-			CCAP2H = (u8)(CCAP2_tmp >> 8);	//∫Û–¥CCAP0H
-		}
-		else if(CCAPM2 & PCA_Mode_Capture)
-		{
-			CAP2_Old = CAP2_New;
-			CAP2_New = CCAP2H;	//∂¡CCAP2H
-			CAP2_New = (CAP2_New << 8) + CCAP2L;
-			CCAP2_tmp = CAP2_New - CAP2_Old;
-			B_Capture2 = 1;
-		}
-	}
+    if (CCF2) {    // PCAÊ®°Âùó2‰∏≠Êñ≠
+        CCF2 = 0;  //Ê∏ÖPCAÊ®°Âùó1‰∏≠Êñ≠Ê†áÂøó
+        // TODO: Âú®Ê≠§Â§ÑÊ∑ªÂä†Áî®Êà∑‰ª£Á†Å
+        if (CCAPM2 >= PCA_Mode_SoftTimer) {  // PCA_Mode_SoftTimer and PCA_Mode_HighPulseOutput
+            CCAP2_tmp += PCA_Timer2;
+            CCAP2L = (u8)CCAP2_tmp;         //Â∞ÜÂΩ±Â∞ÑÂØÑÂ≠òÂô®ÂÜôÂÖ•ÊçïËé∑ÂØÑÂ≠òÂô®ÔºåÂÖàÂÜôCCAP0L
+            CCAP2H = (u8)(CCAP2_tmp >> 8);  //ÂêéÂÜôCCAP0H
+        } else if (CCAPM2 & PCA_Mode_Capture) {
+            CAP2_Old   = CAP2_New;
+            CAP2_New   = CCAP2H;  //ËØªCCAP2H
+            CAP2_New   = (CAP2_New << 8) + CCAP2L;
+            CCAP2_tmp  = CAP2_New - CAP2_Old;
+            B_Capture2 = 1;
+        }
+    }
 
-	if(CF)	//PCA“Á≥ˆ÷–∂œ
-	{
-		CF = 0;			//«ÂPCA“Á≥ˆ÷–∂œ±Í÷æ
-		// TODO: ‘⁄¥À¥¶ÃÌº””√ªß¥˙¬Î
-	}
-
+    if (CF) {    // PCAÊ∫¢Âá∫‰∏≠Êñ≠
+        CF = 0;  //Ê∏ÖPCAÊ∫¢Âá∫‰∏≠Êñ≠Ê†áÂøó
+        // TODO: Âú®Ê≠§Â§ÑÊ∑ªÂä†Áî®Êà∑‰ª£Á†Å
+    }
 }

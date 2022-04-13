@@ -7,200 +7,195 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* Èç¹ûÒªÔÚ³ÌĞòÖĞÊ¹ÓÃ´Ë´úÂë,ÇëÔÚ³ÌĞòÖĞ×¢Ã÷Ê¹ÓÃÁËSTCµÄ×ÊÁÏ¼°³ÌĞò            */
+/* å¦‚æœè¦åœ¨ç¨‹åºä¸­ä½¿ç”¨æ­¤ä»£ç ,è¯·åœ¨ç¨‹åºä¸­æ³¨æ˜ä½¿ç”¨äº†STCçš„èµ„æ–™åŠç¨‹åº            */
 /*---------------------------------------------------------------------*/
 
-#include	"STC8G_H_Soft_I2C.h"
+#include "STC8G_H_Soft_I2C.h"
 
-#define SLAW    0x5A
-#define SLAR    0x5B
+#define SLAW 0x5A
+#define SLAR 0x5B
 
-sbit    SDA = P0^1; //¶¨ÒåSDA
-sbit    SCL = P0^0; //¶¨ÒåSCL
+sbit SDA = P0 ^ 1;  //å®šä¹‰SDA
+sbit SCL = P0 ^ 0;  //å®šä¹‰SCL
 
 //========================================================================
-// º¯Êı: void I2C_Delay(void)
-// ÃèÊö: I2CÑÓÊ±º¯Êı.
-// ²ÎÊı: none.
-// ·µ»Ø: none.
-// °æ±¾: V1.0, 2020-09-15
+// å‡½æ•°: void I2C_Delay(void)
+// æè¿°: I2Cå»¶æ—¶å‡½æ•°.
+// å‚æ•°: none.
+// è¿”å›: none.
+// ç‰ˆæœ¬: V1.0, 2020-09-15
 //========================================================================
-void I2C_Delay(void) //for normal MCS51, delay (2 * dly + 4) T, for STC12Cxxxx delay (4 * dly + 10) T
+void I2C_Delay(void)  // for normal MCS51, delay (2 * dly + 4) T, for STC12Cxxxx delay (4 * dly + 10) T
 {
-	u8  dly;
-	dly = MAIN_Fosc / 2000000UL;        //°´2us¼ÆËã
-	while(--dly);
+    u8 dly;
+    dly = MAIN_Fosc / 2000000UL;  //æŒ‰2usè®¡ç®—
+    while (--dly)
+        ;
 }
 
 //========================================================================
-// I2C×ÜÏßº¯Êı
+// I2Cæ€»çº¿å‡½æ•°
 //========================================================================
-void I2C_Start(void)         //start the I2C, SDA High-to-low when SCL is high
+void I2C_Start(void)  // start the I2C, SDA High-to-low when SCL is high
 {
-	SDA = 1;
-	I2C_Delay();
-	SCL = 1;
-	I2C_Delay();
-	SDA = 0;
-	I2C_Delay();
-	SCL = 0;
-	I2C_Delay();
-}       
-
-
-void I2C_Stop(void)           //STOP the I2C, SDA Low-to-high when SCL is high
-{
-	SDA = 0;
-	I2C_Delay();
-	SCL = 1;
-	I2C_Delay();
-	SDA = 1;
-	I2C_Delay();
+    SDA = 1;
+    I2C_Delay();
+    SCL = 1;
+    I2C_Delay();
+    SDA = 0;
+    I2C_Delay();
+    SCL = 0;
+    I2C_Delay();
 }
 
-void S_ACK(void)              //Send ACK (LOW)
+void I2C_Stop(void)  // STOP the I2C, SDA Low-to-high when SCL is high
 {
-	SDA = 0;
-	I2C_Delay();
-	SCL = 1;
-	I2C_Delay();
-	SCL = 0;
-	I2C_Delay();
+    SDA = 0;
+    I2C_Delay();
+    SCL = 1;
+    I2C_Delay();
+    SDA = 1;
+    I2C_Delay();
 }
 
-void S_NoACK(void)           //Send No ACK (High)
+void S_ACK(void)  // Send ACK (LOW)
 {
-	SDA = 1;
-	I2C_Delay();
-	SCL = 1;
-	I2C_Delay();
-	SCL = 0;
-	I2C_Delay();
-}
-        
-void I2C_Check_ACK(void)     //Check ACK, If F0=0, then right, if F0=1, then error
-{
-	SDA = 1;
-	I2C_Delay();
-	SCL = 1;
-	I2C_Delay();
-	F0  = SDA;
-	SCL = 0;
-	I2C_Delay();
+    SDA = 0;
+    I2C_Delay();
+    SCL = 1;
+    I2C_Delay();
+    SCL = 0;
+    I2C_Delay();
 }
 
-//========================================================================
-// º¯Êı: void I2C_WriteAbyte(u8 dat)
-// ÃèÊö: I2C·¢ËÍÒ»¸ö×Ö½ÚÊı¾İº¯Êı.
-// ²ÎÊı: ·¢ËÍµÄÊı¾İ.
-// ·µ»Ø: none.
-// °æ±¾: V1.0, 2020-09-15
-//========================================================================
-void I2C_WriteAbyte(u8 dat)     //write a byte to I2C
+void S_NoACK(void)  // Send No ACK (High)
 {
-	u8 i;
-	i = 8;
-	do
-	{
-		if(dat & 0x80)  SDA = 1;
-		else            SDA = 0;
-		dat <<= 1;
-		I2C_Delay();
-		SCL = 1;
-		I2C_Delay();
-		SCL = 0;
-		I2C_Delay();
-	}
-	while(--i);
+    SDA = 1;
+    I2C_Delay();
+    SCL = 1;
+    I2C_Delay();
+    SCL = 0;
+    I2C_Delay();
+}
+
+void I2C_Check_ACK(void)  // Check ACK, If F0=0, then right, if F0=1, then error
+{
+    SDA = 1;
+    I2C_Delay();
+    SCL = 1;
+    I2C_Delay();
+    F0  = SDA;
+    SCL = 0;
+    I2C_Delay();
 }
 
 //========================================================================
-// º¯Êı: u8 I2C_ReadAbyte(void)
-// ÃèÊö: I2C¶ÁÈ¡Ò»¸ö×Ö½ÚÊı¾İº¯Êı.
-// ²ÎÊı: none.
-// ·µ»Ø: ¶ÁÈ¡Êı¾İ.
-// °æ±¾: V1.0, 2020-09-15
+// å‡½æ•°: void I2C_WriteAbyte(u8 dat)
+// æè¿°: I2Cå‘é€ä¸€ä¸ªå­—èŠ‚æ•°æ®å‡½æ•°.
+// å‚æ•°: å‘é€çš„æ•°æ®.
+// è¿”å›: none.
+// ç‰ˆæœ¬: V1.0, 2020-09-15
 //========================================================================
-u8 I2C_ReadAbyte(void)          //read A byte from I2C
+void I2C_WriteAbyte(u8 dat)  // write a byte to I2C
 {
-	u8 i,dat;
-	i = 8;
-	SDA = 1;
-	do
-	{
-		SCL = 1;
-		I2C_Delay();
-		dat <<= 1;
-		if(SDA)     dat++;
-		SCL  = 0;
-		I2C_Delay();
-	}
-	while(--i);
-	return(dat);
+    u8 i;
+    i = 8;
+    do {
+        if (dat & 0x80)
+            SDA = 1;
+        else
+            SDA = 0;
+        dat <<= 1;
+        I2C_Delay();
+        SCL = 1;
+        I2C_Delay();
+        SCL = 0;
+        I2C_Delay();
+    } while (--i);
 }
 
 //========================================================================
-// º¯Êı: void	SI2C_WriteNbyte(u8 addr, u8 *p, u8 number)
-// ÃèÊö: I2CĞ´ÈëÊı¾İº¯Êı.
-// ²ÎÊı: addr: Ö¸¶¨µØÖ·, *pĞ´ÈëÊı¾İ´æ´¢Î»ÖÃ, numberĞ´ÈëÊı¾İ¸öÊı.
-// ·µ»Ø: none.
-// °æ±¾: V1.0, 2020-09-15
+// å‡½æ•°: u8 I2C_ReadAbyte(void)
+// æè¿°: I2Cè¯»å–ä¸€ä¸ªå­—èŠ‚æ•°æ®å‡½æ•°.
+// å‚æ•°: none.
+// è¿”å›: è¯»å–æ•°æ®.
+// ç‰ˆæœ¬: V1.0, 2020-09-15
 //========================================================================
-void SI2C_WriteNbyte(u8 addr, u8 *p, u8 number)          /*  WordAddress,First Data Address,Byte lenth   */
+u8 I2C_ReadAbyte(void)  // read A byte from I2C
 {
-	I2C_Start();
-	I2C_WriteAbyte(SLAW);
-	I2C_Check_ACK();
-	if(!F0)                                           //F0=0,right, F0=1,error
-	{
-		I2C_WriteAbyte(addr);
-		I2C_Check_ACK();
-		if(!F0)
-		{
-			do
-			{
-				I2C_WriteAbyte(*p); p++;
-				I2C_Check_ACK();
-				if(F0)  break;
-			}
-			while(--number);
-		}
-	}
-	I2C_Stop();
+    u8 i, dat;
+    i   = 8;
+    SDA = 1;
+    do {
+        SCL = 1;
+        I2C_Delay();
+        dat <<= 1;
+        if (SDA)
+            dat++;
+        SCL = 0;
+        I2C_Delay();
+    } while (--i);
+    return (dat);
 }
 
 //========================================================================
-// º¯Êı: void	SI2C_ReadNbyte(u8 addr, u8 *p, u8 number)
-// ÃèÊö: I2C¶ÁÈ¡Êı¾İº¯Êı.
-// ²ÎÊı: addr: Ö¸¶¨µØÖ·, *p¶ÁÈ¡Êı¾İ´æ´¢Î»ÖÃ, number¶ÁÈ¡Êı¾İ¸öÊı.
-// ·µ»Ø: none.
-// °æ±¾: V1.0, 2020-09-15
+// å‡½æ•°: void	SI2C_WriteNbyte(u8 addr, u8 *p, u8 number)
+// æè¿°: I2Cå†™å…¥æ•°æ®å‡½æ•°.
+// å‚æ•°: addr: æŒ‡å®šåœ°å€, *på†™å…¥æ•°æ®å­˜å‚¨ä½ç½®, numberå†™å…¥æ•°æ®ä¸ªæ•°.
+// è¿”å›: none.
+// ç‰ˆæœ¬: V1.0, 2020-09-15
 //========================================================================
-void SI2C_ReadNbyte(u8 addr, u8 *p, u8 number)       /*  WordAddress,First Data Address,Byte lenth   */
+void SI2C_WriteNbyte(u8 addr, u8 *p, u8 number) /*  WordAddress,First Data Address,Byte lenth   */
 {
-	I2C_Start();
-	I2C_WriteAbyte(SLAW);
-	I2C_Check_ACK();
-	if(!F0)
-	{
-		I2C_WriteAbyte(addr);
-		I2C_Check_ACK();
-		if(!F0)
-		{
-			I2C_Start();
-			I2C_WriteAbyte(SLAR);
-			I2C_Check_ACK();
-			if(!F0)
-			{
-				do
-				{
-					*p = I2C_ReadAbyte();   p++;
-					if(number != 1)     S_ACK();    //send ACK
-				}
-				while(--number);
-				S_NoACK();          //send no ACK
-			}
-		}
-	}
-	I2C_Stop();
+    I2C_Start();
+    I2C_WriteAbyte(SLAW);
+    I2C_Check_ACK();
+    if (!F0)  // F0=0,right, F0=1,error
+    {
+        I2C_WriteAbyte(addr);
+        I2C_Check_ACK();
+        if (!F0) {
+            do {
+                I2C_WriteAbyte(*p);
+                p++;
+                I2C_Check_ACK();
+                if (F0)
+                    break;
+            } while (--number);
+        }
+    }
+    I2C_Stop();
+}
+
+//========================================================================
+// å‡½æ•°: void	SI2C_ReadNbyte(u8 addr, u8 *p, u8 number)
+// æè¿°: I2Cè¯»å–æ•°æ®å‡½æ•°.
+// å‚æ•°: addr: æŒ‡å®šåœ°å€, *pè¯»å–æ•°æ®å­˜å‚¨ä½ç½®, numberè¯»å–æ•°æ®ä¸ªæ•°.
+// è¿”å›: none.
+// ç‰ˆæœ¬: V1.0, 2020-09-15
+//========================================================================
+void SI2C_ReadNbyte(u8 addr, u8 *p, u8 number) /*  WordAddress,First Data Address,Byte lenth   */
+{
+    I2C_Start();
+    I2C_WriteAbyte(SLAW);
+    I2C_Check_ACK();
+    if (!F0) {
+        I2C_WriteAbyte(addr);
+        I2C_Check_ACK();
+        if (!F0) {
+            I2C_Start();
+            I2C_WriteAbyte(SLAR);
+            I2C_Check_ACK();
+            if (!F0) {
+                do {
+                    *p = I2C_ReadAbyte();
+                    p++;
+                    if (number != 1)
+                        S_ACK();  // send ACK
+                } while (--number);
+                S_NoACK();  // send no ACK
+            }
+        }
+    }
+    I2C_Stop();
 }
