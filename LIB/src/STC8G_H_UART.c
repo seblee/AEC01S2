@@ -270,10 +270,13 @@ u8 UART_Configuration(u8 UARTx, COMx_InitDefine *COMx)
 #ifdef UART1
 void TX1_write2buff(u8 dat)  //写入发送缓冲，指针+1
 {
-    SBUF           = dat;
-    COM1.B_TX_busy = 1;  //标志忙
-    while (COM1.B_TX_busy)
-        ;
+    SBUF = dat;
+    // COM1.B_TX_busy = 1;  //标志忙
+    while (!TI) {
+    }
+    TI = 0;
+    // while (COM1.B_TX_busy)
+    //     ;
 }
 
 void PrintString1(u8 *puts)

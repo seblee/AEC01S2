@@ -58,40 +58,24 @@ void PCA_PWM_init(void)
 {
     PCA_InitTypeDef PCA_InitStructure;
 
-    P1_MODE_IO_PU(GPIO_Pin_All);  // P1 设置为准双向口
-    P3_MODE_IO_PU(GPIO_Pin_7);    // P3.7 设置为准双向口
+    P5_MODE_IO_PU(GPIO_Pin_4);  // P5.4 设置为准双向口
     //--------------------------------------------
     PCA_InitStructure.PCA_Clock = PCA_Clock_1T;  // PCA_Clock_1T, PCA_Clock_2T, PCA_Clock_4T, PCA_Clock_6T, PCA_Clock_8T, PCA_Clock_12T, PCA_Clock_Timer0_OF, PCA_Clock_ECI
     PCA_InitStructure.PCA_RUN   = DISABLE;       // ENABLE, DISABLE
     PCA_Init(PCA_Counter, &PCA_InitStructure);   //设置公用Counter
-
-    PCA_InitStructure.PCA_PWM_Wide = PCA_PWM_8bit;  // PCA_PWM_8bit, PCA_PWM_7bit, PCA_PWM_6bit, PCA_PWM_10bit
-    PCA_InitStructure.PCA_Value    = 128 << 8;      //对于PWM,高8位为PWM占空比
-    PCA_Init(PCA0, &PCA_InitStructure);
-
-    PCA_InitStructure.PCA_PWM_Wide = PCA_PWM_7bit;  // PCA_PWM_8bit, PCA_PWM_7bit, PCA_PWM_6bit, PCA_PWM_10bit
-    PCA_InitStructure.PCA_Value    = 64 << 8;       //对于PWM,高8位为PWM占空比
-    PCA_Init(PCA1, &PCA_InitStructure);
 
     PCA_InitStructure.PCA_PWM_Wide = PCA_PWM_10bit;  // PCA_PWM_8bit, PCA_PWM_7bit, PCA_PWM_6bit, PCA_PWM_10bit
     PCA_InitStructure.PCA_Value    = 32 << 8;        //对于PWM,高8位为PWM占空比
     PCA_Init(PCA2, &PCA_InitStructure);
 
     NVIC_PCA_Init(PCA_Counter, PCA_Mode_PWM, Priority_0);
-    NVIC_PCA_Init(PCA0, PCA_Mode_PWM, Priority_0);
-    NVIC_PCA_Init(PCA1, PCA_Mode_PWM, Priority_0);
     NVIC_PCA_Init(PCA2, PCA_Mode_PWM, Priority_0);
     CR = 1;  //启动PCA
     //--------------------------------------------
-    pwm0       = 128;
-    pwm1       = 64;
-    pwm2       = 512;
-    B_PWM0_Dir = 0;
-    B_PWM1_Dir = 0;
+
+    pwm2       = 0;
     B_PWM2_Dir = 0;
 
-    UpdatePcaPwm(PCA0, pwm0);
-    UpdatePcaPwm(PCA1, pwm1);
     UpdatePcaPwm(PCA2, pwm2);
 }
 
@@ -104,24 +88,14 @@ void PCA_PWM_init(void)
 //========================================================================
 void Sample_PCA_PWM(void)
 {
-    if (B_PWM0_Dir) {
-        if (--pwm0 <= 16)
-            B_PWM0_Dir = 0;  // 8位PWM
-    } else if (++pwm0 >= 240)
-        B_PWM0_Dir = 1;  // 8位PWM
-    UpdatePcaPwm(PCA0, pwm0);
+    // if (B_PWM2_Dir) {
+    //     if (--pwm2 <= 24)
+    //         B_PWM2_Dir = 0;  // 10位PWM
+    // } else if (++pwm2 >= 1000)
+    //     B_PWM2_Dir = 1;  // 10位PWM
+    if (pwm2 == 1024) {
+        pwm2 = 0;
+    }
 
-    if (B_PWM1_Dir) {
-        if (--pwm1 <= 8)
-            B_PWM1_Dir = 0;  // 7位PWM
-    } else if (++pwm1 >= 120)
-        B_PWM1_Dir = 1;  // 7位PWM
-    UpdatePcaPwm(PCA1, pwm1);
-
-    if (B_PWM2_Dir) {
-        if (--pwm2 <= 24)
-            B_PWM2_Dir = 0;  // 10位PWM
-    } else if (++pwm2 >= 1000)
-        B_PWM2_Dir = 1;  // 10位PWM
-    UpdatePcaPwm(PCA2, pwm2);
+    UpdatePcaPwm(PCA2, pwm2++);
 }

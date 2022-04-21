@@ -7,42 +7,43 @@
 /* --- Web: www.STCMCU.com --------------------------------------------*/
 /* --- Web: www.STCMCUDATA.com  ---------------------------------------*/
 /* --- QQ:  800003751 -------------------------------------------------*/
-/* Èç¹ûÒªÔÚ³ÌĞòÖĞÊ¹ÓÃ´Ë´úÂë,ÇëÔÚ³ÌĞòÖĞ×¢Ã÷Ê¹ÓÃÁËSTCµÄ×ÊÁÏ¼°³ÌĞò            */
+/* å¦‚æœè¦åœ¨ç¨‹åºä¸­ä½¿ç”¨æ­¤ä»£ç ,è¯·åœ¨ç¨‹åºä¸­æ³¨æ˜ä½¿ç”¨äº†STCçš„èµ„æ–™åŠç¨‹åº            */
 /*---------------------------------------------------------------------*/
 
 #include "Task.h"
 #include "app.h"
 
 //========================================================================
-//                               ±¾µØ±äÁ¿ÉùÃ÷
+//                               æœ¬åœ°å˜é‡å£°æ˜
 //========================================================================
 
 static TASK_COMPONENTS Task_Comps[] = {
-  //×´Ì¬  ¼ÆÊı  ÖÜÆÚ  º¯Êı
-    {0, 250, 250, Sample_Lamp    }, /* task 1 Period£º 250ms */
-    {0, 500, 500, Sample_ADtoUART}, /* task 2 Period£º 500ms */
-  // {0, 20,  20,  Sample_INTtoUART  }, /* task 3 Period£º 20ms */
-  // {0, 1,   1,   Sample_RTC        }, /* task 4 Period£º 1ms */
-  // {0, 1,   1,   Sample_I2C_PS     }, /* task 5 Period£º 1ms */
-  // {0, 1,   1,   Sample_SPI_PS     }, /* task 6 Period£º 1ms */
-  // {0, 1,   1,   Sample_EEPROM     }, /* task 7 Period£º 1ms */
-  // {0, 100, 100, Sample_WDT        }, /* task 8 Period£º 100ms */
-  // {0, 1,   1,   Sample_PWMA_Output}, /* task 9 Period£º 1ms */
-  // {0, 1,   1,   Sample_PWMB_Output}, /* task 9 Period£º 1ms */
-  // {0, 10,  10,  Sample_PCA_PWM    }, /* task 10 Period£º 10ms */
-  // {0, 1,   1,   Sample_PCA_Capture}, /* task 11 Period£º 1ms */
-  // {0, 1,   1,   Sample_PWM15bit   }, /* task 12 Period£º 1ms */
+  //çŠ¶æ€  è®¡æ•°  å‘¨æœŸ  å‡½æ•°
+    {0, 250, 500,  Sample_Lamp   }, /* task 1 Periodï¼š 500ms */
+  // {0, 500, 500, Sample_ADtoUART   }, /* task 2 Periodï¼š 500ms */
+  // {0, 20,  20,  Sample_INTtoUART  }, /* task 3 Periodï¼š 20ms */
+  // {0, 1,   1,   Sample_RTC        }, /* task 4 Periodï¼š 1ms */
+  // {0, 1,   1,   Sample_I2C_PS     }, /* task 5 Periodï¼š 1ms */
+  // {0, 1,   1,   Sample_SPI_PS     }, /* task 6 Periodï¼š 1ms */
+  // {0, 1,   1,   Sample_EEPROM     }, /* task 7 Periodï¼š 1ms */
+  // {0, 100, 100, Sample_WDT        }, /* task 8 Periodï¼š 100ms */
+  // {0, 1,   1,   Sample_PWMA_Output}, /* task 9 Periodï¼š 1ms */
+  // {0, 1,   1,   Sample_PWMB_Output}, /* task 9 Periodï¼š 1ms */
+    {0, 10,  10,   Sample_PCA_PWM}, /* task 10 Periodï¼š 10ms */
+  // {0, 1,   1,    Sample_PCA_Capture}, /* task 11 Periodï¼š 1ms */
+  // {0, 1,   1,    Sample_PWM15bit   }, /* task 12 Periodï¼š 1ms */
   /* Add new task here */
+    {0, 1,   1000, Sample_ATH21  }, /* task 12 Periodï¼š 1ms */
 };
 
 u8 Tasks_Max = sizeof(Task_Comps) / sizeof(Task_Comps[0]);
 
 //========================================================================
-// º¯Êı: Task_Handler_Callback
-// ÃèÊö: ÈÎÎñ±ê¼Ç»Øµ÷º¯Êı.
-// ²ÎÊı: None.
-// ·µ»Ø: None.
-// °æ±¾: V1.0, 2012-10-22
+// å‡½æ•°: Task_Handler_Callback
+// æè¿°: ä»»åŠ¡æ ‡è®°å›è°ƒå‡½æ•°.
+// å‚æ•°: None.
+// è¿”å›: None.
+// ç‰ˆæœ¬: V1.0, 2012-10-22
 //========================================================================
 void Task_Marks_Handler_Callback(void)
 {
@@ -62,11 +63,11 @@ void Task_Marks_Handler_Callback(void)
 }
 
 //========================================================================
-// º¯Êı: Task_Pro_Handler_Callback
-// ÃèÊö: ÈÎÎñ´¦Àí»Øµ÷º¯Êı.
-// ²ÎÊı: None.
-// ·µ»Ø: None.
-// °æ±¾: V1.0, 2012-10-22
+// å‡½æ•°: Task_Pro_Handler_Callback
+// æè¿°: ä»»åŠ¡å¤„ç†å›è°ƒå‡½æ•°.
+// å‚æ•°: None.
+// è¿”å›: None.
+// ç‰ˆæœ¬: V1.0, 2012-10-22
 //========================================================================
 void Task_Pro_Handler_Callback(void)
 {

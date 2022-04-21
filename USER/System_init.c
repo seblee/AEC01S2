@@ -39,7 +39,7 @@ void GPIO_config(void)
     P2_MODE_IO_PU(GPIO_Pin_All);              // P2 设置为准双向口
     P3_MODE_IO_PU(GPIO_Pin_LOW);              // P3.0~P3.3 设置为准双向口
     P3_MODE_IO_PU(GPIO_Pin_HIGH);             // P3.4~P3.7 设置为准双向口
-    //  P3_MODE_IN_HIZ(GPIO_Pin_6 | GPIO_Pin_7); //P3.6,P3.7 设置为高阻输入
+    // P3_MODE_IN_HIZ(GPIO_Pin_6 | GPIO_Pin_7); // P3.6,P3.7 设置为高阻输入
     P4_MODE_IO_PU(GPIO_Pin_0 | GPIO_Pin_6 | GPIO_Pin_7);  // P4.0,P4.6,P4.7 设置为准双向口
     P6_MODE_IO_PU(GPIO_Pin_All);                          // P6 设置为准双向口
     P7_MODE_IO_PU(GPIO_Pin_All);                          // P7 设置为准双向口
@@ -61,38 +61,38 @@ void Timer_config(void)
     Timer_Inilize(Timer0, &TIM_InitStructure);                         //初始化Timer0    Timer0,Timer1,Timer2,Timer3,Timer4
     NVIC_Timer0_Init(ENABLE, Priority_0);                              //中断使能, ENABLE/DISABLE; 优先级(低到高) Priority_0,Priority_1,Priority_2,Priority_3
 
-    //  //定时器1做16位自动重装, 中断频率为20000HZ，中断函数从P6.6取反输出10KHZ方波信号.
-    //  TIM_InitStructure.TIM_Mode      = TIM_16BitAutoReload;  //指定工作模式,   TIM_16BitAutoReload,TIM_16Bit,TIM_8BitAutoReload,TIM_16BitAutoReloadNoMask
-    //  TIM_InitStructure.TIM_ClkSource = TIM_CLOCK_1T;    //指定时钟源, TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_CLOCK_Ext
-    //  TIM_InitStructure.TIM_ClkOut    = DISABLE;        //是否输出高速脉冲, ENABLE或DISABLE
-    //  TIM_InitStructure.TIM_Value     = 65536UL - (MAIN_Fosc / 20000);      //初值,
-    //  TIM_InitStructure.TIM_Run       = ENABLE;          //是否初始化后启动定时器, ENABLE或DISABLE
-    //  Timer_Inilize(Timer1,&TIM_InitStructure);          //初始化Timer1    Timer0,Timer1,Timer2,Timer3,Timer4
-    //  NVIC_Timer1_Init(ENABLE,Priority_0);    //中断使能, ENABLE/DISABLE; 优先级(低到高) Priority_0,Priority_1,Priority_2,Priority_3
+    // //定时器1做16位自动重装, 中断频率为20000HZ，中断函数从P6.6取反输出10KHZ方波信号.
+    // TIM_InitStructure.TIM_Mode      = TIM_16BitAutoReload;            //指定工作模式,   TIM_16BitAutoReload,TIM_16Bit,TIM_8BitAutoReload,TIM_16BitAutoReloadNoMask
+    // TIM_InitStructure.TIM_ClkSource = TIM_CLOCK_1T;                   //指定时钟源, TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_CLOCK_Ext
+    // TIM_InitStructure.TIM_ClkOut    = DISABLE;                        //是否输出高速脉冲, ENABLE或DISABLE
+    // TIM_InitStructure.TIM_Value     = 65536UL - (MAIN_Fosc / 20000);  //初值,
+    // TIM_InitStructure.TIM_Run       = ENABLE;                         //是否初始化后启动定时器, ENABLE或DISABLE
+    // Timer_Inilize(Timer1, &TIM_InitStructure);                        //初始化Timer1    Timer0,Timer1,Timer2,Timer3,Timer4
+    // NVIC_Timer1_Init(ENABLE, Priority_0);                             //中断使能, ENABLE/DISABLE; 优先级(低到高) Priority_0,Priority_1,Priority_2,Priority_3
 
-    //  //定时器2做16位自动重装, 中断频率为10000HZ，中断函数从P6.5取反输出5KHZ方波信号.
-    //  TIM_InitStructure.TIM_ClkSource = TIM_CLOCK_1T;    //指定时钟源,     TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_CLOCK_Ext
-    //  TIM_InitStructure.TIM_ClkOut    = DISABLE;        //是否输出高速脉冲, ENABLE或DISABLE
-    //  TIM_InitStructure.TIM_Value     = 65536UL - (MAIN_Fosc / 10000);        //初值
-    //  TIM_InitStructure.TIM_Run       = ENABLE;          //是否初始化后启动定时器, ENABLE或DISABLE
-    //  Timer_Inilize(Timer2,&TIM_InitStructure);          //初始化Timer2    Timer0,Timer1,Timer2,Timer3,Timer4
-    //  NVIC_Timer2_Init(ENABLE,NULL);    //中断使能, ENABLE/DISABLE; 无优先级
+    // //定时器2做16位自动重装, 中断频率为10000HZ，中断函数从P6.5取反输出5KHZ方波信号.
+    // TIM_InitStructure.TIM_ClkSource = TIM_CLOCK_1T;                   //指定时钟源,     TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_CLOCK_Ext
+    // TIM_InitStructure.TIM_ClkOut    = DISABLE;                        //是否输出高速脉冲, ENABLE或DISABLE
+    // TIM_InitStructure.TIM_Value     = 65536UL - (MAIN_Fosc / 10000);  //初值
+    // TIM_InitStructure.TIM_Run       = ENABLE;                         //是否初始化后启动定时器, ENABLE或DISABLE
+    // Timer_Inilize(Timer2, &TIM_InitStructure);                        //初始化Timer2    Timer0,Timer1,Timer2,Timer3,Timer4
+    // NVIC_Timer2_Init(ENABLE, NULL);                                   //中断使能, ENABLE/DISABLE; 无优先级
 
-    //  //定时器3做16位自动重装, 中断频率为100HZ，中断函数从P6.4取反输出50HZ方波信号.
-    //  TIM_InitStructure.TIM_ClkSource = TIM_CLOCK_12T;  //指定时钟源,     TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_CLOCK_Ext
-    //  TIM_InitStructure.TIM_ClkOut    = ENABLE;          //是否输出高速脉冲, ENABLE或DISABLE
-    //  TIM_InitStructure.TIM_Value     = 65536UL - (MAIN_Fosc / (100*12));    //初值
-    //  TIM_InitStructure.TIM_Run       = ENABLE;          //是否初始化后启动定时器, ENABLE或DISABLE
-    //  Timer_Inilize(Timer3,&TIM_InitStructure);          //初始化Timer3    Timer0,Timer1,Timer2,Timer3,Timer4
-    //  NVIC_Timer3_Init(ENABLE,NULL);    //中断使能, ENABLE/DISABLE; 无优先级
+    // //定时器3做16位自动重装, 中断频率为100HZ，中断函数从P6.4取反输出50HZ方波信号.
+    // TIM_InitStructure.TIM_ClkSource = TIM_CLOCK_12T;                       //指定时钟源,     TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_CLOCK_Ext
+    // TIM_InitStructure.TIM_ClkOut    = ENABLE;                              //是否输出高速脉冲, ENABLE或DISABLE
+    // TIM_InitStructure.TIM_Value     = 65536UL - (MAIN_Fosc / (100 * 12));  //初值
+    // TIM_InitStructure.TIM_Run       = ENABLE;                              //是否初始化后启动定时器, ENABLE或DISABLE
+    // Timer_Inilize(Timer3, &TIM_InitStructure);                             //初始化Timer3    Timer0,Timer1,Timer2,Timer3,Timer4
+    // NVIC_Timer3_Init(ENABLE, NULL);                                        //中断使能, ENABLE/DISABLE; 无优先级
 
-    //  //定时器4做16位自动重装, 中断频率为50HZ，中断函数从P6.3取反输出25HZ方波信号.
-    //  TIM_InitStructure.TIM_ClkSource = TIM_CLOCK_12T;  //指定时钟源,     TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_CLOCK_Ext
-    //  TIM_InitStructure.TIM_ClkOut    = ENABLE;          //是否输出高速脉冲, ENABLE或DISABLE
-    //  TIM_InitStructure.TIM_Value     = 65536UL - (MAIN_Fosc / (50*12));    //初值
-    //  TIM_InitStructure.TIM_Run       = ENABLE;          //是否初始化后启动定时器, ENABLE或DISABLE
-    //  Timer_Inilize(Timer4,&TIM_InitStructure);          //初始化Timer4    Timer0,Timer1,Timer2,Timer3,Timer4
-    //  NVIC_Timer4_Init(ENABLE,NULL);    //中断使能, ENABLE/DISABLE; 无优先级
+    // //定时器4做16位自动重装, 中断频率为50HZ，中断函数从P6.3取反输出25HZ方波信号.
+    // TIM_InitStructure.TIM_ClkSource = TIM_CLOCK_12T;                      //指定时钟源,     TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_CLOCK_Ext
+    // TIM_InitStructure.TIM_ClkOut    = ENABLE;                             //是否输出高速脉冲, ENABLE或DISABLE
+    // TIM_InitStructure.TIM_Value     = 65536UL - (MAIN_Fosc / (50 * 12));  //初值
+    // TIM_InitStructure.TIM_Run       = ENABLE;                             //是否初始化后启动定时器, ENABLE或DISABLE
+    // Timer_Inilize(Timer4, &TIM_InitStructure);                            //初始化Timer4    Timer0,Timer1,Timer2,Timer3,Timer4
+    // NVIC_Timer4_Init(ENABLE, NULL);                                       //中断使能, ENABLE/DISABLE; 无优先级
 }
 
 //========================================================================
@@ -126,12 +126,14 @@ void UART_config(void)
     UART_Configuration(UART1, &COMx_InitStructure);      //初始化串口1 UART1,UART2,UART3,UART4
     NVIC_UART1_Init(ENABLE, Priority_1);                 //中断使能, ENABLE/DISABLE; 优先级(低到高) Priority_0,Priority_1,Priority_2,Priority_3
 
-    //  COMx_InitStructure.UART_Mode      = UART_8bit_BRTx;    //模式,   UART_ShiftRight,UART_8bit_BRTx,UART_9bit,UART_9bit_BRTx
-    ////  COMx_InitStructure.UART_BRT_Use   = BRT_Timer2;      //选择波特率发生器, BRT_Timer2 (注意: 串口2固定使用BRT_Timer2, 所以不用选择)
-    //  COMx_InitStructure.UART_BaudRate  = 115200ul;      //波特率,     110 ~ 115200
-    //  COMx_InitStructure.UART_RxEnable  = ENABLE;        //接收允许,   ENABLE或DISABLE
-    //  UART_Configuration(UART2, &COMx_InitStructure);    //初始化串口2 USART1,USART2,USART3,USART4
-    //  NVIC_UART2_Init(ENABLE,Priority_1);    //中断使能, ENABLE/DISABLE; 优先级(低到高) Priority_0,Priority_1,Priority_2,Priority_3
+    P3_MODE_IO_PU(GPIO_Pin_0 | GPIO_Pin_1);  // P3.2 P3.3 设置为准双向口
+
+    // COMx_InitStructure.UART_Mode = UART_8bit_BRTx;  //模式,   UART_ShiftRight,UART_8bit_BRTx,UART_9bit,UART_9bit_BRTx
+    // // COMx_InitStructure.UART_BRT_Use  = BRT_Timer2;      //选择波特率发生器, BRT_Timer2 (注意: 串口2固定使用BRT_Timer2, 所以不用选择)
+    // COMx_InitStructure.UART_BaudRate = 115200ul;     //波特率,     110 ~ 115200
+    // COMx_InitStructure.UART_RxEnable = ENABLE;       //接收允许,   ENABLE或DISABLE
+    // UART_Configuration(UART2, &COMx_InitStructure);  //初始化串口2 USART1,USART2,USART3,USART4
+    // NVIC_UART2_Init(ENABLE, Priority_1);             //中断使能, ENABLE/DISABLE; 优先级(低到高) Priority_0,Priority_1,Priority_2,Priority_3
 }
 
 //========================================================================
@@ -212,10 +214,10 @@ void Switch_config(void)
 {
     UART1_SW(UART1_SW_P30_P31);  // UART1_SW_P30_P31,UART1_SW_P36_P37,UART1_SW_P16_P17,UART1_SW_P43_P44
     UART2_SW(UART2_SW_P46_P47);  // UART2_SW_P10_P11,UART2_SW_P46_P47
-    //  UART3_SW(UART3_SW_P00_P01);    //UART3_SW_P00_P01,UART3_SW_P50_P51
-    //  UART4_SW(UART4_SW_P02_P03);    //UART4_SW_P02_P03,UART4_SW_P52_P53
-    //  I2C_SW(I2C_P14_P15);          //I2C_P14_P15,I2C_P24_P25,I2C_P33_P32
-    //  COMP_SW(CMP_OUT_P34);          //CMP_OUT_P34,CMP_OUT_P41
+    // UART3_SW(UART3_SW_P00_P01);   // UART3_SW_P00_P01,UART3_SW_P50_P51
+    // UART4_SW(UART4_SW_P02_P03);   // UART4_SW_P02_P03,UART4_SW_P52_P53
+    // I2C_SW(I2C_P14_P15);          // I2C_P14_P15,I2C_P24_P25,I2C_P33_P32
+    // COMP_SW(CMP_OUT_P34);         // CMP_OUT_P34,CMP_OUT_P41
     SPI_SW(SPI_P22_P23_P24_P25);  // SPI_P12_P13_P14_P15,SPI_P22_P23_P24_P25,SPI_P54_P40_P41_P43,SPI_P35_P34_P33_P32
 
     PWM1_SW(PWM1_SW_P60_P61);  // PWM1_SW_P10_P11,PWM1_SW_P20_P21,PWM1_SW_P60_P61
@@ -228,7 +230,7 @@ void Switch_config(void)
     PWM7_SW(PWM7_SW_P02);  // PWM7_SW_P22,PWM7_SW_P33,PWM7_SW_P02,PWM7_SW_P76
     PWM8_SW(PWM8_SW_P03);  // PWM8_SW_P23,PWM8_SW_P34,PWM8_SW_P03,PWM8_SW_P77
 
-    //  PCA_SW(PCA_P12_P11_P10_P37);  //PCA_P12_P11_P10_P37,PCA_P34_P35_P36_P37,PCA_P24_P25_P26_P27
+    // PCA_SW(PCA_P12_P11_P10_P37);  // PCA_P12_P11_P10_P37,PCA_P34_P35_P36_P37,PCA_P24_P25_P26_P27
 }
 
 //========================================================================
@@ -236,14 +238,14 @@ void Switch_config(void)
 //========================================================================
 void SYS_Init(void)
 {
-    //  GPIO_config();
+    // GPIO_config();
     Timer_config();
-    //  ADC_config();
-    //  UART_config();
-    //  Exti_config();
-    //  I2C_config();
-    //  SPI_config();
-    //  CMP_config();
+    // ADC_config();
+    UART_config();
+    // Exti_config();
+    // I2C_config();
+    // SPI_config();
+    // CMP_config();
     Switch_config();
     EA = 1;
 

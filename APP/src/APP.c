@@ -52,18 +52,19 @@ u16 msecond;
 void APP_config(void)
 {
     Lamp_init();
-    ADtoUART_init();
-    //	INTtoUART_init();
-    //	RTC_init();
-    //	I2C_PS_init();
-    //	SPI_PS_init();
-    //	EEPROM_init();
-    //	WDT_init();
-    //	PWMA_Output_init();
-    //	PWMB_Output_init();
-    //	PCA_PWM_init();
-    //	PCA_Capture_init();
-    //	PWM15bit_init();
+    // ADtoUART_init();
+    // INTtoUART_init();
+    // RTC_init();
+    // I2C_PS_init();
+    // SPI_PS_init();
+    // EEPROM_init();
+    // WDT_init();
+    // PWMA_Output_init();
+    // PWMB_Output_init();
+    PCA_PWM_init();
+    // PCA_Capture_init();
+    // PWM15bit_init();
+    aht21Init();
 }
 
 //========================================================================

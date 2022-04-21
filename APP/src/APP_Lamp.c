@@ -52,8 +52,7 @@ u8 ledIndex;
 //========================================================================
 void Lamp_init(void)
 {
-    P4_MODE_IO_PU(GPIO_Pin_0);    // P4.0设置为准双向口
-    P6_MODE_IO_PU(GPIO_Pin_All);  // P6 设置为准双向口
+    P5_MODE_IO_PU(GPIO_Pin_5);  // P4.0设置为准双向口
 }
 
 //========================================================================
@@ -65,10 +64,10 @@ void Lamp_init(void)
 //========================================================================
 void Sample_Lamp(void)
 {
-    P40 = 0;                  // LED Power On
-    P6  = ~ledNum[ledIndex];  //输出低驱动
-    ledIndex++;
-    if (ledIndex > 7) {
-        ledIndex = 0;
-    }
+    P55 ^= 1;  // LED togle
+    // P6  = ~ledNum[ledIndex];  //输出低驱动
+    // ledIndex++;
+    // if (ledIndex > 7) {
+    //     ledIndex = 0;
+    // }
 }

@@ -15,6 +15,14 @@
 
 #include "config.h"
 
+void I2C_Start(void);
+void I2C_Stop(void);
+void S_ACK(void);
+void S_NoACK(void);
+void I2C_Check_ACK(void);
+void I2C_WriteAbyte(u8 dat);
+u8   I2C_ReadAbyte(void);
+
 void SI2C_WriteNbyte(u8 addr, u8 *p, u8 number);
 void SI2C_ReadNbyte(u8 addr, u8 *p, u8 number);
 

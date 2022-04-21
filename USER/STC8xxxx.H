@@ -2591,6 +2591,6 @@ b0 - T0CLKO    : 允许 T0 溢出脉冲在P3.5脚输出，Fck0 = 1/2 T0 溢出率
 #define		DISABLE		0
 
 #define		SUCCESS		0
-#define		FAIL			-1
+#define		FAIL        -1
 
 #endif
