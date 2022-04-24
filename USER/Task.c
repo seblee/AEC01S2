@@ -33,7 +33,7 @@ static TASK_COMPONENTS Task_Comps[] = {
   // {0, 1,   1,    Sample_PCA_Capture}, /* task 11 Period： 1ms */
   // {0, 1,   1,    Sample_PWM15bit   }, /* task 12 Period： 1ms */
   /* Add new task here */
-    {0, 1,   1000, Sample_ATH21  }, /* task 12 Period： 1ms */
+    {0, 1,   2000, Sample_ATH21  }, /* task 12 Period： 1ms */
 };
 
 u8 Tasks_Max = sizeof(Task_Comps) / sizeof(Task_Comps[0]);
