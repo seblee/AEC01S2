@@ -127,7 +127,7 @@ void UART_config(void)
     NVIC_UART1_Init(ENABLE, Priority_1);                 //中断使能, ENABLE/DISABLE; 优先级(低到高) Priority_0,Priority_1,Priority_2,Priority_3
 
     P3_MODE_IO_PU(GPIO_Pin_0 | GPIO_Pin_1);  // P3.2 P3.3 设置为准双向口
-
+    PrintString1("*****AEC01S2 APP*******\r\n");
     // COMx_InitStructure.UART_Mode = UART_8bit_BRTx;  //模式,   UART_ShiftRight,UART_8bit_BRTx,UART_9bit,UART_9bit_BRTx
     // // COMx_InitStructure.UART_BRT_Use  = BRT_Timer2;      //选择波特率发生器, BRT_Timer2 (注意: 串口2固定使用BRT_Timer2, 所以不用选择)
     // COMx_InitStructure.UART_BaudRate = 115200ul;     //波特率,     110 ~ 115200

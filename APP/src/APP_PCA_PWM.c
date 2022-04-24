@@ -97,5 +97,5 @@ void Sample_PCA_PWM(void)
         pwm2 = 0;
     }
 
-    UpdatePcaPwm(PCA2, pwm2++);
+    UpdatePcaPwm(PCA2, 1024 - c1);
 }

@@ -20,15 +20,15 @@
 static TASK_COMPONENTS Task_Comps[] = {
   //状态  计数  周期  函数
     {0, 250, 500,  Sample_Lamp   }, /* task 1 Period： 500ms */
-  // {0, 500, 500, Sample_ADtoUART   }, /* task 2 Period： 500ms */
-  // {0, 20,  20,  Sample_INTtoUART  }, /* task 3 Period： 20ms */
-  // {0, 1,   1,   Sample_RTC        }, /* task 4 Period： 1ms */
-  // {0, 1,   1,   Sample_I2C_PS     }, /* task 5 Period： 1ms */
-  // {0, 1,   1,   Sample_SPI_PS     }, /* task 6 Period： 1ms */
-  // {0, 1,   1,   Sample_EEPROM     }, /* task 7 Period： 1ms */
-  // {0, 100, 100, Sample_WDT        }, /* task 8 Period： 100ms */
-  // {0, 1,   1,   Sample_PWMA_Output}, /* task 9 Period： 1ms */
-  // {0, 1,   1,   Sample_PWMB_Output}, /* task 9 Period： 1ms */
+  // {0, 500, 500,  Sample_ADtoUART   }, /* task 2 Period： 500ms */
+  // {0, 20,  20,   Sample_INTtoUART  }, /* task 3 Period： 20ms */
+  // {0, 1,   1,    Sample_RTC        }, /* task 4 Period： 1ms */
+  // {0, 1,   1,    Sample_I2C_PS     }, /* task 5 Period： 1ms */
+  // {0, 1,   1,    Sample_SPI_PS     }, /* task 6 Period： 1ms */
+  // {0, 1,   1,    Sample_EEPROM     }, /* task 7 Period： 1ms */
+  // {0, 100, 100,  Sample_WDT        }, /* task 8 Period： 100ms */
+  // {0, 1,   1,    Sample_PWMA_Output}, /* task 9 Period： 1ms */
+  // {0, 1,   1,    Sample_PWMB_Output}, /* task 9 Period： 1ms */
     {0, 10,  10,   Sample_PCA_PWM}, /* task 10 Period： 10ms */
   // {0, 1,   1,    Sample_PCA_Capture}, /* task 11 Period： 1ms */
   // {0, 1,   1,    Sample_PWM15bit   }, /* task 12 Period： 1ms */

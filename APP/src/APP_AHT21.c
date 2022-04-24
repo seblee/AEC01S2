@@ -87,10 +87,20 @@ void Sample_ATH21(void)
         PrintString1(buff);
     } else {
         err_CNT = 0;
-        c1      = CT_data[0] * 100 * 10 / 1024 / 1024;        //计算得到湿度值c1（放大了10倍）
-        temp1   = CT_data[1] * 200 * 10 / 1024 / 1024 - 500;  //计算得到温度值t1（放大了10倍）
-        sprintf(buff, "c1:%d,t1:%d\r\n", c1, temp1);
+        // c1      = CT_data[0] * 100 * 10 / 1024 / 1024;        //计算得到湿度值c1（放大了10倍）
+        c1 = CT_data[0] * 100 * 10 / 1024 / 1000;  //计算得到湿度值c1（放大了10倍）
+        if (c1 > 1024) {
+            c1 = 1024;
+        }
+
+        temp1 = CT_data[1] * 200 * 10 / 1024 / 1024 - 500;  //计算得到温度值t1（放大了10倍）
+        sprintf(buff, "c1:%d,t1:%d \r\n", c1, temp1);
         PrintString1(buff);
+    }
+    if (err_CNT > 30) {
+        aht21Init();
+        err_CNT = 0;
+        c1      = 0;
     }
 }
 
@@ -110,81 +120,14 @@ static u8 AHT20_Read_Status(void)  //读取AHT20的状态寄存器
     I2C_Stop();
     return Byte_first;
 }
-static void JH_Reset_REG(u8 addr)
+u8 AHT20_Read_Cal_Enable(void)  //查询cal enable位有没有使能
 {
-    u8 Byte_first, Byte_second, Byte_third;
-    I2C_Start();
-    I2C_WriteAbyte(0x70);  //原来是0x70
-    I2C_Check_ACK();
-    I2C_WriteAbyte(addr);
-    I2C_Check_ACK();
-    I2C_WriteAbyte(0x00);
-    I2C_Check_ACK();
-    I2C_WriteAbyte(0x00);
-    I2C_Check_ACK();
-    I2C_Stop();
-
-    delay_ms(5);  //延时5ms左右
-    I2C_Start();
-    I2C_WriteAbyte(0x71);  //
-    I2C_Check_ACK();
-    Byte_first = I2C_ReadAbyte();
-    S_ACK();
-    Byte_second = I2C_ReadAbyte();
-    S_ACK();
-    Byte_third = I2C_ReadAbyte();
-    S_NoACK();
-    I2C_Stop();
-
-    delay_ms(10);  //延时10ms左右
-    I2C_Start();
-    I2C_WriteAbyte(0x70);  ///
-    I2C_Check_ACK();
-    I2C_WriteAbyte(0xB0 | addr);  ////寄存器命令
-    I2C_Check_ACK();
-    I2C_WriteAbyte(Byte_second);
-    I2C_Check_ACK();
-    I2C_WriteAbyte(Byte_third);
-    I2C_Check_ACK();
-    I2C_Stop();
-
-    Byte_second = 0x00;
-    Byte_third  = 0x00;
-}
-
-static void AHT20_Start_Init(void)
-{
-    JH_Reset_REG(0x1b);
-    JH_Reset_REG(0x1c);
-    JH_Reset_REG(0x1e);
-}
-
-static void AHT20_Init(void)  //初始化AHT20
-{
-    I2C_Start();
-    I2C_WriteAbyte(0x70);
-    I2C_Check_ACK();
-    I2C_WriteAbyte(0xa8);  // 0xA8进入NOR工作模式
-    I2C_Check_ACK();
-    I2C_WriteAbyte(0x00);
-    I2C_Check_ACK();
-    I2C_WriteAbyte(0x00);
-    I2C_Check_ACK();
-    I2C_Stop();
-
-    delay_ms(10);  //延时10ms左右
-
-    I2C_Start();
-    I2C_WriteAbyte(0x70);
-    I2C_Check_ACK();
-    I2C_WriteAbyte(0xbe);  // 0xBE初始化命令，AHT20的初始化命令是0xBE,   AHT10的初始化命令是0xE1
-    I2C_Check_ACK();
-    I2C_WriteAbyte(0x08);  //相关寄存器bit[3]置1，为校准输出
-    I2C_Check_ACK();
-    I2C_WriteAbyte(0x00);
-    I2C_Check_ACK();
-    I2C_Stop();
-    delay_ms(10);  //延时10ms左右
+    u8 val = 0;  // ret = 0,
+    val    = AHT20_Read_Status();
+    if ((val & 0x68) == 0x08)
+        return 1;
+    else
+        return 0;
 }
 static void AHT20_SendAC(void)  //向AHT20发送AC命令
 {
@@ -198,6 +141,28 @@ static void AHT20_SendAC(void)  //向AHT20发送AC命令
     I2C_WriteAbyte(0x00);
     I2C_Check_ACK();
     I2C_Stop();
+}
+
+// CRC校验类型：CRC8/MAXIM
+//多项式：X8+X5+X4+1
+// Poly：0011 0001  0x31
+//高位放到后面就变成 1000 1100 0x8c
+// C现实代码：
+static u8 Calc_CRC8(u8 *message, u8 Num)
+{
+    u8 i;
+    u8 byte;
+    u8 crc = 0xFF;
+    for (byte = 0; byte < Num; byte++) {
+        crc ^= (message[byte]);
+        for (i = 8; i > 0; --i) {
+            if (crc & 0x80)
+                crc = (crc << 1) ^ 0x31;
+            else
+                crc = (crc << 1);
+        }
+    }
+    return crc;
 }
 
 static void AHT20_Read_CTdata(u32 *ct)  //没有CRC校验，直接读取AHT20的温度和湿度数据
@@ -313,24 +278,79 @@ static void AHT20_Read_CTdata_crc(u32 *ct)  // CRC校验后，读取AHT20的温�
     }                  // CRC数据
 }
 
-// CRC校验类型：CRC8/MAXIM
-//多项式：X8+X5+X4+1
-// Poly：0011 0001  0x31
-//高位放到后面就变成 1000 1100 0x8c
-// C现实代码：
-static u8 Calc_CRC8(u8 *message, u8 Num)
+static void AHT20_Init(void)  //初始化AHT20
 {
-    u8 i;
-    u8 byte;
-    u8 crc = 0xFF;
-    for (byte = 0; byte < Num; byte++) {
-        crc ^= (message[byte]);
-        for (i = 8; i > 0; --i) {
-            if (crc & 0x80)
-                crc = (crc << 1) ^ 0x31;
-            else
-                crc = (crc << 1);
-        }
-    }
-    return crc;
+    I2C_Start();
+    I2C_WriteAbyte(0x70);
+    I2C_Check_ACK();
+    I2C_WriteAbyte(0xa8);  // 0xA8进入NOR工作模式
+    I2C_Check_ACK();
+    I2C_WriteAbyte(0x00);
+    I2C_Check_ACK();
+    I2C_WriteAbyte(0x00);
+    I2C_Check_ACK();
+    I2C_Stop();
+
+    delay_ms(10);  //延时10ms左右
+
+    I2C_Start();
+    I2C_WriteAbyte(0x70);
+    I2C_Check_ACK();
+    I2C_WriteAbyte(0xbe);  // 0xBE初始化命令，AHT20的初始化命令是0xBE,   AHT10的初始化命令是0xE1
+    I2C_Check_ACK();
+    I2C_WriteAbyte(0x08);  //相关寄存器bit[3]置1，为校准输出
+    I2C_Check_ACK();
+    I2C_WriteAbyte(0x00);
+    I2C_Check_ACK();
+    I2C_Stop();
+    delay_ms(10);  //延时10ms左右
+}
+
+static void JH_Reset_REG(u8 addr)
+{
+    u8 Byte_first, Byte_second, Byte_third;
+    I2C_Start();
+    I2C_WriteAbyte(0x70);  //原来是0x70
+    I2C_Check_ACK();
+    I2C_WriteAbyte(addr);
+    I2C_Check_ACK();
+    I2C_WriteAbyte(0x00);
+    I2C_Check_ACK();
+    I2C_WriteAbyte(0x00);
+    I2C_Check_ACK();
+    I2C_Stop();
+
+    delay_ms(5);  //延时5ms左右
+    I2C_Start();
+    I2C_WriteAbyte(0x71);  //
+    I2C_Check_ACK();
+    Byte_first = I2C_ReadAbyte();
+    S_ACK();
+    Byte_second = I2C_ReadAbyte();
+    S_ACK();
+    Byte_third = I2C_ReadAbyte();
+    S_NoACK();
+    I2C_Stop();
+
+    delay_ms(10);  //延时10ms左右
+    I2C_Start();
+    I2C_WriteAbyte(0x70);  ///
+    I2C_Check_ACK();
+    I2C_WriteAbyte(0xB0 | addr);  ////寄存器命令
+    I2C_Check_ACK();
+    I2C_WriteAbyte(Byte_second);
+    I2C_Check_ACK();
+    I2C_WriteAbyte(Byte_third);
+    I2C_Check_ACK();
+    I2C_Stop();
+
+    Byte_second = 0x00;
+    Byte_third  = 0x00;
+}
+
+static void AHT20_Start_Init(void)
+{
+    JH_Reset_REG(0x1b);
+    JH_Reset_REG(0x1c);
+    JH_Reset_REG(0x1e);
 }

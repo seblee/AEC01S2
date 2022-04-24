@@ -15,8 +15,8 @@
 #define SLAW 0x5A
 #define SLAR 0x5B
 
-sbit SDA = P0 ^ 1;  //定义SDA
-sbit SCL = P0 ^ 0;  //定义SCL
+sbit SDA = P3 ^ 3;  //定义SDA
+sbit SCL = P3 ^ 2;  //定义SCL
 
 //========================================================================
 // 函数: void I2C_Delay(void)
