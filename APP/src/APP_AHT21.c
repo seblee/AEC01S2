@@ -51,7 +51,8 @@
 
 /* Private variables ---------------------------------------------------------*/
 u32          CT_data[2];
-volatile int c1, temp1;
+volatile int temp1 /*, c1*/;
+u16          cPWM;
 /* Private function prototypes -----------------------------------------------*/
 static u8   AHT20_Read_Status(void);
 static void AHT20_Start_Init(void);
@@ -87,20 +88,21 @@ void Sample_ATH21(void)
         PrintString1(buff);
     } else {
         err_CNT = 0;
+        temp1   = CT_data[1] * 200 * 10 / 1024 / 1024 - 500;  //计算得到温度值t1（放大了10倍）
         // c1      = CT_data[0] * 100 * 10 / 1024 / 1024;        //计算得到湿度值c1（放大了10倍）
-        c1 = CT_data[0] * 100 * 10 / 1024 / 1000;  //计算得到湿度值c1（放大了10倍）
-        if (c1 > 1024) {
-            c1 = 1024;
+        cPWM = CT_data[0] * 735 / 1024 / 1024 + 289;  //计算得到湿度值c1（放大了10倍）
+
+        if (cPWM > 1024) {
+            cPWM = 1024;
         }
 
-        temp1 = CT_data[1] * 200 * 10 / 1024 / 1024 - 500;  //计算得到温度值t1（放大了10倍）
-        sprintf(buff, "c1:%d,t1:%d \r\n", c1, temp1);
+        sprintf(buff, "t1:%d,P:%d\r\n", temp1, cPWM);
         PrintString1(buff);
     }
     if (err_CNT > 30) {
         aht21Init();
         err_CNT = 0;
-        c1      = 0;
+        cPWM    = 0;
     }
 }
 

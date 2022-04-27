@@ -58,9 +58,9 @@ void PCA_PWM_init(void)
 {
     PCA_InitTypeDef PCA_InitStructure;
 
-    P5_MODE_IO_PU(GPIO_Pin_4);  // P5.4 设置为准双向口
+    P5_MODE_OUT_PP(GPIO_Pin_4);  // P5.4 设置为准双向口
     //--------------------------------------------
-    PCA_InitStructure.PCA_Clock = PCA_Clock_1T;  // PCA_Clock_1T, PCA_Clock_2T, PCA_Clock_4T, PCA_Clock_6T, PCA_Clock_8T, PCA_Clock_12T, PCA_Clock_Timer0_OF, PCA_Clock_ECI
+    PCA_InitStructure.PCA_Clock = PCA_Clock_12T;  // PCA_Clock_1T, PCA_Clock_2T, PCA_Clock_4T, PCA_Clock_6T, PCA_Clock_8T, PCA_Clock_12T, PCA_Clock_Timer0_OF, PCA_Clock_ECI
     PCA_InitStructure.PCA_RUN   = DISABLE;       // ENABLE, DISABLE
     PCA_Init(PCA_Counter, &PCA_InitStructure);   //设置公用Counter
 
@@ -97,5 +97,5 @@ void Sample_PCA_PWM(void)
         pwm2 = 0;
     }
 
-    UpdatePcaPwm(PCA2, 1024 - c1);
+    UpdatePcaPwm(PCA2, 1024 - cPWM);
 }
